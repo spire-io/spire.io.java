@@ -7,9 +7,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import spire.Spire;
-
-import spire.api.Resource.ResourceModel;
 import spire.request.*;
 
 import com.google.api.client.util.Key;
@@ -20,17 +17,20 @@ import com.google.api.client.util.Key;
  */
 public class Api extends Resource {
 
-	public static String API_VERSION;
+	public static String API_VERSION = "1.0";
 	
 	private String url;
-//	private String version;
 	private APIDescriptionModel description;
 	
 	/**
 	 * 
-	 */	
+	 */
+	public Api(String url) {
+		this.url = url; 
+	}
+	
 	public Api(String url, String version) {
-		this.url = url;
+		this(url);
 		Api.API_VERSION = version; 
 	}
 	
@@ -59,15 +59,14 @@ public class Api extends Resource {
 	}
 	
 	public void discover() throws IOException{
-		RequestData data = requestFactory.getRequestData();
+		RequestData data = RequestFactory.getRequestData();
 		data.method = RequestType.HTTP_GET;
 		data.url = url;
 		data.headers.put("Accept", "application/json");
-		RequestAbstract request = requestFactory.createRequest(data);
+		RequestAbstract request = RequestFactory.createRequest(data);
 		ResponseAbstract response = request.send();
 		description = response.parseAs(APIDescriptionModel.class);
 	    
-		
 		System.out.println("API result....");
 	    System.out.println(description.url);
 	    System.out.println(description.resources.size());

@@ -28,8 +28,6 @@ import spire.api.Api;
  *
  */
 public class Spire {
-	public static String API_VERSION = "1.0";
-	
 	public static final String SPIRE_URL = "http://localhost:1337";
 	
 	static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
@@ -40,8 +38,8 @@ public class Spire {
 	private Api api;
 
 	public Spire(){
-		this.spire_url = SPIRE_URL;   // this should prob be removed
-		this.api = new Api(spire_url, API_VERSION);
+		this.spire_url = SPIRE_URL;
+		this.api = new Api(spire_url);
 	}
 	
 	/**
