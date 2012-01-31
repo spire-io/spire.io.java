@@ -1,11 +1,11 @@
 /**
  * 
  */
-package spire.tests;
+package io.spire.tests;
 
-import spire.Spire;
-import spire.api.Api;
-import spire.request.ResponseException;
+import io.spire.Spire;
+import io.spire.api.Api;
+import io.spire.request.ResponseException;
 
 /**
  * @author jorge

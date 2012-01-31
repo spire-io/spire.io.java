@@ -1,7 +1,7 @@
 /**
  * 
  */
-package spire;
+package io.spire;
 
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpHeaders;
@@ -18,10 +18,12 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.api.client.util.Key;
 
+import io.spire.api.Api;
+import io.spire.request.ResponseException;
+
 import java.io.IOException;
 import java.util.List;
 
-import spire.api.Api;
 
 /**
  * @author Jorge Gonzalez - Spire.io
@@ -51,30 +53,9 @@ public class Spire {
 		this.api = new Api(spire_url, version);
 	}
 	
-//	public static class APIResource {
-//		@Key
-//		public String url;
-//	}
-	
-	public Api discover() throws Exception{
-//		HttpRequestFactory requestFactory =
-//		        HTTP_TRANSPORT.createRequestFactory(new HttpRequestInitializer() {
-//		          @Override
-//		          public void initialize(HttpRequest request) {
-//		            request.addParser(new JsonHttpParser(JSON_FACTORY));
-//		          }
-//		        });
-//		GenericUrl url = new GenericUrl(spire_url);
-//	    HttpRequest request = requestFactory.buildGetRequest(url);
-//	    HttpHeaders headers = new HttpHeaders();
-//	    headers.set("Accept", "application/json");
-//	    request.setHeaders(headers);
-//	    APIResource api = request.execute().parseAs(APIResource.class);
-	    
+	public Api discover() throws ResponseException, IOException{
 		api.discover();
 		return api;
-//	    System.out.println("API result....");
-//	    System.out.println(description.url);
 	}
 }
 

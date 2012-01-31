@@ -1,9 +1,9 @@
 /**
  * 
  */
-package spire.request;
+package io.spire.request;
 
-import spire.request.RequestData;
+import io.spire.request.RequestData;
 
 /**
  * @author jorge

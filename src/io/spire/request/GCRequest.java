@@ -1,13 +1,14 @@
 /**
  * 
  */
-package spire.request;
+package io.spire.request;
+
+import io.spire.request.RequestData;
+import io.spire.request.ResponseException.ResponseExceptionFactory;
 
 import java.io.IOException;
 import java.util.Map;
 
-import spire.request.RequestData;
-import spire.request.ResponseException.ResponseExceptionFactory;
 
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpContent;

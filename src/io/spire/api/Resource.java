@@ -1,7 +1,7 @@
 /**
  * 
  */
-package spire.api;
+package io.spire.api;
 
 import java.util.HashMap;
 

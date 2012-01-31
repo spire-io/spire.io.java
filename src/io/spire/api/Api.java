@@ -1,13 +1,14 @@
 /**
  * 
  */
-package spire.api;
+package io.spire.api;
+
+import io.spire.request.*;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import spire.request.*;
 
 import com.google.api.client.util.Key;
 

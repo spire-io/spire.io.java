@@ -1,4 +1,4 @@
-package spire.request;
+package io.spire.request;
 
 import java.io.IOException;
 
