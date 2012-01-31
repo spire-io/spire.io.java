@@ -15,12 +15,12 @@ public class RequestFactory {
 		return new RequestData();
 	}
 	
-	public static Request getRequest(RequestData data){
+	public static Request createGETRequest(RequestData data){
 		data.method = RequestType.HTTP_GET;
-		return new Request(data);
+		return new GCRequest(data);
 	}
 	
 	public static Request createRequest(RequestData data){
-		return new Request(data);
+		return new GCRequest(data);
 	}
 }

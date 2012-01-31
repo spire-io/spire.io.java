@@ -33,7 +33,7 @@ public class ResponseException extends IOException {
 	public static final class ResponseExceptionFactory{
 		public static ResponseException createResponseException(HttpResponseException exception){
 			HttpResponse httpResponse = exception.getResponse();
-			Response response = new Response(httpResponse);
+			GCResponse response = new GCResponse(httpResponse);
 			return new ResponseException(response, HttpResponseException.computeMessage(httpResponse));
 		}
 	}

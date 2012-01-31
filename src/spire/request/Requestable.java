@@ -12,5 +12,5 @@ import java.io.IOException;
  */
 public interface Requestable {
 
-	public ResponseAbstract send() throws IOException;
+	public Responsable send() throws IOException;
 }

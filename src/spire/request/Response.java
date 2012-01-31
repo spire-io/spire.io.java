@@ -2,34 +2,17 @@ package spire.request;
 
 import java.io.IOException;
 
-import com.google.api.client.http.HttpResponse;
+public abstract class Response implements Responsable {
 
-public class Response extends ResponseAbstract {
-
-	private HttpResponse response;
-	
 	public Response() {
-		// TODO Auto-generated constructor stub
 	}
 	
-	public Response(HttpResponse response) {
-		this.response = response;
-	}
+	public abstract int getStatusCode();
 	
-	public int getStatusCode(){
-		return response.getStatusCode();
-	}
+	public abstract boolean isSuccessStatusCode();
 	
-	public boolean isSuccessStatusCode(){
-		return response.isSuccessStatusCode();
-	}
+	public abstract <T> T parseAs(Class<T> dataClass) throws IOException;
 	
-	public <T> T parseAs(Class<T> dataClass) throws IOException{
-		return response.parseAs(dataClass);
-	}
-	
-	public String parseAsString() throws IOException{
-		return response.parseAsString();
-	}
+	public abstract String parseAsString() throws IOException;
 
 }

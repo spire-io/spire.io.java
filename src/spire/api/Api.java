@@ -58,7 +58,7 @@ public class Api extends Resource {
 		public APISchemaModel schema;
 	}
 	
-	public void discover() throws ResponseException,IOException {
+	public void discover() throws ResponseException, IOException {
 		RequestData data = RequestFactory.getRequestData();
 		data.method = RequestType.HTTP_GET;
 		data.url = url;
