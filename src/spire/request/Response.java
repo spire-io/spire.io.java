@@ -16,8 +16,20 @@ public class Response extends ResponseAbstract {
 		this.response = response;
 	}
 	
+	public int getStatusCode(){
+		return response.getStatusCode();
+	}
+	
+	public boolean isSuccessStatusCode(){
+		return response.isSuccessStatusCode();
+	}
+	
 	public <T> T parseAs(Class<T> dataClass) throws IOException{
 		return response.parseAs(dataClass);
+	}
+	
+	public String parseAsString() throws IOException{
+		return response.parseAsString();
 	}
 
 }

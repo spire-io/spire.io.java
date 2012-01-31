@@ -9,6 +9,7 @@ import java.util.Map;
 
 import spire.request.RequestData;
 import spire.request.RequestType;
+import spire.request.ResponseException.ResponseExceptionFactory;
 
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpContent;
@@ -17,6 +18,7 @@ import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpResponse;
+import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.http.json.JsonHttpParser;
@@ -76,7 +78,7 @@ public class Request extends RequestAbstract {
 		}
 	}
 	
-	protected HttpRequest getHTTPClient(RequestData data) throws Exception{
+	protected HttpRequest getHTTPClient(RequestData data) throws IOException{
 		setRequestFactory();
 		GenericUrl url = new GenericUrl(data.url);
 		HttpContent content = null;
@@ -104,8 +106,14 @@ public class Request extends RequestAbstract {
 		return request;
 	}
 
-	public Response send() throws IOException {
-		HttpResponse httpResponse = client.execute();
+	public Response send() throws ResponseException, IOException {
+		HttpResponse httpResponse = null;
+		try{
+			httpResponse = client.execute();
+		}catch(HttpResponseException e){
+			throw ResponseExceptionFactory.createResponseException(e);
+		}
+		
 		Response response = new Response(httpResponse);
 		return response;
 	}

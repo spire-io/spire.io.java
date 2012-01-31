@@ -58,13 +58,15 @@ public class Api extends Resource {
 		public APISchemaModel schema;
 	}
 	
-	public void discover() throws IOException{
+	public void discover() throws ResponseException,IOException {
 		RequestData data = RequestFactory.getRequestData();
 		data.method = RequestType.HTTP_GET;
 		data.url = url;
 		data.headers.put("Accept", "application/json");
-		RequestAbstract request = RequestFactory.createRequest(data);
-		ResponseAbstract response = request.send();
+		Request request = RequestFactory.createRequest(data);
+		Response response = request.send();
+		if(!response.isSuccessStatusCode())
+			throw new ResponseException(response);
 		description = response.parseAs(APIDescriptionModel.class);
 	    
 		System.out.println("API result....");
