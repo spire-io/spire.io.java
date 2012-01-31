@@ -30,6 +30,10 @@ public class ResponseException extends IOException {
 		return response;
 	}
 	
+	public String getMessage(){
+		return message;
+	}
+	
 	public static final class ResponseExceptionFactory{
 		public static ResponseException createResponseException(HttpResponseException exception){
 			HttpResponse httpResponse = exception.getResponse();
