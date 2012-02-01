@@ -20,6 +20,7 @@ import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.http.json.JsonHttpContent;
 import com.google.api.client.http.json.JsonHttpParser;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson.JacksonFactory;
@@ -65,33 +66,39 @@ public class GCRequest extends Request {
 		}
 	}
 	
-	protected void setRequestFactory(){
+	protected void setRequestFactory(final String contentType){
 		if(requestFactory == null){
 			requestFactory =
 			        HTTP_TRANSPORT.createRequestFactory(new HttpRequestInitializer() {
 			          @Override
 			          public void initialize(HttpRequest request) {
-			            request.addParser(new JsonHttpParser(JSON_FACTORY));
+			        	  JsonHttpParser.Builder builder = JsonHttpParser.builder(JSON_FACTORY);
+			        	  if(contentType != null)
+			        		  builder = builder.setContentType(contentType);
+			        	  
+			        	  request.addParser(builder.build());
 			          }
 			        });
 		}
 	}
 	
 	protected HttpRequest getHTTPClient(RequestData data) throws IOException{
-		setRequestFactory();
 		GenericUrl url = new GenericUrl(data.url);
 		HttpContent content = null;
 		HttpHeaders headers = getHTTPHeaders(data);
 		HttpRequest request = null;
+		setRequestFactory(headers.getAccept());
 		
 		switch (data.method) {
 		case HTTP_GET:
 			request = requestFactory.buildGetRequest(url);
 			break;
 		case HTTP_POST:
+			content = new JsonHttpContent(JSON_FACTORY, data.body);
 			request = requestFactory.buildPostRequest(url, content);
 			break;
 		case HTTP_PUT:
+			content = new JsonHttpContent(JSON_FACTORY, data.body);
 			request = requestFactory.buildPutRequest(url, content);
 			break;
 		case HTTP_DELETE:

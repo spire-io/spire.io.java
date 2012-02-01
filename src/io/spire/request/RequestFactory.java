@@ -12,7 +12,7 @@ import io.spire.request.RequestData;
  */
 public class RequestFactory {
 
-	public static RequestData getRequestData(){
+	public static RequestData createRequestData(){
 		return new RequestData();
 	}
 	
