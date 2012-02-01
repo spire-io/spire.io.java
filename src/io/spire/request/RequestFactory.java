@@ -3,6 +3,7 @@
  */
 package io.spire.request;
 
+import io.spire.request.Request.RequestType;
 import io.spire.request.RequestData;
 
 /**

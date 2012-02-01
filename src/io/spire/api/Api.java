@@ -4,6 +4,7 @@
 package io.spire.api;
 
 import io.spire.request.*;
+import io.spire.request.Request.RequestType;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -64,36 +65,18 @@ public class Api extends Resource {
 		data.method = RequestType.HTTP_GET;
 		data.url = url;
 		data.headers.put("Accept", "application/json");
+		
 		Request request = RequestFactory.createRequest(data);
 		Response response = request.send();
 		if(!response.isSuccessStatusCode())
-			throw new ResponseException(response);
+			throw new ResponseException(response, "Error during discovery: " + response.getStatusCode());
 		description = response.parseAs(APIDescriptionModel.class);
 	    
+		// temp test
 		System.out.println("API result....");
 	    System.out.println(description.url);
 	    System.out.println(description.resources.size());
-	    for (Map.Entry<String, ResourceModel> resource : description.resources.entrySet()) {
-	    	ResourceModel value = resource.getValue();
-	    	String rurl = (String)value.get("url");
-	    	System.out.println(resource.getKey() + " => " + rurl );
-		}
-	    
-//	    for (Map.Entry<String, Object> schemaItem : description.schema.entrySet()) {
-//	    	System.out.println(schemaItem.getKey());
-//	    	Map<String, Object> schema = (Map<String, Object>)schemaItem.getValue();
-//	    	for (Map.Entry<String, Object> schemaResourceItem : schema.entrySet()) {
-//	    		System.out.println(schemaResourceItem.getKey());
-//	    	}
-//	    }
-	    
 	    System.out.println("schema url => " + description.schema.getUrl());
 	    System.out.println("account mediaType => " + description.schema.getMediaType("account"));
-//	    APISchemaItemsModel schemas = description.schema.getSchemaItems();
-//	    for (Map.Entry<String, APISchemaItemPropertiesModel> schemaItem : schemas.entrySet()) {
-//	    	String resource = schemaItem.getKey();
-//	    	APISchemaItemPropertiesModel prop = schemaItem.getValue(); 
-//	    	System.out.println(resource + " => " + prop.getMediaType() );
-//		}
 	}
 }

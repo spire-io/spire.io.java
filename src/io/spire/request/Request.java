@@ -11,6 +11,13 @@ import java.io.IOException;
  */
 public abstract class Request implements Requestable{
 
+	public enum RequestType {
+		HTTP_GET,
+		HTTP_POST,
+		HTTP_PUT,
+		HTTP_DELETE
+	}
+	
 	private RequestData requestData;
 	
 	/**

@@ -3,6 +3,8 @@
  */
 package io.spire.request;
 
+import io.spire.request.Request.RequestType;
+
 import java.util.HashMap;
 
 /**
@@ -10,7 +12,7 @@ import java.util.HashMap;
  *
  */
 public class RequestData {
-
+	
 	public String url;
 	public RequestType method;
 	public HashMap<String, String> headers;
