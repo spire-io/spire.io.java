@@ -71,5 +71,9 @@ public class Spire {
 	public void start(String accountKey) throws ResponseException, IOException{
 		session  = api.createSession(accountKey);
 	}
+	
+	public void login(String email, String password) throws ResponseException, IOException{
+		session  = api.login(email, password);
+	}
 }
 
