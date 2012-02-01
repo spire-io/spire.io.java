@@ -8,7 +8,6 @@ import io.spire.request.*;
 import io.spire.request.Request.RequestType;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 
@@ -45,8 +44,10 @@ public class Api extends Resource {
 		public ResourceCollectionModel resources;
 		
 		public static class APISchemaModel extends ResourceModel {			
+			private static final long serialVersionUID = 5222700238203763225L;
+
 			public String getMediaType(String resource){
-				Map<String, Object> schemas = (Map<String, Object>)this.get(Api.API_VERSION);
+				Map<String, Object> schemas = this.getProperty(Api.API_VERSION, Map.class);
 				Map<String, Object> schema = (Map<String, Object>)schemas.get(resource);
 				String mediaType = (String)schema.get("mediaType");
 				return mediaType;
@@ -73,14 +74,14 @@ public class Api extends Resource {
 		System.out.println("API result....");
 	    System.out.println(description.url);
 	    System.out.println(description.resources.size());
-	    System.out.println("schema url => " + description.schema.getUrl());
+	    System.out.println("schema url => " + description.schema.getProperty("url", String.class));
 	    System.out.println("account mediaType => " + description.schema.getMediaType("account"));
 	}
 	
 	public Session createSession(String accountKey) throws ResponseException, IOException{
 		RequestData data = RequestFactory.createRequestData();
 		data.method = RequestType.HTTP_POST;
-		data.url = description.resources.getResource("sessions").getUrl();
+		data.url = description.resources.getResource("sessions").getProperty("url", String.class);
 		data.body.put("key", accountKey);
 		data.headers.put("Accept", description.schema.getMediaType("session"));
 		data.headers.put("Content-Type", description.schema.getMediaType("account"));
@@ -93,7 +94,7 @@ public class Api extends Resource {
 		Session session = new Session(model);
 		
 		System.out.println("Create Session result....");
-		System.out.println(model.getUrl());
+		System.out.println(model.getProperty("url", String.class));
 		
 		return session;
 	}

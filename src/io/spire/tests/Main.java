@@ -23,8 +23,8 @@ public class Main {
 		Spire spire = new Spire();
 		try {
 		      try {
-		    	Api api = spire.discover();
-		    	Session session = api.createSession("Ac-th7aFFBCFth1LSnAgEylz8g-gkY");
+		    	spire.discover();
+		    	spire.start("Ac-th7aFFBCFth1LSnAgEylz8g-gkY");
 		        return;
 		      } catch (ResponseException e) {
 		        System.out.println(e.getMessage());

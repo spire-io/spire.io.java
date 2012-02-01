@@ -19,6 +19,7 @@ import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.api.client.util.Key;
 
 import io.spire.api.Api;
+import io.spire.api.Session;
 import io.spire.request.ResponseException;
 
 import java.io.IOException;
@@ -35,9 +36,11 @@ public class Spire {
 	static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
 	static final JsonFactory JSON_FACTORY = new JacksonFactory();
 	
-	private String key;
+	private String accountKey;
 	private String spire_url;
+	
 	private Api api;
+	private Session session;
 
 	public Spire(){
 		this.spire_url = SPIRE_URL;
@@ -48,14 +51,22 @@ public class Spire {
 	 * 
 	 * @param key
 	 */
+	public Spire(String url){
+		this.spire_url = url;
+		this.api = new Api(spire_url);
+	}
+	
 	public Spire(String url, String version){
 		this.spire_url = url;
 		this.api = new Api(spire_url, version);
 	}
 	
-	public Api discover() throws ResponseException, IOException{
+	public void discover() throws ResponseException, IOException{
 		api.discover();
-		return api;
+	}
+	
+	public void start(String accountKey) throws ResponseException, IOException{
+		session  = api.createSession(accountKey);
 	}
 }
 
