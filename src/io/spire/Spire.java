@@ -33,15 +33,13 @@ import java.util.List;
 public class Spire {
 	public static final String SPIRE_URL = "http://localhost:1337";
 	
-	static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
-	static final JsonFactory JSON_FACTORY = new JacksonFactory();
-	
-	private String accountKey;
 	private String spire_url;
-	
 	private Api api;
 	private Session session;
 
+	/**
+	 * 
+	 */
 	public Spire(){
 		this.spire_url = SPIRE_URL;
 		this.api = new Api(spire_url);
@@ -49,13 +47,18 @@ public class Spire {
 	
 	/**
 	 * 
-	 * @param key
+	 * @param url
 	 */
 	public Spire(String url){
 		this.spire_url = url;
 		this.api = new Api(spire_url);
 	}
 	
+	/**
+	 * 
+	 * @param url
+	 * @param version
+	 */
 	public Spire(String url, String version){
 		this.spire_url = url;
 		this.api = new Api(spire_url, version);
