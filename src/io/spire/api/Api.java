@@ -99,8 +99,28 @@ public class Api extends Resource {
 		return session;
 	}
 	
-	public void createAccount(String accountKey){
+	public Session createAccount(String email, String password, String passwordConfirmation) 
+			throws ResponseException, IOException{
+		RequestData data = RequestFactory.createRequestData();
+		data.method = RequestType.HTTP_POST;
+		data.url = description.resources.getResource("accounts").getProperty("url", String.class);
+		data.body.put("email", email);
+		data.body.put("password", password);
+		data.body.put("password_confirmation", passwordConfirmation);
+		data.headers.put("Accept", description.schema.getMediaType("session"));
+		data.headers.put("Content-Type", description.schema.getMediaType("account"));
 		
+		Request request = RequestFactory.createRequest(data);
+		Response response = request.send();
+		if(!response.isSuccessStatusCode())
+			throw new ResponseException(response, "Error attemping to register");
+		SessionModel model = response.parseAs(SessionModel.class);
+		Session session = new Session(model);
+		
+		System.out.println("Login result....");
+		System.out.println(model.getProperty("url", String.class));
+		
+		return session;
 	}
 	
 	public Session login(String email, String password) throws ResponseException, IOException{
