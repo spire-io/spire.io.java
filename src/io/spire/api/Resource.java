@@ -73,12 +73,36 @@ public class Resource {
 		return model.getProperty("capability", String.class);
 	}
 	
-	public void get(){
+	public void get() throws ResponseException, IOException{
+		RequestData data = RequestFactory.createRequestData();
+		data.method = RequestType.HTTP_GET;
+		data.url = model.getProperty("url", String.class);
+		data.headers.put("Authorization", "Capability " + model.getProperty("capability", String.class));
+		data.headers.put("Accept", this.getMediaType());
 		
+		Request request = RequestFactory.createRequest(data);
+		Response response = request.send();
+		if(!response.isSuccessStatusCode())
+			throw new ResponseException(response, "Error getting " + getResourceName());
+		
+		System.out.println("got resource " + getResourceName());
 	}
 
-	public void update(){
+	public void update() throws ResponseException, IOException{
+		RequestData data = RequestFactory.createRequestData();
+		data.method = RequestType.HTTP_PUT;
+		data.url = model.getProperty("url", String.class);
 		
+		data.headers.put("Authorization", "Capability " + model.getProperty("capability", String.class));
+		data.headers.put("Accept", this.getMediaType());
+		data.headers.put("Content-Type", this.getMediaType());
+		
+		Request request = RequestFactory.createRequest(data);
+		Response response = request.send();
+		if(!response.isSuccessStatusCode())
+			throw new ResponseException(response, "Error updating " + getResourceName());
+		
+		System.out.println("updated resource " + getResourceName());
 	}
 	
 	public void delete() throws ResponseException, IOException{
