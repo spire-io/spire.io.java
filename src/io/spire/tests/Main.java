@@ -37,6 +37,7 @@ public class Main {
 		        return;
 		      } catch (ResponseException e) {
 		        System.out.println(e.getMessage());
+		        e.getResponse().close();
 		      }
 		    } catch (Throwable t) {
 		      t.printStackTrace();

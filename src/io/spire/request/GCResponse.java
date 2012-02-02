@@ -35,5 +35,14 @@ public class GCResponse extends Response{
 	public String parseAsString() throws IOException{
 		return response.parseAsString();
 	}
-
+	
+	/**
+	 * Closes the content of HTTP Response object ignoring any contents.
+	 * Avoid LEAKS if response content is never parsed
+	 * @throws IOException
+	 */
+	@Override
+	public void close() throws IOException{
+		response.ignore();
+	}
 }
