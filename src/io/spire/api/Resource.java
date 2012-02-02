@@ -4,7 +4,6 @@
 package io.spire.api;
 
 import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
-import io.spire.api.Session.SessionModel;
 import io.spire.request.Request.RequestType;
 import io.spire.request.Request;
 import io.spire.request.RequestData;
@@ -13,7 +12,8 @@ import io.spire.request.Response;
 import io.spire.request.ResponseException;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * @author jorge
@@ -21,9 +21,8 @@ import java.util.HashMap;
  */
 public class Resource {
 	
-	private ResourceModel model;
-	private String url;
-	private APISchemaModel schema;
+	protected ResourceModel model;
+	protected APISchemaModel schema;
 	
 	
 	/**
@@ -41,30 +40,22 @@ public class Resource {
 		this.model = model;
 	}
 	
-	public static class ResourceCollectionModel extends HashMap<String, ResourceModel> {
-		private static final long serialVersionUID = -2040538068264592599L;
-
-		public <T>T getProperty(String propertyName, Class<T> type){
-			return (T)this.get(propertyName);
-		}
+	public static class ResourceModel implements ResourceModelInterface {
+		private Map<String, Object> rawModel;
 		
-		public ResourceModel getResource(String resourceName){
-			return this.getProperty(resourceName, ResourceModel.class); 
+		public ResourceModel(Map<String, Object> data){
+			this.rawModel = data;
 		}
-	}
-	
-	public static class ResourceModel extends HashMap<String, Object> {
-		private static final long serialVersionUID = -2175184096959826160L;
 
 		public <T>T getProperty(String propertyName, Class<T> type){
-			return (T)this.get(propertyName);
+			return (T)rawModel.get(propertyName);
 		}
 		
 		public void setProperty(String propertyName, Object data){
-			this.put(propertyName, data);
+			rawModel.put(propertyName, data);
 		}
 	}
-	
+
 	public String getUrl(){
 		return model.getProperty("url", String.class);
 	}

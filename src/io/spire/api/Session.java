@@ -3,7 +3,11 @@
  */
 package io.spire.api;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
+import io.spire.api.Resource.ResourceModel;
 
 /**
  * @author jorge
@@ -11,27 +15,25 @@ import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
  */
 public class Session extends Resource {
 
-	private SessionModel model;
+	protected Account account;
+
 	/**
 	 * 
 	 */
-	public Session(SessionModel model, APISchemaModel schemas) {
-		super(schemas);
-		this.model = model;
+	public Session(ResourceModel model, APISchemaModel schema) {
+		super(model, schema);
+		ResourceModel accountModel = getResource("account");
+		account = new Account(accountModel, this.schema);
 	}
 	
-	public static class SessionModel extends ResourceModel {
-		private static final long serialVersionUID = 6181456514065378756L;
+	public ResourceModel getResource(String resourceName){
+		Map<String, Object> resources = model.getProperty("resources", Map.class);
+		Map<String, Object> rawModel = (Map<String, Object>)resources.get(resourceName);
+		return new ResourceModel(rawModel);
 	}
 	
-	public String getUrl(){
-		return model.getProperty("url", String.class);
-	}
-	
-	public <T>T getResource(String resourceName, Class<T> type){
-		ResourceCollectionModel resources = model.getProperty("resources", ResourceCollectionModel.class);
-		T resource = resources.getProperty(resourceName, type);
-		return resource;
+	public Account getAccount(){
+		return account;
 	}
 
 }

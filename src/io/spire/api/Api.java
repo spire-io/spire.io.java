@@ -3,13 +3,12 @@
  */
 package io.spire.api;
 
-import io.spire.api.Resource.ResourceCollectionModel;
 import io.spire.api.Resource.ResourceModel;
-import io.spire.api.Session.SessionModel;
 import io.spire.request.*;
 import io.spire.request.Request.RequestType;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -42,12 +41,39 @@ public class Api {
 		@Key
 		public String url;
 		
-		@Key
-		public ResourceCollectionModel resources;
 		
-		public static class APISchemaModel extends ResourceModel {			
+		public static class APIResourceCollectionModel extends HashMap<String, APIResourceModel> implements ResourceModelInterface {
+			@Override
+			public <T> T getProperty(String propertyName, Class<T> type) {
+				return (T)this.get(propertyName);
+			}
+
+			@Override
+			public void setProperty(String propertyName, Object data) {
+			}
+			
+			public APIResourceModel getResource(String resourceName){
+				return this.getProperty(resourceName, APIResourceModel.class); 
+			}
+		}
+		
+		@Key
+		public APIResourceCollectionModel resources;
+		
+		public static class APIResourceModel extends HashMap<String, Object> implements ResourceModelInterface {			
 			private static final long serialVersionUID = 5222700238203763225L;
 
+			@Override
+			public <T> T getProperty(String propertyName, Class<T> type) {
+				return (T)this.get(propertyName);
+			}
+
+			@Override
+			public void setProperty(String propertyName, Object data) {
+			}
+		}
+		
+		public static class APISchemaModel extends APIResourceModel {			
 			public String getMediaType(String resource){
 				Map<String, Object> schemas = this.getProperty(Api.API_VERSION, Map.class);
 				Map<String, Object> schema = (Map<String, Object>)schemas.get(resource);
@@ -92,11 +118,11 @@ public class Api {
 		Response response = request.send();
 		if(!response.isSuccessStatusCode())
 			throw new ResponseException(response, "Error starting a key-based session");
-		SessionModel model = response.parseAs(SessionModel.class);
-		Session session = new Session(model, description.schema);
+		Map<String, Object> rawModel = response.parseAs(HashMap.class);
+		Session session = new Session(new ResourceModel(rawModel), description.schema);
 		
 		System.out.println("Create Session result....");
-		System.out.println(model.getProperty("url", String.class));
+		System.out.println(session.getUrl());
 		
 		return session;
 	}
@@ -116,11 +142,11 @@ public class Api {
 		Response response = request.send();
 		if(!response.isSuccessStatusCode())
 			throw new ResponseException(response, "Error attemping to register");
-		SessionModel model = response.parseAs(SessionModel.class);
-		Session session = new Session(model, description.schema);
+		Map<String, Object> rawModel = response.parseAs(HashMap.class);
+		Session session = new Session(new ResourceModel(rawModel), description.schema);
 		
 		System.out.println("Login result....");
-		System.out.println(model.getProperty("url", String.class));
+		System.out.println(session.getUrl());
 		
 		return session;
 	}
@@ -138,11 +164,13 @@ public class Api {
 		Response response = request.send();
 		if(!response.isSuccessStatusCode())
 			throw new ResponseException(response, "Error attemping to login");
-		SessionModel model = response.parseAs(SessionModel.class);
-		Session session = new Session(model, description.schema);
+		
+		Map<String, Object> rawModel = response.parseAs(HashMap.class);
+		Session session = new Session(new ResourceModel(rawModel), description.schema);
 		
 		System.out.println("Login result....");
-		System.out.println(model.getProperty("url", String.class));
+		System.out.println(session.getUrl());
+		System.out.println(session.getCapability());
 		
 		return session;
 	}

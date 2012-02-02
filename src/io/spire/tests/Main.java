@@ -4,6 +4,7 @@
 package io.spire.tests;
 
 import io.spire.Spire;
+import io.spire.api.Account;
 import io.spire.api.Api;
 import io.spire.api.Session;
 import io.spire.request.ResponseException;
@@ -24,7 +25,11 @@ public class Main {
 		try {
 		      try {
 		    	spire.discover();
-		    	spire.start("Ac-th7aFFBCFth1LSnAgEylz8g-gkY");
+//		    	spire.start("Ac-th7aFFBCFth1LSnAgEylz8g-gkY");
+		    	spire.login("foo@test.com", "foobarbaz");
+		    	Account account = spire.getSession().getAccount();
+		    	System.out.println(account.getUrl());
+//		    	spire.register("3242345fdswedf232@test.com", "foobarbaz", null);
 		        return;
 		      } catch (ResponseException e) {
 		        System.out.println(e.getMessage());

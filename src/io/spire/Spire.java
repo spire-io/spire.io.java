@@ -64,6 +64,10 @@ public class Spire {
 		this.api = new Api(spire_url, version);
 	}
 	
+	public Session getSession(){
+		return session;
+	}
+	
 	public void discover() throws ResponseException, IOException{
 		api.discover();
 	}
@@ -78,6 +82,14 @@ public class Spire {
 	
 	public void register(String email, String password, String passwordConfirmation) throws ResponseException, IOException{
 		session = api.createAccount(email, password, passwordConfirmation);
+	}
+	
+	public void passwordReset(String email) throws ResponseException, IOException{
+		
+	}
+	
+	public void deleteAccount(String email) throws ResponseException, IOException{
+		session.getAccount().delete();
 	}
 }
 
