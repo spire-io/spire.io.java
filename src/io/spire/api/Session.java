@@ -3,6 +3,8 @@
  */
 package io.spire.api;
 
+import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
+
 /**
  * @author jorge
  *
@@ -13,10 +15,8 @@ public class Session extends Resource {
 	/**
 	 * 
 	 */
-	public Session() {
-	}
-	
-	public Session(SessionModel model) {
+	public Session(SessionModel model, APISchemaModel schemas) {
+		super(schemas);
 		this.model = model;
 	}
 	

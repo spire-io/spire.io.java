@@ -3,6 +3,8 @@
  */
 package io.spire.api;
 
+import io.spire.api.Resource.ResourceCollectionModel;
+import io.spire.api.Resource.ResourceModel;
 import io.spire.api.Session.SessionModel;
 import io.spire.request.*;
 import io.spire.request.Request.RequestType;
@@ -17,7 +19,7 @@ import com.google.api.client.util.Key;
  * @author jorge
  *
  */
-public class Api extends Resource {
+public class Api {
 
 	public static String API_VERSION = "1.0";
 	
@@ -91,7 +93,7 @@ public class Api extends Resource {
 		if(!response.isSuccessStatusCode())
 			throw new ResponseException(response, "Error starting a key-based session");
 		SessionModel model = response.parseAs(SessionModel.class);
-		Session session = new Session(model);
+		Session session = new Session(model, description.schema);
 		
 		System.out.println("Create Session result....");
 		System.out.println(model.getProperty("url", String.class));
@@ -115,7 +117,7 @@ public class Api extends Resource {
 		if(!response.isSuccessStatusCode())
 			throw new ResponseException(response, "Error attemping to register");
 		SessionModel model = response.parseAs(SessionModel.class);
-		Session session = new Session(model);
+		Session session = new Session(model, description.schema);
 		
 		System.out.println("Login result....");
 		System.out.println(model.getProperty("url", String.class));
@@ -137,7 +139,7 @@ public class Api extends Resource {
 		if(!response.isSuccessStatusCode())
 			throw new ResponseException(response, "Error attemping to login");
 		SessionModel model = response.parseAs(SessionModel.class);
-		Session session = new Session(model);
+		Session session = new Session(model, description.schema);
 		
 		System.out.println("Login result....");
 		System.out.println(model.getProperty("url", String.class));
