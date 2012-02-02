@@ -47,10 +47,12 @@ public class Resource {
 			this.rawModel = data;
 		}
 
+		@Override
 		public <T>T getProperty(String propertyName, Class<T> type){
 			return (T)rawModel.get(propertyName);
 		}
 		
+		@Override
 		public void setProperty(String propertyName, Object data){
 			rawModel.put(propertyName, data);
 		}
