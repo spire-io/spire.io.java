@@ -88,7 +88,7 @@ public class Spire {
 		
 	}
 	
-	public void deleteAccount(String email) throws ResponseException, IOException{
+	public void deleteAccount() throws ResponseException, IOException{
 		session.getAccount().delete();
 	}
 }

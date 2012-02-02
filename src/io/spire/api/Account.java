@@ -18,5 +18,10 @@ public class Account extends Resource {
 	public Account(ResourceModel model, APISchemaModel schema) {
 		super(model, schema);
 	}
+	
+	@Override
+	public String getResourceName(){
+		return this.getClass().getSimpleName().toLowerCase();
+	}
 
 }

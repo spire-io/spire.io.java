@@ -171,6 +171,7 @@ public class Api {
 		System.out.println("Login result....");
 		System.out.println(session.getUrl());
 		System.out.println(session.getCapability());
+//		System.out.println(session.getAccount().getCapability());
 		
 		return session;
 	}

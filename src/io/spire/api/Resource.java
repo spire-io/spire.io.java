@@ -61,7 +61,7 @@ public class Resource {
 	}
 	
 	public String getResourceName(){
-		return Resource.class.getName().toLowerCase();
+		return this.getClass().getSimpleName().toLowerCase();
 	}
 	
 	public String getMediaType(){
