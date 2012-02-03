@@ -92,6 +92,18 @@ public abstract class Resource {
 		return model.getProperty("capability", String.class);
 	}
 	
+	public String getKey(){
+		return model.getProperty("key", String.class);
+	}
+	
+	public String getType(){
+		return model.getProperty("type", String.class);
+	}
+	
+	public String getName(){
+		return model.getProperty("name", String.class);
+	}
+	
 	public void get() throws ResponseException, IOException{
 		RequestData data = RequestFactory.createRequestData();
 		data.method = RequestType.HTTP_GET;

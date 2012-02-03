@@ -80,22 +80,6 @@ public class Account extends Resource {
 		this.model.setProperty("email", email);
 	}
 	
-	public String getKey(){
-		return this.model.getProperty("key", String.class);
-	}
-	
-	public void setKey(String key){
-		this.model.setProperty("key", key);
-	}
-	
-	public String getName(){
-		return this.model.getProperty("name", String.class);
-	}
-	
-	public void setName(String name){
-		this.model.setProperty("name", name);
-	}
-	
 	public String getCompany(){
 		return this.model.getProperty("company", String.class);
 	}
