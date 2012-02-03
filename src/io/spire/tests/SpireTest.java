@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.Date;
 
 import io.spire.Spire;
+import io.spire.api.Account;
+import io.spire.api.BillingSubscription;
 import io.spire.api.Api.APIDescriptionModel;
 import io.spire.request.ResponseException;
 
@@ -15,10 +17,10 @@ import static org.junit.Assert.*;
 
 /**
  * @author jorge
- *
+ * 
  */
 public class SpireTest {
-	
+
 	public static final String SPIRE_URL = "http://localhost:1337";
 
 	private Spire spire;
@@ -26,27 +28,30 @@ public class SpireTest {
 	private String key;
 	private String email;
 	private String password;
-	
-	public SpireTest(){
-		
+
+	public SpireTest() {
+
 	}
-	
-	private Spire createSpire(APIDescriptionModel description){
+
+	private Spire createSpire(APIDescriptionModel description) {
 		Spire spire = new Spire(SPIRE_URL);
-		if(description != null)
+		if (description != null)
 			spire.getApi().setApiDescription(description);
 		return spire;
 	}
-	
-	private String uniqueEmail(){
+
+	private String uniqueEmail() {
 		Date now = new Date();
 		return "test+jclient+" + now.getTime() + "@spire.io";
 	}
 	
+	private void print(String string){
+		System.out.println(string);
+	}
+
 	@Before
-	public void setUp() throws Exception{
+	public void setUp() throws Exception {
 		email = uniqueEmail();
-		System.out.println(email);
 		password = "carlospants";
 		spire = createSpire(null);
 		spire.discover();
@@ -56,18 +61,18 @@ public class SpireTest {
 	}
 
 	@Test
-	public void discovery() throws Exception {
+	public void discover() throws Exception {
 		spire.discover();
 		assertNotNull(spire.getApi().getApiDescription());
 	}
-	
+
 	@Test
 	public void start() throws Exception {
 		Spire spire = createSpire(description);
 		spire.start(key);
 		assertNotNull(spire.getSession());
 	}
-	
+
 	@Test
 	public void login() throws Exception {
 		Spire spire = createSpire(description);
@@ -75,14 +80,31 @@ public class SpireTest {
 		assertNotNull(spire.getSession());
 		assertNotNull(spire.getSession().getAccount());
 	}
-	
+
 	@Test
 	public void register() throws Exception {
 		Spire spire = createSpire(description);
 		String email = uniqueEmail();
-		System.out.println("email " + email);
 		String password = "somepassword";
 		spire.register(email, password, null);
+		assertNotNull(spire.getApi());
 		assertNotNull(spire.getSession());
+		assertNotNull(spire.getSession().getAccount());
+	}
+
+	@Test
+	public void getAccount() throws Exception {
+		// account data
+		Account account = spire.getSession().getAccount();
+		assertNotNull(account);
+		assertNotNull(account.getCapability());
+		assertNotNull(account.getEmail());
+		// account billing subscription data
+		BillingSubscription billing = account.getBilling();
+		assertNotNull(billing);
+		assertNotNull(billing.getCapability());
+		assertNotNull(billing.getId());
+		assertNotNull(billing.getInvoices());
+		assertNotNull(billing.getInvoices().getUpcomingInvoice());
 	}
 }

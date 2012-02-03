@@ -44,6 +44,11 @@ public abstract class Resource {
 		this.initialize();
 	}
 	
+	/**
+	 * This is called automatically by the resource constructor
+	 * to initialize any other internal properties.
+	 * Derived classes should override this method
+	 */
 	protected abstract void initialize();
 	
 	protected ResourceModel getResourceModel(String resourceName){

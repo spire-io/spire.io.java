@@ -25,15 +25,15 @@ public class Main {
 		try {
 		      try {
 		    	spire.discover();
-		    	spire.start("Ac-th7aFFBCFth1LSnAgEylz8g-gkY");
-//		    	spire.login("foo@test.com", "foobarbaz");
+//		    	spire.start("Ac-th7aFFBCFth1LSnAgEylz8g-gkY");
+		    	spire.login("foo@test.com", "foobarbaz");
 //		    	spire.login("test+1326761570.841@spire.io", "carlospants");
 //		    	spire.deleteAccount();
-//		    	Account account = spire.getSession().getAccount();
+		    	Account account = spire.getSession().getAccount();
 //		    	System.out.println(account.getMediaType());
 //		    	System.out.println(account.getUrl());
 //		    	System.out.println(account.getCapability());
-//		    	System.out.println(account.getBilling().getId());
+		    	System.out.println(account.getBilling().getId());
 //		    	spire.register("3242345fdswewerwerdf232@test.com", "foobarbaz", null);
 		        return;
 		      } catch (ResponseException e) {

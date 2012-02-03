@@ -15,7 +15,7 @@ import io.spire.api.Resource.ResourceModel;
  */
 public class Account extends Resource {
 
-	private Billing billing;
+	private BillingSubscription billing;
 	
 	/**
 	 * 
@@ -36,7 +36,7 @@ public class Account extends Resource {
 	@Override
 	protected void initialize(){
 		ResourceModel billingModel = getResourceModel("billing");
-		billing = new Billing(billingModel, schema);
+		billing = new BillingSubscription(billingModel, schema);
 	}
 	
 	@Override
@@ -128,11 +128,11 @@ public class Account extends Resource {
 		this.model.setProperty("cc", cc);
 	}
 	
-	public Billing getBilling(){
+	public BillingSubscription getBilling(){
 		return billing;
 	}
 	
-	public void setBilling(Billing billing){
+	public void setBilling(BillingSubscription billing){
 		this.billing = billing;
 	}
 
