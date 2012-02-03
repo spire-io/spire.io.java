@@ -73,6 +73,7 @@ public class SpireTest {
 		Spire spire = createSpire(description);
 		spire.login(email, password);
 		assertNotNull(spire.getSession());
+		assertNotNull(spire.getSession().getAccount());
 	}
 	
 	@Test

@@ -22,12 +22,21 @@ public class Session extends Resource {
 	 */
 	public Session(ResourceModel model, APISchemaModel schema) {
 		super(model, schema);
-		ResourceModel accountModel = getResourceModel("account");
-		account = new Account(accountModel, this.schema);
 	}
 	
-	private ResourceModel getResourceModel(String resourceName){
+	@Override
+	protected void initialize(){
+		ResourceModel accountModel = getResourceModel("account");
+//		if(accountModel != null){
+			account = new Account(accountModel, this.schema);
+//		}
+	}
+	
+	@Override
+	protected ResourceModel getResourceModel(String resourceName){
+		@SuppressWarnings("unchecked")
 		Map<String, Object> resources = model.getProperty("resources", Map.class);
+		@SuppressWarnings("unchecked")
 		Map<String, Object> rawModel = (Map<String, Object>)resources.get(resourceName);
 		return new ResourceModel(rawModel);
 	}

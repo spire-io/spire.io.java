@@ -35,11 +35,20 @@ public abstract class Resource {
 	public Resource(APISchemaModel schema) {
 		this.schema = schema;
 		this.model = new ResourceModel(new HashMap<String, Object>());
+		this.initialize();
 	}
 	
 	public Resource(ResourceModel model, APISchemaModel schema) {
 		this.schema = schema;
 		this.model = model;
+		this.initialize();
+	}
+	
+	protected abstract void initialize();
+	
+	protected ResourceModel getResourceModel(String resourceName){
+		Map<String, Object> rawModel = model.getProperty(resourceName, Map.class);
+		return new ResourceModel(rawModel);
 	}
 	
 	public static class ResourceModel implements ResourceModelInterface {
@@ -47,6 +56,9 @@ public abstract class Resource {
 		
 		public ResourceModel(Map<String, Object> data){
 			this.rawModel = data;
+			if(this.rawModel == null){
+				this.rawModel = new HashMap<String, Object>();
+			}
 		}
 
 		@Override
@@ -59,7 +71,7 @@ public abstract class Resource {
 			rawModel.put(propertyName, data);
 		}
 	}
-
+	
 	public String getUrl(){
 		return model.getProperty("url", String.class);
 	}

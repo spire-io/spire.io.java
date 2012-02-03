@@ -3,8 +3,11 @@
  */
 package io.spire.api;
 
+import java.util.Map;
+
 import io.spire.api.Api.APIDescriptionModel.APIResourceModel;
 import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
+import io.spire.api.Resource.ResourceModel;
 
 /**
  * @author jorge
@@ -12,6 +15,8 @@ import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
  */
 public class Account extends Resource {
 
+	private Billing billing;
+	
 	/**
 	 * 
 	 * @param schema
@@ -26,6 +31,17 @@ public class Account extends Resource {
 	 */
 	public Account(ResourceModel model, APISchemaModel schema) {
 		super(model, schema);
+	}
+	
+	@Override
+	protected void initialize(){
+		ResourceModel billingModel = getResourceModel("billing");
+		billing = new Billing(billingModel, schema);
+	}
+	
+	@Override
+	public String getResourceName(){
+		return this.getClass().getSimpleName().toLowerCase();
 	}
 	
 	public static class AccountOrigin extends APIResourceModel{
@@ -55,12 +71,7 @@ public class Account extends Resource {
 			this.setProperty("port", port);
 		}
 	}
-	
-	@Override
-	public String getResourceName(){
-		return this.getClass().getSimpleName().toLowerCase();
-	}
-	
+		
 	public String getEmail(){
 		return this.model.getProperty("email", String.class);
 	}
@@ -117,12 +128,12 @@ public class Account extends Resource {
 		this.model.setProperty("cc", cc);
 	}
 	
-//	public Billing getBilling(){
-//		return this.model.getProperty("billing", Billing.class);
-//	}
-//	
-//	public void setBilling(Billing billing){
-//		this.model.setProperty("billing", billing);
-//	}
+	public Billing getBilling(){
+		return billing;
+	}
+	
+	public void setBilling(Billing billing){
+		this.billing = billing;
+	}
 
 }
