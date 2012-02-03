@@ -13,6 +13,14 @@ import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
 public class Account extends Resource {
 
 	/**
+	 * 
+	 * @param schema
+	 */
+	public Account(APISchemaModel schema) {
+		super(schema);
+	}
+	
+	/**
 	 * @param model
 	 * @param schema
 	 */
@@ -21,6 +29,8 @@ public class Account extends Resource {
 	}
 	
 	public static class AccountOrigin extends APIResourceModel{
+		private static final long serialVersionUID = 8747002765351883148L;
+
 		public String getHost(){
 			return this.getProperty("host", String.class);
 		}

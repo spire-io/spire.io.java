@@ -27,13 +27,13 @@ public class Main {
 		    	spire.discover();
 //		    	spire.start("Ac-th7aFFBCFth1LSnAgEylz8g-gkY");
 //		    	spire.login("foo@test.com", "foobarbaz");
-		    	spire.login("test+1326761570.841@spire.io", "carlospants");
+//		    	spire.login("test+1326761570.841@spire.io", "carlospants");
 //		    	spire.deleteAccount();
 //		    	Account account = spire.getSession().getAccount();
 //		    	System.out.println(account.getMediaType());
 //		    	System.out.println(account.getUrl());
 //		    	System.out.println(account.getCapability());
-//		    	spire.register("3242345fdswedf232@test.com", "foobarbaz", null);
+		    	spire.register("3242345fdswewerwerdf232@test.com", "foobarbaz", null);
 		        return;
 		      } catch (ResponseException e) {
 		        System.out.println(e.getMessage());

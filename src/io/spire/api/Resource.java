@@ -12,6 +12,7 @@ import io.spire.request.Response;
 import io.spire.request.ResponseException;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -19,7 +20,7 @@ import java.util.Map;
  * @author jorge
  *
  */
-public class Resource {
+public abstract class Resource {
 	
 	protected ResourceModel model;
 	protected APISchemaModel schema;
@@ -33,10 +34,11 @@ public class Resource {
 	
 	public Resource(APISchemaModel schema) {
 		this.schema = schema;
+		this.model = new ResourceModel(new HashMap<String, Object>());
 	}
 	
 	public Resource(ResourceModel model, APISchemaModel schema) {
-		this(schema);
+		this.schema = schema;
 		this.model = model;
 	}
 	
@@ -62,9 +64,7 @@ public class Resource {
 		return model.getProperty("url", String.class);
 	}
 	
-	public String getResourceName(){
-		return this.getClass().getSimpleName().toLowerCase();
-	}
+	public abstract String getResourceName();
 	
 	public String getMediaType(){
 		String resourceName = this.getResourceName();
