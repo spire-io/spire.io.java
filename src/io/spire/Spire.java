@@ -64,6 +64,10 @@ public class Spire {
 		this.api = new Api(spire_url, version);
 	}
 	
+	public Api getApi(){
+		return api;
+	}
+	
 	public Session getSession(){
 		return session;
 	}

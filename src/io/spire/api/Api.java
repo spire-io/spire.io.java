@@ -37,6 +37,10 @@ public class Api {
 		Api.API_VERSION = version; 
 	}
 	
+	public APIDescriptionModel getApiDescription(){
+		return description;
+	}
+	
 	public static class APIDescriptionModel {
 		@Key
 		public String url;
