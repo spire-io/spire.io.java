@@ -41,6 +41,10 @@ public class Api {
 		return description;
 	}
 	
+	public void setApiDescription(APIDescriptionModel description){
+		this.description = description;
+	}
+	
 	public static class APIDescriptionModel {
 		@Key
 		public String url;
@@ -105,9 +109,10 @@ public class Api {
 		// temp test
 		System.out.println("API result....");
 	    System.out.println(description.url);
-	    System.out.println(description.resources.size());
-	    System.out.println("schema url => " + description.schema.getProperty("url", String.class));
-	    System.out.println("account mediaType => " + description.schema.getMediaType("account"));
+//	    System.out.println(description.resources.size());
+//	    System.out.println("schema url => " + description.schema.getProperty("url", String.class));
+//	    System.out.println("account url => " + description.resources.getResource("accounts").getProperty("url", String.class));
+//	    System.out.println("account mediaType => " + description.schema.getMediaType("account"));
 	}
 	
 	public Session createSession(String accountKey) throws ResponseException, IOException{
@@ -135,6 +140,7 @@ public class Api {
 			throws ResponseException, IOException{
 		RequestData data = RequestFactory.createRequestData();
 		data.method = RequestType.HTTP_POST;
+		System.out.println("account url => " + description.resources.getResource("accounts").getProperty("url", String.class));
 		data.url = description.resources.getResource("accounts").getProperty("url", String.class);
 		data.body.put("email", email);
 		data.body.put("password", password);
