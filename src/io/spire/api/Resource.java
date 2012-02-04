@@ -12,6 +12,7 @@ import io.spire.request.Response;
 import io.spire.request.ResponseException;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -74,6 +75,43 @@ public abstract class Resource {
 		@Override
 		public void setProperty(String propertyName, Object data){
 			rawModel.put(propertyName, data);
+		}
+		
+		public ResourceModel getResourceMapCollection(String resourceName){
+			HashMap<String, Object> rawModelCollection = new HashMap<String, Object>();
+			Map<String, Object> resources = this.getProperty(resourceName, Map.class);
+			for (Map.Entry<String, Object> resource : resources.entrySet()) {
+				String name = (String)resource.getKey();
+				Map<String, Object> rawData = (Map<String, Object>)resource.getValue();
+				ResourceModel rawModel = new ResourceModel(rawData);
+				rawModelCollection.put(name, rawModel);
+			}
+			return new ResourceModel(rawModelCollection);
+		}
+		
+		public <T> Map<String, T> getMapCollection(String resourceName, Class<T> T, APISchemaModel schema) throws RuntimeException{
+			HashMap<String, T> mapCollection = new HashMap<String, T>();
+			Constructor<T> constructorT;
+			try {
+				constructorT = T.getConstructor(ResourceModel.class, APISchemaModel.class);
+			} catch (NoSuchMethodException e) {
+				e.printStackTrace();
+				return null;
+			}
+			Map<String, Object> resources = this.getProperty(resourceName, Map.class);
+			for (Map.Entry<String, Object> resource : resources.entrySet()) {
+				String name = (String)resource.getKey();
+				Map<String, Object> rawData = (Map<String, Object>)resource.getValue();
+				ResourceModel rawModel = new ResourceModel(rawData);
+				try{
+					T t = constructorT.newInstance(rawModel, schema);
+					mapCollection.put(name, t);
+				}catch (Exception e) {
+					e.printStackTrace();
+					return null;
+				}
+			}
+			return mapCollection;
 		}
 	}
 	
