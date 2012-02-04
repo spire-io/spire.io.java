@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
+import io.spire.api.Channel.Channels;
 import io.spire.api.Resource.ResourceModel;
 
 /**
@@ -16,7 +17,8 @@ import io.spire.api.Resource.ResourceModel;
 public class Session extends Resource {
 
 	protected Account account;
-
+	protected Channels channels;
+	
 	/**
 	 * 
 	 */
@@ -26,10 +28,11 @@ public class Session extends Resource {
 	
 	@Override
 	protected void initialize(){
-		ResourceModel accountModel = getResourceModel("account");
-//		if(accountModel != null){
-			account = new Account(accountModel, this.schema);
-//		}
+		ResourceModel resourceModel = getResourceModel("account");
+		account = new Account(resourceModel, this.schema);
+		
+		resourceModel = getResourceModel("channels");
+		channels = new Channels(resourceModel, this.schema);
 	}
 	
 	@Override
@@ -48,6 +51,10 @@ public class Session extends Resource {
 	
 	public Account getAccount(){
 		return account;
+	}
+	
+	public Channels getChannels(){
+		return channels;
 	}
 
 }
