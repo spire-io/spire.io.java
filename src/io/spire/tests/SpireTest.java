@@ -9,7 +9,11 @@ import java.util.Date;
 import io.spire.Spire;
 import io.spire.api.Account;
 import io.spire.api.BillingSubscription;
+import io.spire.api.Channel;
+import io.spire.api.Channel.Channels;
+import io.spire.api.Session;
 import io.spire.api.Api.APIDescriptionModel;
+import io.spire.api.Subscription;
 import io.spire.request.ResponseException;
 
 import org.junit.*;
@@ -52,11 +56,13 @@ public class SpireTest {
 	@Before
 	public void setUp() throws Exception {
 		email = uniqueEmail();
+//		email = "test+1326765873.501@spire.io";
 		password = "carlospants";
 		spire = createSpire(null);
 		spire.discover();
 		description = spire.getApi().getApiDescription();
 		spire.register(email, password, null);
+//		spire.login(email, password);
 		key = spire.getSession().getAccount().getKey();
 	}
 
@@ -106,5 +112,13 @@ public class SpireTest {
 		assertNotNull(billing.getId());
 		assertNotNull(billing.getInvoices());
 		assertNotNull(billing.getInvoices().getUpcomingInvoice());
+	}
+	
+	@Test
+	public void getChannels() throws Exception {
+		Channels channels = spire.getSession().getChannels();
+		assertNotNull(channels);
+		assertNotNull(channels.getCapability());
+		assertNotNull(channels.getUrl());
 	}
 }

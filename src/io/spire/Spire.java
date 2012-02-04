@@ -19,6 +19,7 @@ import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.api.client.util.Key;
 
 import io.spire.api.Api;
+import io.spire.api.Channel.Channels;
 import io.spire.api.Session;
 import io.spire.request.ResponseException;
 
@@ -94,6 +95,10 @@ public class Spire {
 	
 	public void deleteAccount() throws ResponseException, IOException{
 		session.getAccount().delete();
+	}
+	
+	public Channels getChannels() throws ResponseException, IOException{
+		return session.getChannels();
 	}
 }
 
