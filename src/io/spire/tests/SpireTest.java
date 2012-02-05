@@ -121,4 +121,23 @@ public class SpireTest {
 		assertNotNull(channels.getCapability());
 		assertNotNull(channels.getUrl());
 	}
+	
+	@Test
+	public void update() throws Exception {
+		Account account = spire.getSession().getAccount();
+		String companyName = "The Company";
+		String accountName = "Account Name";
+		account.setCompany(companyName);
+		account.setName(accountName);
+		account.update();
+		assertEquals("Update account company", account.getCompany(), companyName);
+		assertEquals("Update account company", account.getName(), accountName);
+		
+		Account account2 = new Account(description.schema);
+		account2.setCapability(account.getCapability());
+		account2.setURL(account.getUrl());
+		account2.get();
+		assertEquals(account.getKey(), account2.getKey());
+		assertEquals(account.getName(), account2.getName());
+	}
 }

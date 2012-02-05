@@ -52,6 +52,7 @@ public abstract class Resource {
 	 */
 	protected abstract void initialize();
 	
+	@SuppressWarnings("unchecked")
 	protected ResourceModel getResourceModel(String resourceName){
 		Map<String, Object> rawModel = model.getProperty(resourceName, Map.class);
 		return new ResourceModel(rawModel);
@@ -67,6 +68,7 @@ public abstract class Resource {
 			}
 		}
 
+		@SuppressWarnings("unchecked")
 		@Override
 		public <T>T getProperty(String propertyName, Class<T> type){
 			return (T)rawModel.get(propertyName);
@@ -77,6 +79,7 @@ public abstract class Resource {
 			rawModel.put(propertyName, data);
 		}
 		
+		@SuppressWarnings("unchecked")
 		public ResourceModel getResourceMapCollection(String resourceName){
 			HashMap<String, Object> rawModelCollection = new HashMap<String, Object>();
 			Map<String, Object> resources = this.getProperty(resourceName, Map.class);
@@ -89,6 +92,7 @@ public abstract class Resource {
 			return new ResourceModel(rawModelCollection);
 		}
 		
+		@SuppressWarnings("unchecked")
 		public <T> Map<String, T> getMapCollection(String resourceName, Class<T> T, APISchemaModel schema) throws RuntimeException{
 			HashMap<String, T> mapCollection = new HashMap<String, T>();
 			Constructor<T> constructorT;
@@ -119,6 +123,10 @@ public abstract class Resource {
 		return model.getProperty("url", String.class);
 	}
 	
+	public void setURL(String url){
+		model.setProperty("url", url);
+	}
+	
 	public abstract String getResourceName();
 	
 	public String getMediaType(){
@@ -128,6 +136,10 @@ public abstract class Resource {
 	
 	public String getCapability(){
 		return model.getProperty("capability", String.class);
+	}
+	
+	public void setCapability(String capability){
+		model.setProperty("capability", capability);
 	}
 	
 	public String getKey(){
@@ -142,6 +154,11 @@ public abstract class Resource {
 		return model.getProperty("name", String.class);
 	}
 	
+	public void setName(String name){
+		model.setProperty("name", name);
+	}
+	
+	@SuppressWarnings("unchecked")
 	public void get() throws ResponseException, IOException{
 		RequestData data = RequestFactory.createRequestData();
 		data.method = RequestType.HTTP_GET;
@@ -154,9 +171,10 @@ public abstract class Resource {
 		if(!response.isSuccessStatusCode())
 			throw new ResponseException(response, "Error getting " + getResourceName());
 		
-		System.out.println("got resource " + getResourceName());
+		model.rawModel = response.parseAs(HashMap.class);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void update() throws ResponseException, IOException{
 		RequestData data = RequestFactory.createRequestData();
 		data.method = RequestType.HTTP_PUT;
@@ -166,12 +184,14 @@ public abstract class Resource {
 		data.headers.put("Accept", this.getMediaType());
 		data.headers.put("Content-Type", this.getMediaType());
 		
+		data.body = model.rawModel;
+		
 		Request request = RequestFactory.createRequest(data);
 		Response response = request.send();
 		if(!response.isSuccessStatusCode())
 			throw new ResponseException(response, "Error updating " + getResourceName());
 		
-		System.out.println("updated resource " + getResourceName());
+		model.rawModel = response.parseAs(HashMap.class);
 	}
 	
 	public void delete() throws ResponseException, IOException{
@@ -187,7 +207,5 @@ public abstract class Resource {
 		Response response = request.send();
 		if(!response.isSuccessStatusCode())
 			throw new ResponseException(response, "Error deleting " + getResourceName());
-		
-		System.out.println("deleted resource " + getResourceName());
 	}
 }
