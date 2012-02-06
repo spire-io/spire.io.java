@@ -55,6 +55,10 @@ public abstract class Resource {
 	@SuppressWarnings("unchecked")
 	protected ResourceModel getResourceModel(String resourceName){
 		Map<String, Object> rawModel = model.getProperty(resourceName, Map.class);
+		if(rawModel == null){
+			rawModel = new HashMap<String, Object>();
+			model.setProperty(resourceName, rawModel);
+		}
 		return new ResourceModel(rawModel);
 	}
 	
@@ -68,10 +72,15 @@ public abstract class Resource {
 			}
 		}
 
-		@SuppressWarnings("unchecked")
 		@Override
 		public <T>T getProperty(String propertyName, Class<T> type){
-			return (T)rawModel.get(propertyName);
+			T t = null;
+			try{
+				t = type.cast(rawModel.get(propertyName));
+			}catch (Exception e) {
+				//e.printStackTrace();
+			}
+			return t;
 		}
 		
 		@Override
@@ -172,6 +181,7 @@ public abstract class Resource {
 			throw new ResponseException(response, "Error getting " + getResourceName());
 		
 		model.rawModel = response.parseAs(HashMap.class);
+		this.initialize();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -192,6 +202,7 @@ public abstract class Resource {
 			throw new ResponseException(response, "Error updating " + getResourceName());
 		
 		model.rawModel = response.parseAs(HashMap.class);
+		this.initialize();
 	}
 	
 	public void delete() throws ResponseException, IOException{
