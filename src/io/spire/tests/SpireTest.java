@@ -162,7 +162,7 @@ public class SpireTest {
 		assertNotNull(billing.getPlans());
 		List<Plan> plans = billing.getPlans();
 		Plan p = plans.get(0);
-//		print(plans.size() + "");
-//		print(p.getName());
+		assertNotNull(p.getFeatures());
+		assertNotNull(p.getFeatures().getQueue());
 	}
 }
