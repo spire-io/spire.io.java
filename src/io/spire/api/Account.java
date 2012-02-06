@@ -3,11 +3,8 @@
  */
 package io.spire.api;
 
-import java.util.Map;
-
 import io.spire.api.Api.APIDescriptionModel.APIResourceModel;
 import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
-import io.spire.api.Resource.ResourceModel;
 
 /**
  * @author jorge
@@ -15,6 +12,7 @@ import io.spire.api.Resource.ResourceModel;
  */
 public class Account extends Resource {
 
+	private Origin origin;
 	private BillingSubscription billing;
 	
 	/**
@@ -35,6 +33,9 @@ public class Account extends Resource {
 	
 	@Override
 	protected void initialize(){
+		ResourceModel originModel = getResourceModel("origin");
+		origin = new Origin(originModel, schema);
+		
 		ResourceModel billingModel = getResourceModel("billing");
 		billing = new BillingSubscription(billingModel, schema);
 	}
@@ -44,31 +45,55 @@ public class Account extends Resource {
 		return this.getClass().getSimpleName().toLowerCase();
 	}
 	
-	public static class AccountOrigin extends APIResourceModel{
-		private static final long serialVersionUID = 8747002765351883148L;
+	public static class Origin extends Resource{
+		/**
+		 * 
+		 * @param schema
+		 */
+		public Origin(APISchemaModel schema) {
+			super(schema);
+		}
+		
+		/**
+		 * @param model
+		 * @param schema
+		 */
+		public Origin(ResourceModel model, APISchemaModel schema) {
+			super(model, schema);
+		}
+		
+		@Override
+		protected void initialize() {
+			
+		}
+
+		@Override
+		public String getResourceName() {
+			return this.getClass().getSimpleName().toLowerCase();
+		}
 
 		public String getHost(){
-			return this.getProperty("host", String.class);
+			return this.model.getProperty("host", String.class);
 		}
 		
 		public void setHost(String host){
-			this.setProperty("host", host);
+			this.model.setProperty("host", host);
 		}
 		
 		public String getScheme(){
-			return this.getProperty("scheme", String.class);
+			return this.model.getProperty("scheme", String.class);
 		}
 		
 		public void setScheme(String scheme){
-			this.setProperty("scheme", scheme);
+			this.model.setProperty("scheme", scheme);
 		}
 		
 		public Integer getPort(){
-			return this.getProperty("port", Integer.class);
+			return this.model.getProperty("port", Integer.class);
 		}
 		
 		public void setPort(Integer port){
-			this.setProperty("port", port);
+			this.model.setProperty("port", port);
 		}
 	}
 		
@@ -88,12 +113,12 @@ public class Account extends Resource {
 		this.model.setProperty("company", companyName);
 	}
 	
-	public AccountOrigin getOrigin(){
-		return this.model.getProperty("origin", AccountOrigin.class);
+	public Origin getOrigin(){
+		return origin;
 	}
 	
-	public void setOrigin(AccountOrigin origin){
-		this.model.setProperty("origin", origin);
+	public void setOrigin(Origin origin){
+		this.origin = origin;
 	}
 	
 	public String getPaymentToken(){
