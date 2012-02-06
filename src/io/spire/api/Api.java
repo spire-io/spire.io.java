@@ -146,6 +146,7 @@ public class Api {
 		return session;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public Session login(String email, String password) throws ResponseException, IOException{
 		RequestData data = RequestFactory.createRequestData();
 		data.method = RequestType.HTTP_POST;
@@ -170,7 +171,19 @@ public class Api {
 		
 	}
 	
-	public void billing(String accountKey){
+	public Billing billing() throws ResponseException, IOException{
+		RequestData data = RequestFactory.createRequestData();
+		data.method = RequestType.HTTP_GET;
+		data.url = description.resources.getResource("billing").getProperty("url", String.class);
+		data.headers.put("Accept", "application/json");
 		
+		Request request = RequestFactory.createRequest(data);
+		Response response = request.send();
+		if(!response.isSuccessStatusCode())
+			throw new ResponseException(response, "Error getting billing: " + response.getStatusCode());
+		
+		Map<String, Object> rawModel = response.parseAs(HashMap.class);
+		Billing billing = new Billing(new ResourceModel(rawModel), description.schema);
+		return billing;
 	}
 }

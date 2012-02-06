@@ -3,28 +3,13 @@
  */
 package io.spire;
 
-import com.google.api.client.http.GenericUrl;
-import com.google.api.client.http.HttpHeaders;
-import com.google.api.client.http.HttpRequest;
-import com.google.api.client.http.HttpRequestFactory;
-import com.google.api.client.http.HttpRequestInitializer;
-import com.google.api.client.http.HttpResponse;
-import com.google.api.client.http.HttpResponseException;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.http.json.JsonHttpParser;
-import com.google.api.client.json.GenericJson;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson.JacksonFactory;
-import com.google.api.client.util.Key;
-
 import io.spire.api.Api;
+import io.spire.api.Billing;
 import io.spire.api.Channel.Channels;
 import io.spire.api.Session;
 import io.spire.request.ResponseException;
 
 import java.io.IOException;
-import java.util.List;
 
 
 /**
@@ -37,6 +22,7 @@ public class Spire {
 	private String spire_url;
 	private Api api;
 	private Session session;
+	private Billing billing;
 
 	/**
 	 * 
@@ -99,6 +85,11 @@ public class Spire {
 	
 	public Channels getChannels() throws ResponseException, IOException{
 		return session.getChannels();
+	}
+	
+	public Billing billing() throws ResponseException, IOException{
+		billing = api.billing();
+		return billing;
 	}
 }
 
