@@ -31,11 +31,12 @@ public abstract class Resource {
 	 * 
 	 */
 	public Resource() {
+		this.model = new ResourceModel(new HashMap<String, Object>());
 	}
 	
 	public Resource(APISchemaModel schema) {
+		this();
 		this.schema = schema;
-		this.model = new ResourceModel(new HashMap<String, Object>());
 		this.initialize();
 	}
 	
