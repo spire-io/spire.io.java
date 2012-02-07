@@ -17,6 +17,8 @@ import io.spire.request.ResponseException;
  *
  */
 public class Subscription extends Resource {
+	
+	private List<String> channels;
 
 	/**
 	 * 
@@ -43,9 +45,10 @@ public class Subscription extends Resource {
 	/* (non-Javadoc)
 	 * @see io.spire.api.Resource#initialize()
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void initialize() {
-
+		channels = this.model.getProperty("channels", List.class);
 	}
 
 	/* (non-Javadoc)
@@ -59,6 +62,10 @@ public class Subscription extends Resource {
 	@Override
 	protected void addModel(Map<String, Object> rawModel) {
 		
+	}
+	
+	public List<String> getChannels(){
+		return channels;
 	}
 	
 	public static class Subscriptions extends Resource{

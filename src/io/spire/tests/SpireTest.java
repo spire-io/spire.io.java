@@ -199,9 +199,20 @@ public class SpireTest {
 	
 	@Test
 	public void subscribe() throws Exception {
-		Subscription subscription = spire.subscribe("foo_subscription", "bar_channel");
+		String[] channelList = {"bar1_channel", "bar2_channel", "bar3_channel"};
+		String subscriptionName = "foo_subscription";
+		Subscription subscription = spire.subscribe(subscriptionName, channelList);
 		assertNotNull(subscription);
 		assertNotNull(subscription.getUrl());
 		assertNotNull(subscription.getCapability());
+		assertEquals(subscription.getName(), subscriptionName);
+		
+		List<String> channels = subscription.getChannels();
+		assertNotNull(channels);
+		// check that the channels where created
+		for (int i = 0; i < channelList.length; i++) {
+			Channel channel = spire.getChannels().getChannel(channelList[i]);
+			assertEquals(channels.get(i), channel.getKey());
+		}
 	}
 }
