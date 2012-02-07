@@ -7,6 +7,8 @@ import io.spire.api.Api;
 import io.spire.api.Billing;
 import io.spire.api.Channel;
 import io.spire.api.Channel.Channels;
+import io.spire.api.Subscription;
+import io.spire.api.Subscription.Subscriptions;
 import io.spire.api.Session;
 import io.spire.request.ResponseException;
 
@@ -101,6 +103,14 @@ public class Spire {
 	
 	public Channel createChannel(String name) throws ResponseException, IOException{
 		return session.createChannel(name);
+	}
+	
+	public Subscriptions getSubscriptions(){
+		return session.getSubscriptions();
+	}
+	
+	public Subscription subscribe(String name, String ...channels) throws ResponseException, IOException{
+		return session.subscribe(name, channels);
 	}
 }
 

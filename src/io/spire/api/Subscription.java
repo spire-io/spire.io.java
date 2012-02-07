@@ -3,9 +3,14 @@
  */
 package io.spire.api;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
+import io.spire.api.Resource.ResourceModel;
+import io.spire.request.ResponseException;
 
 /**
  * @author Jorge Gonzalez
@@ -93,11 +98,27 @@ public class Subscription extends Resource {
 		
 		@Override
 		protected void addModel(Map<String, Object> rawModel) {
-			
+			Subscription subscription = new Subscription(new ResourceModel(rawModel), this.schema);
+			this.addSubscription(subscription);
 		}
 		
 		public Subscription getSubscription(String name){
 			return subscriptionCollection.get(name);
+		}
+		
+		public void addSubscription(Subscription subscription){
+			subscriptionCollection.put(subscription.getName(), subscription);
+		}
+		
+		public void createSubscription(String name, List<String> channels) throws ResponseException, IOException{
+			Map<String, Object> content = new HashMap<String, Object>();
+			content.put("name", name);
+			content.put("channels", channels);
+			Map<String, String> headers = new HashMap<String, String>();
+			Subscription subscription = new Subscription();
+			headers.put("Accept", this.schema.getMediaType(subscription.getResourceName()));
+			headers.put("Content-Type", this.schema.getMediaType(subscription.getResourceName()));
+			super.post(content, headers);
 		}
 	}
 

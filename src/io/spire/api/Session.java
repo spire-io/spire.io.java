@@ -4,12 +4,16 @@
 package io.spire.api;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
 import io.spire.api.Channel.Channels;
 import io.spire.api.Resource.ResourceModel;
+import io.spire.api.Subscription.Subscriptions;
 import io.spire.request.ResponseException;
 
 /**
@@ -20,6 +24,7 @@ public class Session extends Resource {
 
 	protected Account account;
 	protected Channels channels;
+	protected Subscriptions subscriptions;
 	
 	/**
 	 * 
@@ -35,6 +40,9 @@ public class Session extends Resource {
 		
 		resourceModel = getResourceModel("channels");
 		channels = new Channels(resourceModel, this.schema);
+		
+		resourceModel = getResourceModel("subscriptions");
+		subscriptions = new Subscriptions(resourceModel, this.schema);
 	}
 	
 	@Override
@@ -67,6 +75,38 @@ public class Session extends Resource {
 	public Channel createChannel(String name) throws ResponseException, IOException{
 		channels.createChannel(name);
 		return channels.getChannel(name);
+	}
+	
+	public Subscription createSubscription(String name, String ...channels) throws ResponseException, IOException{
+		List<String> channelList = new ArrayList<String>();
+		for (String channel : channels) {
+			channelList.add(channel);
+		}
+		
+		return createSubscription(name, channelList);
+	}
+	
+	public Subscription createSubscription(String name, List<String> channels) throws ResponseException, IOException{
+		List<String> channelUrls = new ArrayList<String>();
+		for (String channelName : channels) {
+			channelUrls.add(this.channels.getChannel(channelName).getUrl());
+		}
+		subscriptions.createSubscription(name, channelUrls);
+		return subscriptions.getSubscription(name); 
+	}
+	
+	public Subscriptions getSubscriptions(){
+		return this.subscriptions;
+	}
+	
+	public Subscription subscribe(String name, String ...channels) throws ResponseException, IOException{
+		List<String> channelUrls = new ArrayList<String>();
+		for (String channelName : channels) {
+			Channel channel = this.createChannel(channelName);
+			channelUrls.add(channel.getUrl());
+		}
+		subscriptions.createSubscription(name, channelUrls);
+		return subscriptions.getSubscription(name);
 	}
 
 }

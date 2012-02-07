@@ -18,6 +18,7 @@ import io.spire.api.Channel.Channels;
 import io.spire.api.Session;
 import io.spire.api.Api.APIDescriptionModel;
 import io.spire.api.Subscription;
+import io.spire.api.Subscription.Subscriptions;
 import io.spire.request.ResponseException;
 
 import org.junit.*;
@@ -121,7 +122,7 @@ public class SpireTest {
 	
 	@Test
 	public void getChannels() throws Exception {
-		Channels channels = spire.getSession().getChannels();
+		Channels channels = spire.getChannels();
 		assertNotNull(channels);
 		assertNotNull(channels.getCapability());
 		assertNotNull(channels.getUrl());
@@ -186,5 +187,21 @@ public class SpireTest {
 		Spire spire2 = createSpire(description);
 		spire2.start(key);
 		assertNotNull(spire2.getChannels().getChannel(channelName));
+	}
+	
+	@Test
+	public void getSubscriptions() throws Exception {
+		Subscriptions subscriptions = spire.getSubscriptions();
+		assertNotNull(subscriptions);
+		assertNotNull(subscriptions.getUrl());
+		assertNotNull(subscriptions.getCapability());
+	}
+	
+	@Test
+	public void subscribe() throws Exception {
+		Subscription subscription = spire.subscribe("foo_subscription", "bar_channel");
+		assertNotNull(subscription);
+		assertNotNull(subscription.getUrl());
+		assertNotNull(subscription.getCapability());
 	}
 }
