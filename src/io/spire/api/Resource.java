@@ -75,6 +75,8 @@ public abstract class Resource {
 		this.initialize();
 	}
 	
+	protected abstract void addModel(Map<String, Object> rawModel);
+	
 	public static class ResourceModel implements ResourceModelInterface {
 		private Map<String, Object> rawModel;
 		
@@ -141,45 +143,123 @@ public abstract class Resource {
 		}
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public String getUrl(){
 		return model.getProperty("url", String.class);
 	}
 	
+	/**
+	 * 
+	 * @param url
+	 */
 	public void setURL(String url){
 		model.setProperty("url", url);
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public abstract String getResourceName();
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public String getMediaType(){
 		String resourceName = this.getResourceName();
 		return schema.getMediaType(resourceName);
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public String getCapability(){
 		return model.getProperty("capability", String.class);
 	}
 	
+	/**
+	 * 
+	 * @param capability
+	 */
 	public void setCapability(String capability){
 		model.setProperty("capability", capability);
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public String getKey(){
 		return model.getProperty("key", String.class);
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public String getType(){
 		return model.getProperty("type", String.class);
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public String getName(){
 		return model.getProperty("name", String.class);
 	}
 	
+	/**
+	 * 
+	 * @param name
+	 */
 	public void setName(String name){
 		model.setProperty("name", name);
 	}
+	
+	/**
+	 * Knows how to build a request data object for any resource operation GET/PUT/DELETE/POST
+	 * 
+	 * @param methodType
+	 * @param content
+	 * @param headers
+	 * @return RequestData
+	 */
+	protected RequestData createRequestData(RequestType methodType, Map<String, Object> content, Map<String, String> headers){
+		RequestData data = RequestFactory.createRequestData();
+		data.method = methodType;
+		data.url = model.getProperty("url", String.class);
 		
+		data.headers.put("Authorization", "Capability " + model.getProperty("capability", String.class));
+		data.headers.put("Accept", this.getMediaType());
+		
+		if(methodType != RequestType.HTTP_GET){
+			data.headers.put("Content-Type", this.getMediaType());
+		}
+
+		if(headers != null && !headers.isEmpty()){
+			for (Map.Entry<String, String> header : headers.entrySet()) {
+				data.headers.put(header.getKey(), header.getValue());
+			}
+		}
+		
+		if(methodType == RequestType.HTTP_PUT || methodType == RequestType.HTTP_POST){
+			data.body = content;
+		}
+		
+		return data;
+	}
+	
+	/**
+	 * 
+	 * @throws ResponseException
+	 * @throws IOException
+	 */
 	@SuppressWarnings("unchecked")
 	public void get() throws ResponseException, IOException{
 		RequestData data = RequestFactory.createRequestData();
@@ -197,6 +277,11 @@ public abstract class Resource {
 		updateModel(rawModel);
 	}
 
+	/**
+	 * 
+	 * @throws ResponseException
+	 * @throws IOException
+	 */
 	@SuppressWarnings("unchecked")
 	public void update() throws ResponseException, IOException{
 		RequestData data = RequestFactory.createRequestData();
@@ -218,6 +303,11 @@ public abstract class Resource {
 		updateModel(rawModel);
 	}
 	
+	/**
+	 * 
+	 * @throws ResponseException
+	 * @throws IOException
+	 */
 	public void delete() throws ResponseException, IOException{
 		RequestData data = RequestFactory.createRequestData();
 		data.method = RequestType.HTTP_DELETE;
@@ -231,5 +321,32 @@ public abstract class Resource {
 		Response response = request.send();
 		if(!response.isSuccessStatusCode())
 			throw new ResponseException(response, "Error deleting " + getResourceName());
+	}
+	
+	/**
+	 * 
+	 * @param content
+	 * @throws ResponseException
+	 * @throws IOException
+	 */
+	public void post(Map<String, Object> content) throws ResponseException, IOException{
+		RequestData data = this.createRequestData(RequestType.HTTP_POST, content, null);
+		this.post(content);
+	}
+	
+	protected void post(Map<String, Object> content, Map<String, String> headers) throws ResponseException, IOException{
+		RequestData data = this.createRequestData(RequestType.HTTP_POST, content, headers);
+		this.post(data);
+	}
+		
+	@SuppressWarnings("unchecked")
+	protected void post(RequestData data) throws ResponseException, IOException{
+		Request request = RequestFactory.createRequest(data);
+		Response response = request.send();
+		if(!response.isSuccessStatusCode())
+			throw new ResponseException(response, "Error creating " + getResourceName());
+		
+		Map<String, Object> rawModel = response.parseAs(HashMap.class);
+		addModel(rawModel);
 	}
 }

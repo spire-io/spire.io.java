@@ -174,4 +174,17 @@ public class SpireTest {
 		assertNotNull(channels.getCapability());
 		assertNotNull(channels.getUrl());
 	}
+	
+	@Test
+	public void createChannel() throws Exception {
+		String channelName = "SomeChannel0001";
+		Channel channel = null;
+		channel = spire.createChannel(channelName);
+		assertNotNull(channel);
+		assertNotNull(spire.getChannels().getChannel(channelName));
+		
+		Spire spire2 = createSpire(description);
+		spire2.start(key);
+		assertNotNull(spire2.getChannels().getChannel(channelName));
+	}
 }

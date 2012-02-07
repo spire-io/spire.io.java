@@ -3,6 +3,8 @@
  */
 package io.spire.api;
 
+import java.util.Map;
+
 import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
 
 /**
@@ -15,6 +17,7 @@ public class BillingInvoice extends Resource {
 	 * 
 	 */
 	public BillingInvoice() {
+		super();
 	}
 
 	/**
@@ -46,5 +49,10 @@ public class BillingInvoice extends Resource {
 	@Override
 	public String getResourceName() {
 		return this.getClass().getSimpleName().toLowerCase();
+	}
+	
+	@Override
+	protected void addModel(Map<String, Object> rawModel) {
+		
 	}
 }

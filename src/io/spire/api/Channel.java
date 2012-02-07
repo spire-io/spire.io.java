@@ -3,13 +3,16 @@
  */
 package io.spire.api;
 
+import java.io.IOException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
 import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
 import io.spire.api.Subscription.Subscriptions;
+import io.spire.request.ResponseException;
 
 /**
  * @author Jorge Gonzalez
@@ -55,6 +58,11 @@ public class Channel extends Resource {
 	@Override
 	public String getResourceName() {
 		return this.getClass().getSimpleName().toLowerCase();
+	}
+	
+	@Override
+	protected void addModel(Map<String, Object> rawModel) {
+		
 	}
 	
 	public Set<String> getSubcriptions(){
@@ -111,8 +119,28 @@ public class Channel extends Resource {
 			return channelCollection.get(name);
 		}
 		
+		public Channel addChannel(Channel channel){
+			return channelCollection.put(channel.getName(), channel);
+		}
+		
 		public int size(){
 			return channelCollection.size();
-		}		
+		}
+		
+		@Override
+		protected void addModel(Map<String, Object> rawModel){
+			Channel channel = new Channel(new ResourceModel(rawModel), this.schema);
+			this.addChannel(channel);
+		}
+		
+		public void createChannel(String name) throws ResponseException, IOException{
+			Map<String, Object> content = new HashMap<String, Object>();
+			content.put("name", name);
+			Map<String, String> headers = new HashMap<String, String>();
+			Channel channel = new Channel();
+			headers.put("Accept", this.schema.getMediaType(channel.getResourceName()));
+			headers.put("Content-Type", this.schema.getMediaType(channel.getResourceName()));
+			super.post(content, headers);
+		}
 	}
 }

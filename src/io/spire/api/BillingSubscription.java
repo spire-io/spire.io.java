@@ -3,6 +3,8 @@
  */
 package io.spire.api;
 
+import java.util.Map;
+
 import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
 import io.spire.api.Resource.ResourceModel;
 
@@ -17,6 +19,7 @@ public class BillingSubscription extends Resource {
 	 * 
 	 */
 	public BillingSubscription() {
+		super();
 	}
 
 	/**
@@ -45,6 +48,11 @@ public class BillingSubscription extends Resource {
 		return "billing_subscription";
 	}
 	
+	@Override
+	protected void addModel(Map<String, Object> rawModel) {
+		
+	}
+	
 	public String getId(){
 		return this.model.getProperty("id", String.class);
 	}
@@ -65,6 +73,7 @@ public class BillingSubscription extends Resource {
 		 * 
 		 */
 		public BillingInvoices() {
+			super();
 		}
 
 		/**
@@ -91,6 +100,11 @@ public class BillingSubscription extends Resource {
 		@Override
 		public String getResourceName() {
 			return "billing_invoices";
+		}
+		
+		@Override
+		protected void addModel(Map<String, Object> rawModel) {
+			
 		}
 		
 		public BillingInvoice getUpcomingInvoice(){

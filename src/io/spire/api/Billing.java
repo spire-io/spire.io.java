@@ -64,6 +64,11 @@ public class Billing extends Resource {
 		return this.getClass().getSimpleName().toLowerCase();
 	}
 	
+	@Override
+	protected void addModel(Map<String, Object> rawModel) {
+		
+	}
+	
 	public List<Plan> getPlans(){
 		return plans;
 	}
@@ -124,6 +129,11 @@ public class Billing extends Resource {
 			return this.getClass().getSimpleName().toLowerCase();
 		}
 		
+		@Override
+		protected void addModel(Map<String, Object> rawModel) {
+			
+		}
+		
 		public static class Features extends Resource{
 			private Queue queue;
 			/**
@@ -157,6 +167,11 @@ public class Billing extends Resource {
 			@Override
 			public String getResourceName() {
 				return this.getClass().getSimpleName().toLowerCase();
+			}
+			
+			@Override
+			protected void addModel(Map<String, Object> rawModel) {
+				
 			}
 			
 			public Integer getRPS(){
@@ -201,6 +216,11 @@ public class Billing extends Resource {
 				@Override
 				public String getResourceName() {
 					return this.getClass().getSimpleName().toLowerCase();
+				}
+				
+				@Override
+				protected void addModel(Map<String, Object> rawModel) {
+					
 				}
 			}
 		}

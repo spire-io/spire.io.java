@@ -3,6 +3,8 @@
  */
 package io.spire.api;
 
+import java.util.Map;
+
 import io.spire.api.Api.APIDescriptionModel.APIResourceModel;
 import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
 
@@ -45,6 +47,11 @@ public class Account extends Resource {
 		return this.getClass().getSimpleName().toLowerCase();
 	}
 	
+	@Override
+	protected void addModel(Map<String, Object> rawModel) {
+		
+	}
+	
 	public static class Origin extends Resource{
 		/**
 		 * 
@@ -70,6 +77,11 @@ public class Account extends Resource {
 		@Override
 		public String getResourceName() {
 			return this.getClass().getSimpleName().toLowerCase();
+		}
+		
+		@Override
+		protected void addModel(Map<String, Object> rawModel) {
+			
 		}
 
 		public String getHost(){

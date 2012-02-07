@@ -17,6 +17,7 @@ public class Subscription extends Resource {
 	 * 
 	 */
 	public Subscription() {
+		super();
 	}
 
 	/**
@@ -50,6 +51,11 @@ public class Subscription extends Resource {
 		return this.getClass().getSimpleName().toLowerCase();
 	}
 	
+	@Override
+	protected void addModel(Map<String, Object> rawModel) {
+		
+	}
+	
 	public static class Subscriptions extends Resource{
 		private Map<String, Subscription> subscriptionCollection;
 		
@@ -57,6 +63,7 @@ public class Subscription extends Resource {
 		 * 
 		 */
 		public Subscriptions() {
+			super();
 		}
 
 		/**
@@ -82,6 +89,11 @@ public class Subscription extends Resource {
 		@Override
 		public String getResourceName() {
 			return this.getClass().getSimpleName().toLowerCase();
+		}
+		
+		@Override
+		protected void addModel(Map<String, Object> rawModel) {
+			
 		}
 		
 		public Subscription getSubscription(String name){

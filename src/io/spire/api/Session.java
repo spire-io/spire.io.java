@@ -3,12 +3,14 @@
  */
 package io.spire.api;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
 import io.spire.api.Channel.Channels;
 import io.spire.api.Resource.ResourceModel;
+import io.spire.request.ResponseException;
 
 /**
  * @author jorge
@@ -49,12 +51,22 @@ public class Session extends Resource {
 		return this.getClass().getSimpleName().toLowerCase();
 	}
 	
+	@Override
+	protected void addModel(Map<String, Object> rawModel) {
+		
+	}
+	
 	public Account getAccount(){
 		return account;
 	}
 	
 	public Channels getChannels(){
 		return channels;
+	}
+	
+	public Channel createChannel(String name) throws ResponseException, IOException{
+		channels.createChannel(name);
+		return channels.getChannel(name);
 	}
 
 }
