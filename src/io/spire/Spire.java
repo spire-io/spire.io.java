@@ -91,5 +91,11 @@ public class Spire {
 		billing = api.billing();
 		return billing;
 	}
+	
+	public Channels channels() throws ResponseException, IOException{
+		Channels channels = this.getChannels();
+		channels.get();
+		return channels;
+	}
 }
 

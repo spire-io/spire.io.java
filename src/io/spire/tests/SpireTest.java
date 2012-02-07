@@ -60,6 +60,7 @@ public class SpireTest {
 	@Before
 	public void setUp() throws Exception {
 		email = uniqueEmail();
+//		print(email);
 //		email = "test+1326765873.501@spire.io";
 		password = "carlospants";
 		spire = createSpire(null);
@@ -164,5 +165,13 @@ public class SpireTest {
 		Plan p = plans.get(0);
 		assertNotNull(p.getFeatures());
 		assertNotNull(p.getFeatures().getQueue());
+	}
+	
+	@Test
+	public void channels() throws Exception {
+		Channels channels = spire.channels();
+		assertNotNull(channels);
+		assertNotNull(channels.getCapability());
+		assertNotNull(channels.getUrl());
 	}
 }

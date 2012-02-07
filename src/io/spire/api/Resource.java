@@ -63,6 +63,18 @@ public abstract class Resource {
 		return new ResourceModel(rawModel);
 	}
 	
+	/**
+	 * Updates the underlying resource model when GET/UPDATE (ing) a resource
+	 * Subclasses would want to override this method if any special operations
+	 * need to done in regards of how the model should be updated
+	 * 
+	 * @param rawModel is a representation of the raw model as a Map<String, Object>
+	 */
+	protected void updateModel(Map<String, Object> rawModel){
+		model.rawModel = rawModel;
+		this.initialize();
+	}
+	
 	public static class ResourceModel implements ResourceModelInterface {
 		private Map<String, Object> rawModel;
 		
@@ -167,7 +179,7 @@ public abstract class Resource {
 	public void setName(String name){
 		model.setProperty("name", name);
 	}
-	
+		
 	@SuppressWarnings("unchecked")
 	public void get() throws ResponseException, IOException{
 		RequestData data = RequestFactory.createRequestData();
@@ -181,8 +193,8 @@ public abstract class Resource {
 		if(!response.isSuccessStatusCode())
 			throw new ResponseException(response, "Error getting " + getResourceName());
 		
-		model.rawModel = response.parseAs(HashMap.class);
-		this.initialize();
+		Map<String, Object> rawModel = response.parseAs(HashMap.class);
+		updateModel(rawModel);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -202,8 +214,8 @@ public abstract class Resource {
 		if(!response.isSuccessStatusCode())
 			throw new ResponseException(response, "Error updating " + getResourceName());
 		
-		model.rawModel = response.parseAs(HashMap.class);
-		this.initialize();
+		Map<String, Object> rawModel = response.parseAs(HashMap.class);
+		updateModel(rawModel);
 	}
 	
 	public void delete() throws ResponseException, IOException{

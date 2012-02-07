@@ -3,6 +3,8 @@
  */
 package io.spire.api;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,6 +23,7 @@ public class Channel extends Resource {
 	 * 
 	 */
 	public Channel() {
+		super();
 	}
 
 	/**
@@ -62,6 +65,7 @@ public class Channel extends Resource {
 		return subscriptionCollection.get(name);
 	}
 	
+	// TODO: this should implements Collection<Channel>
 	public static class Channels extends Resource{
 		private Map<String, Channel> channelCollection;
 		
@@ -69,6 +73,7 @@ public class Channel extends Resource {
 		 * 
 		 */
 		public Channels() {
+			super();
 		}
 
 		/**
@@ -90,6 +95,12 @@ public class Channel extends Resource {
 		protected void initialize() {
 			channelCollection = model.getMapCollection("resources", Channel.class, schema);
 		}
+		
+		@Override
+		protected void updateModel(Map<String, Object> rawModel){
+			this.model.setProperty("resources", rawModel);
+			this.initialize();
+		}
 	
 		@Override
 		public String getResourceName() {
@@ -100,9 +111,8 @@ public class Channel extends Resource {
 			return channelCollection.get(name);
 		}
 		
-		public int count(){
+		public int size(){
 			return channelCollection.size();
-		}
-		
+		}		
 	}
 }
