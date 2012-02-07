@@ -102,7 +102,20 @@ public class Session extends Resource {
 	public Subscription subscribe(String name, String ...channels) throws ResponseException, IOException{
 		List<String> channelUrls = new ArrayList<String>();
 		for (String channelName : channels) {
-			Channel channel = this.createChannel(channelName);
+			Channel channel = null;
+			try{
+				// create channel
+				channel = this.createChannel(channelName);
+			}catch(ResponseException e){
+				// if channel already exists, just get it.
+				if(e.getResponse().getStatusCode() == 409){
+					this.channels.get();
+				}else{	// just return if whatever other error
+					throw new ResponseException(e.getResponse());
+				}
+			}catch(Throwable t){
+				throw new IOException(t);
+			}
 			channelUrls.add(channel.getUrl());
 		}
 		subscriptions.createSubscription(name, channelUrls);

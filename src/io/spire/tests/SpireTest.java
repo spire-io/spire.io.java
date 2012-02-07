@@ -207,9 +207,9 @@ public class SpireTest {
 		assertNotNull(subscription.getCapability());
 		assertEquals(subscription.getName(), subscriptionName);
 		
+		// check that the channels where created
 		List<String> channels = subscription.getChannels();
 		assertNotNull(channels);
-		// check that the channels where created
 		for (int i = 0; i < channelList.length; i++) {
 			Channel channel = spire.getChannels().getChannel(channelList[i]);
 			assertEquals(channels.get(i), channel.getKey());
