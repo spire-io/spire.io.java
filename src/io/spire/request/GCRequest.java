@@ -40,7 +40,7 @@ public class GCRequest extends Request {
 	 * 
 	 */
 	public GCRequest() {
-		
+		super();
 	}
 	
 	public GCRequest(RequestData data) {
@@ -123,5 +123,23 @@ public class GCRequest extends Request {
 		
 		GCResponse response = new GCResponse(httpResponse);
 		return response;
+	}
+	
+	public static class CGRequestFactory extends RequestFactory{
+
+		public CGRequestFactory(){
+			super();
+		}
+		
+		@Override
+		public Request createHTTPRequest() {
+			return new GCRequest();
+		}
+		
+		@Override
+		public Request createHTTPRequest(RequestData data) {
+			return new GCRequest(data);
+		}
+		
 	}
 }
