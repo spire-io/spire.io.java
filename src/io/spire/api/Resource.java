@@ -126,7 +126,11 @@ public abstract class Resource {
 				e.printStackTrace();
 				return null;
 			}
+			
 			Map<String, Object> resources = this.getProperty(resourceName, Map.class);
+			if(resources == null)
+				return mapCollection;
+			
 			for (Map.Entry<String, Object> resource : resources.entrySet()) {
 				String name = (String)resource.getKey();
 				Map<String, Object> rawData = (Map<String, Object>)resource.getValue();
