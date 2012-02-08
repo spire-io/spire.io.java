@@ -335,7 +335,7 @@ public abstract class Resource {
 	 */
 	public void post(Map<String, Object> content) throws ResponseException, IOException{
 		RequestData data = this.createRequestData(RequestType.HTTP_POST, content, null);
-		this.post(content);
+		this.post(data);
 	}
 	
 	protected void post(Map<String, Object> content, Map<String, String> headers) throws ResponseException, IOException{
