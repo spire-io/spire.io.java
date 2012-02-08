@@ -126,6 +126,7 @@ public class Subscription extends Resource {
 			content.put("name", name);
 			content.put("channels", channels);
 			Map<String, String> headers = new HashMap<String, String>();
+			// FIXME: quick fix... may be is better to use 'Subscription.class.getSimpleName().toLowerCase()' ?
 			Subscription subscription = new Subscription();
 			headers.put("Accept", this.schema.getMediaType(subscription.getResourceName()));
 			headers.put("Content-Type", this.schema.getMediaType(subscription.getResourceName()));

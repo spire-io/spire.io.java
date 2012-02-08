@@ -142,6 +142,7 @@ public class Channel extends Resource {
 			Map<String, Object> content = new HashMap<String, Object>();
 			content.put("name", name);
 			Map<String, String> headers = new HashMap<String, String>();
+			// FIXME: quick fix... may be is better to use 'Channel.class.getSimpleName().toLowerCase()' ?
 			Channel channel = new Channel();
 			headers.put("Accept", this.schema.getMediaType(channel.getResourceName()));
 			headers.put("Content-Type", this.schema.getMediaType(channel.getResourceName()));
