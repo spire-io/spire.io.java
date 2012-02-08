@@ -111,7 +111,9 @@ public class Api {
 		RequestData data = RequestFactory.createRequestData();
 		data.method = RequestType.HTTP_POST;
 		data.url = description.resources.getResource("sessions").getProperty("url", String.class);
-		data.body.put("key", accountKey);
+		HashMap<String, Object> content = new HashMap<String, Object>();
+		content.put("key", accountKey);
+		data.body = content;
 		data.headers.put("Accept", description.schema.getMediaType("session"));
 		data.headers.put("Content-Type", description.schema.getMediaType("account"));
 		
@@ -130,9 +132,11 @@ public class Api {
 		RequestData data = RequestFactory.createRequestData();
 		data.method = RequestType.HTTP_POST;
 		data.url = description.resources.getResource("accounts").getProperty("url", String.class);
-		data.body.put("email", email);
-		data.body.put("password", password);
-		data.body.put("password_confirmation", passwordConfirmation);
+		HashMap<String, Object> content = new HashMap<String, Object>();
+		content.put("email", email);
+		content.put("password", password);
+		content.put("password_confirmation", passwordConfirmation);
+		data.body = content;
 		data.headers.put("Accept", description.schema.getMediaType("session"));
 		data.headers.put("Content-Type", description.schema.getMediaType("account"));
 		
@@ -151,8 +155,10 @@ public class Api {
 		RequestData data = RequestFactory.createRequestData();
 		data.method = RequestType.HTTP_POST;
 		data.url = description.resources.getResource("sessions").getProperty("url", String.class);
-		data.body.put("email", email);
-		data.body.put("password", password);
+		HashMap<String, Object> content = new HashMap<String, Object>();
+		content.put("email", email);
+		content.put("password", password);
+		data.body = content;
 		data.headers.put("Accept", description.schema.getMediaType("session"));
 		data.headers.put("Content-Type", description.schema.getMediaType("account"));
 		
