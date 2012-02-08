@@ -221,4 +221,15 @@ public class SpireTest {
 		assertEquals(subscriptions.size(), 1);
 		assertNotNull(subscriptions.getSubscription(subscriptionName));
 	}
+	
+	@Test
+	public void channelSubscribe() throws Exception {
+		Channel channel = new Channel(description.schema);
+		channel.setName("foo_channel");
+		Subscription subscription = channel.subscribe("bar_subscription", spire.getSession());
+		assertNotNull(subscription);
+		assertNotNull(channel.getKey());
+		assertNotNull(channel.getCapability());
+		assertNotNull(channel.getUrl());
+	}
 }

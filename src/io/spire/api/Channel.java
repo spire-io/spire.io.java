@@ -6,13 +6,10 @@ package io.spire.api;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import java.util.Map.Entry;
 
 import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
-import io.spire.api.Subscription.Subscriptions;
 import io.spire.request.ResponseException;
 
 /**
@@ -20,7 +17,7 @@ import io.spire.request.ResponseException;
  *
  */
 public class Channel extends Resource {
-
+	
 	private Map<String, Subscription> subscriptionCollection;
 	
 	/**
@@ -76,6 +73,13 @@ public class Channel extends Resource {
 	
 	public Subscription getSubcription(String name){
 		return subscriptionCollection.get(name);
+	}
+	
+	public Subscription subscribe(String name, Session session) throws ResponseException, IOException{
+		Subscription subscription = session.subscribe(name, this.getName());
+		Channel channel = session.channels.getChannel(this.getName());
+		this.copy(channel);
+		return subscription;
 	}
 	
 	// TODO: this should implements Collection<Channel>

@@ -227,6 +227,27 @@ public abstract class Resource {
 	}
 	
 	/**
+	 * 
+	 * @return
+	 */
+	public ResourceModel getInnerModel(){
+		return model;
+	}
+	
+	/**
+	 * 
+	 * @param model
+	 */
+	public void setInnerModel(ResourceModel model){
+		this.model = model;
+	}
+	
+	protected void copy(Resource resource){
+		this.model = resource.model;
+		this.initialize();
+	}
+	
+	/**
 	 * Knows how to build a request data object for any resource operation GET/PUT/DELETE/POST
 	 * 
 	 * @param methodType
