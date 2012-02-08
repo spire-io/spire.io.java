@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
 import io.spire.api.Subscription.Subscriptions;
@@ -65,8 +66,12 @@ public class Channel extends Resource {
 		
 	}
 	
-	public Set<String> getSubcriptions(){
+	public Set<String> getSubscriptionNames(){
 		return subscriptionCollection.keySet();
+	}
+	
+	public Collection<Subscription> getSubscriptions(){
+		return subscriptionCollection.values();
 	}
 	
 	public Subscription getSubcription(String name){
@@ -74,7 +79,7 @@ public class Channel extends Resource {
 	}
 	
 	// TODO: this should implements Collection<Channel>
-	public static class Channels extends Resource{
+	public static class Channels extends Resource implements Map<String, Channel>{
 		private Map<String, Channel> channelCollection;
 		
 		/**
@@ -123,10 +128,6 @@ public class Channel extends Resource {
 			return channelCollection.put(channel.getName(), channel);
 		}
 		
-		public int size(){
-			return channelCollection.size();
-		}
-		
 		@Override
 		protected void addModel(Map<String, Object> rawModel){
 			Channel channel = new Channel(new ResourceModel(rawModel), this.schema);
@@ -141,6 +142,67 @@ public class Channel extends Resource {
 			headers.put("Accept", this.schema.getMediaType(channel.getResourceName()));
 			headers.put("Content-Type", this.schema.getMediaType(channel.getResourceName()));
 			super.post(content, headers);
+		}
+		
+		// Map interface implementation
+		@Override
+		public void clear() {
+			channelCollection.clear();
+		}
+		
+		@Override
+		public int size() {
+			return channelCollection.size();
+		}
+
+		@Override
+		public boolean containsKey(Object key) {
+			return channelCollection.containsKey(key);
+		}
+
+		@Override
+		public boolean containsValue(Object value) {
+			return channelCollection.containsValue(value);
+		}
+
+		@Override
+		public Set<java.util.Map.Entry<String, Channel>> entrySet() {
+			return channelCollection.entrySet();
+		}
+
+		@Override
+		public Channel get(Object key) {
+			return channelCollection.get(key);
+		}
+
+		@Override
+		public boolean isEmpty() {
+			return channelCollection.isEmpty();
+		}
+
+		@Override
+		public Set<String> keySet() {
+			return channelCollection.keySet();
+		}
+
+		@Override
+		public Channel put(String key, Channel value) {
+			return channelCollection.put(key, value);
+		}
+
+		@Override
+		public void putAll(Map<? extends String, ? extends Channel> m) {
+			channelCollection.putAll(m);
+		}
+
+		@Override
+		public Channel remove(Object key) {
+			return channelCollection.remove(key);
+		}
+
+		@Override
+		public Collection<Channel> values() {
+			return channelCollection.values();
 		}
 	}
 }
