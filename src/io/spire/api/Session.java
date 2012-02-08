@@ -95,7 +95,17 @@ public class Session extends Resource {
 		return subscriptions.getSubscription(name); 
 	}
 	
+	/*
+	 * TODO: change this for GET Subscriptions when supported by the API
+	 * 
+	 * This should avoid looping inside channels to collect subscriptions
+	 */
 	public Subscriptions getSubscriptions(){
+		for (Channel channel : this.channels.values()) {
+			for (Subscription subscription : channel.getSubscriptions()) {
+				this.subscriptions.addSubscription(subscription);
+			}
+		} 
 		return this.subscriptions;
 	}
 	

@@ -159,7 +159,7 @@ public abstract class Resource {
 	 * 
 	 * @param url
 	 */
-	public void setURL(String url){
+	public void setUrl(String url){
 		model.setProperty("url", url);
 	}
 	

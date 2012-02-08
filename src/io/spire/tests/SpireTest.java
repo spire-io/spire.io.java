@@ -146,7 +146,7 @@ public class SpireTest {
 		
 		Account account2 = new Account(description.schema);
 		account2.setCapability(account.getCapability());
-		account2.setURL(account.getUrl());
+		account2.setUrl(account.getUrl());
 		account2.get();
 		assertEquals(account.getKey(), account2.getKey());
 		assertEquals(account.getName(), account2.getName());
@@ -214,5 +214,11 @@ public class SpireTest {
 			Channel channel = spire.getChannels().getChannel(channelList[i]);
 			assertEquals(channels.get(i), channel.getKey());
 		}
+		
+		// Subscription should be in the current session subscriptions 
+		Subscriptions subscriptions = spire.getSubscriptions();
+		assertNotNull(subscriptions);
+		assertEquals(subscriptions.size(), 1);
+		assertNotNull(subscriptions.getSubscription(subscriptionName));
 	}
 }

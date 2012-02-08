@@ -117,6 +117,10 @@ public class Subscription extends Resource {
 			subscriptionCollection.put(subscription.getName(), subscription);
 		}
 		
+		public int size(){
+			return subscriptionCollection.size();
+		}
+		
 		public void createSubscription(String name, List<String> channels) throws ResponseException, IOException{
 			Map<String, Object> content = new HashMap<String, Object>();
 			content.put("name", name);
