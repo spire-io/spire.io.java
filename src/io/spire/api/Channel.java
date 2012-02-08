@@ -85,6 +85,7 @@ public class Channel extends Resource {
 	public Message publish(Object content) throws ResponseException, IOException{
 		Map<String, Object> messageContent = new HashMap<String, Object>();
 		messageContent.put("content", content);
+		
 		Map<String, String> headers = new HashMap<String, String>();
 		Message message = new Message(this.schema);
 		headers.put("Accept", message.getMediaType());
@@ -162,6 +163,11 @@ public class Channel extends Resource {
 			headers.put("Accept", this.schema.getMediaType(channel.getResourceName()));
 			headers.put("Content-Type", this.schema.getMediaType(channel.getResourceName()));
 			super.post(content, headers);
+		}
+		
+		@Override
+		public void get() throws ResponseException, IOException {
+			super.get();
 		}
 		
 		// Map interface implementation

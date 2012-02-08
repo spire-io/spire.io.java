@@ -186,12 +186,21 @@ public class SpireTest {
 		
 		Spire spire2 = createSpire(description);
 		spire2.start(key);
-		assertNotNull(spire2.getChannels().getChannel(channelName));
+		Channels channels = spire.channels();
+		assertNotNull(channels.getChannel(channelName));
 	}
 	
 	@Test
 	public void getSubscriptions() throws Exception {
 		Subscriptions subscriptions = spire.getSubscriptions();
+		assertNotNull(subscriptions);
+		assertNotNull(subscriptions.getUrl());
+		assertNotNull(subscriptions.getCapability());
+	}
+	
+	@Test
+	public void subscriptions() throws Exception {
+		Subscriptions subscriptions = spire.subscriptions();
 		assertNotNull(subscriptions);
 		assertNotNull(subscriptions.getUrl());
 		assertNotNull(subscriptions.getCapability());
@@ -212,7 +221,7 @@ public class SpireTest {
 		assertNotNull(channels);
 		for (int i = 0; i < channelList.length; i++) {
 			Channel channel = spire.getChannels().getChannel(channelList[i]);
-			assertEquals(channels.get(i), channel.getKey());
+			assertEquals(channels.get(i), channel.getUrl());
 		}
 		
 		// Subscription should be in the current session subscriptions 

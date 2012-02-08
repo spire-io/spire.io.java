@@ -72,6 +72,11 @@ public class Session extends Resource {
 		return channels;
 	}
 	
+	public Channels channels() throws ResponseException, IOException{
+		this.channels.get();
+		return this.channels;
+	}
+	
 	public Channel createChannel(String name) throws ResponseException, IOException{
 		channels.createChannel(name);
 		return channels.getChannel(name);
@@ -101,11 +106,16 @@ public class Session extends Resource {
 	 * This should avoid looping inside channels to collect subscriptions
 	 */
 	public Subscriptions getSubscriptions(){
-		for (Channel channel : this.channels.values()) {
-			for (Subscription subscription : channel.getSubscriptions()) {
-				this.subscriptions.addSubscription(subscription);
-			}
-		} 
+//		for (Channel channel : this.channels.values()) {
+//			for (Subscription subscription : channel.getSubscriptions()) {
+//				this.subscriptions.addSubscription(subscription);
+//			}
+//		} 
+		return this.subscriptions;
+	}
+	
+	public Subscriptions subscriptions() throws ResponseException, IOException{
+		this.subscriptions.get();
 		return this.subscriptions;
 	}
 	
@@ -128,7 +138,20 @@ public class Session extends Resource {
 			}
 			channelUrls.add(channel.getUrl());
 		}
-		subscriptions.createSubscription(name, channelUrls);
+		
+		try{
+			subscriptions.createSubscription(name, channelUrls);
+		}catch(ResponseException e){
+			// if channel already exists, just get it.
+			if(e.getResponse().getStatusCode() == 409){
+				this.subscriptions.get();
+			}else{	// just return if whatever other error
+				throw new ResponseException(e.getResponse());
+			}
+		}catch(Throwable t){
+			throw new IOException(t);
+		}
+		
 		return subscriptions.getSubscription(name);
 	}
 

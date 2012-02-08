@@ -68,6 +68,10 @@ public class Subscription extends Resource {
 		return channels;
 	}
 	
+	public void retrieveMessages(){
+		
+	}
+	
 	public static class Subscriptions extends Resource{
 		private Map<String, Subscription> subscriptionCollection;
 		
@@ -107,6 +111,12 @@ public class Subscription extends Resource {
 		protected void addModel(Map<String, Object> rawModel) {
 			Subscription subscription = new Subscription(new ResourceModel(rawModel), this.schema);
 			this.addSubscription(subscription);
+		}
+		
+		@Override
+		protected void updateModel(Map<String, Object> rawModel){
+			this.model.setProperty("resources", rawModel);
+			this.initialize();
 		}
 		
 		public Subscription getSubscription(String name){

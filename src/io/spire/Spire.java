@@ -96,9 +96,7 @@ public class Spire {
 	}
 	
 	public Channels channels() throws ResponseException, IOException{
-		Channels channels = this.getChannels();
-		channels.get();
-		return channels;
+		return session.channels();
 	}
 	
 	public Channel createChannel(String name) throws ResponseException, IOException{
@@ -107,6 +105,10 @@ public class Spire {
 	
 	public Subscriptions getSubscriptions(){
 		return session.getSubscriptions();
+	}
+	
+	public Subscriptions subscriptions() throws ResponseException, IOException{
+		return session.subscriptions();
 	}
 	
 	public Subscription subscribe(String name, String ...channels) throws ResponseException, IOException{
