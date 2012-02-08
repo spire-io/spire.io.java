@@ -232,4 +232,12 @@ public class SpireTest {
 		assertNotNull(channel.getCapability());
 		assertNotNull(channel.getUrl());
 	}
+	
+	@Test
+	public void channelPublish() throws Exception {
+		Channel channel = new Channel(description.schema);
+		channel.setName("foo_channel");
+		Subscription subscription = channel.subscribe("bar_subscription", spire.getSession());
+		channel.publish("the great message");
+	}
 }

@@ -354,18 +354,18 @@ public abstract class Resource {
 	 * @throws ResponseException
 	 * @throws IOException
 	 */
-	public void post(Map<String, Object> content) throws ResponseException, IOException{
+	public Map<String, Object> post(Map<String, Object> content) throws ResponseException, IOException{
 		RequestData data = this.createRequestData(RequestType.HTTP_POST, content, null);
-		this.post(data);
+		return this.post(data);
 	}
 	
-	protected void post(Map<String, Object> content, Map<String, String> headers) throws ResponseException, IOException{
+	protected Map<String, Object> post(Map<String, Object> content, Map<String, String> headers) throws ResponseException, IOException{
 		RequestData data = this.createRequestData(RequestType.HTTP_POST, content, headers);
-		this.post(data);
+		return this.post(data);
 	}
 		
 	@SuppressWarnings("unchecked")
-	protected void post(RequestData data) throws ResponseException, IOException{
+	protected Map<String, Object> post(RequestData data) throws ResponseException, IOException{
 		Request request = RequestFactory.createRequest(data);
 		Response response = request.send();
 		if(!response.isSuccessStatusCode())
@@ -373,5 +373,6 @@ public abstract class Resource {
 		
 		Map<String, Object> rawModel = response.parseAs(HashMap.class);
 		addModel(rawModel);
+		return rawModel;
 	}
 }

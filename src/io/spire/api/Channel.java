@@ -82,6 +82,21 @@ public class Channel extends Resource {
 		return subscription;
 	}
 	
+	public Message publish(Object content) throws ResponseException, IOException{
+		Map<String, Object> messageContent = new HashMap<String, Object>();
+		messageContent.put("content", content);
+		Map<String, String> headers = new HashMap<String, String>();
+		Message message = new Message(this.schema);
+		headers.put("Accept", message.getMediaType());
+		headers.put("Content-Type", message.getMediaType());
+		
+		Map<String, Object> rawModel = super.post(messageContent, headers);
+		
+		message.setInnerModel(new ResourceModel(rawModel));
+		message.initialize();
+		return message;
+	}
+	
 	// TODO: this should implements Collection<Channel>
 	public static class Channels extends Resource implements Map<String, Channel>{
 		private Map<String, Channel> channelCollection;
