@@ -5,6 +5,7 @@ package io.spire.api;
 
 import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
 
+import java.math.BigInteger;
 import java.util.Map;
 
 /**
@@ -64,8 +65,12 @@ public class Message extends Resource {
 		return this.model.getProperty("content", type);
 	}
 	
-	public int getTimestamp(){
-		return this.model.getProperty("timestamp", Integer.class);
+	public String getTimestamp(){
+		return this.model.getProperty("timestamp", Object.class).toString();
+	}
+	
+	public String channelName(){
+		return this.model.getProperty("channel", String.class);
 	}
 
 }

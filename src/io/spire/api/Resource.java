@@ -37,7 +37,6 @@ public abstract class Resource {
 	public Resource(APISchemaModel schema) {
 		this();
 		this.schema = schema;
-		this.initialize();
 	}
 	
 	public Resource(ResourceModel model, APISchemaModel schema) {

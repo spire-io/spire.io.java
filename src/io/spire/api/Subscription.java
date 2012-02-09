@@ -20,9 +20,9 @@ public class Subscription extends Resource {
 	
 	private List<String> channels;
 	
-	private int defaultTimestamp = 0;
+	private String defaultTimestamp = "0";
 	// tracks the last message retrieve
-	private int lastTimestamp = 0;
+	private String lastTimestamp = "0";
 	// timeout option of 0 means no long poll,
 	private int defaultTimeout = 0;
 	private int longPollTimeout = 30;
@@ -86,10 +86,13 @@ public class Subscription extends Resource {
 		
 		Map<String, String> headers = new HashMap<String, String>();
 		// FIXME: quick fix... may be is better to use 'Subscription.class.getSimpleName().toLowerCase()' ?
-		Subscription subscription = new Subscription();
-		headers.put("Accept", this.schema.getMediaType("events"));
+		Events events = new Events(schema);
+		headers.put("Accept", events.getMediaType());
 		Map<String, Object> rawModel = super.get(queryParams, headers);
-		Events events = new Events(new ResourceModel(rawModel), schema);
+		events.updateModel(rawModel);
+		int countMessages = events.getMessages().size();
+		if(countMessages > 0)
+			this.lastTimestamp = events.getMessages().get(countMessages-1).getTimestamp();
 		return events;
 	}
 	
