@@ -338,7 +338,7 @@ public class SpireTest {
 	
 	@Test
 	public void longPoll() throws Exception {
-		Channel channel = new Channel(description.schema);
+		Channel channel = Spire.SpireFactory.createChannel();
 		channel.setName("foo_channel");
 		Subscription subscription1 = channel.subscribe("bar_subscription", spire.getSession());
 		

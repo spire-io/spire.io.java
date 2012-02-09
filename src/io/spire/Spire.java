@@ -4,15 +4,21 @@
 package io.spire;
 
 import io.spire.api.Api;
+import io.spire.api.Api.APIDescriptionModel;
+import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
 import io.spire.api.Billing;
 import io.spire.api.Channel;
+import io.spire.api.Resource;
 import io.spire.api.Channel.Channels;
 import io.spire.api.Subscription;
+import io.spire.api.Resource.ResourceModel;
 import io.spire.api.Subscription.Subscriptions;
 import io.spire.api.Session;
 import io.spire.request.ResponseException;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 
 /**
@@ -21,7 +27,8 @@ import java.io.IOException;
  */
 public class Spire {
 	public static final String SPIRE_URL = "http://localhost:1337";
-	
+	public static final Api SPIRE_API = new Api(SPIRE_URL);
+		
 	private String spire_url;
 	private Api api;
 	private Session session;
@@ -32,7 +39,7 @@ public class Spire {
 	 */
 	public Spire(){
 		this.spire_url = SPIRE_URL;
-		this.api = new Api(spire_url);
+		this.api = SPIRE_API;
 	}
 	
 	/**
@@ -113,6 +120,56 @@ public class Spire {
 	
 	public Subscription subscribe(String name, String ...channels) throws ResponseException, IOException{
 		return session.subscribe(name, channels);
+	}
+	
+	public static class SpireFactory{
+		private static APIDescriptionModel description;
+		
+		private static void initialize() throws ResponseException, IOException{
+			if(SPIRE_API.getApiDescription() == null){
+				SPIRE_API.discover();
+				description = SPIRE_API.getApiDescription();
+			}
+		}
+		
+		public static Channel createChannel() throws ResponseException, IOException{
+			initialize();
+			return new Channel(description.schema);
+		}
+		
+		public static Channel createChannel(String capability, String url) throws ResponseException, IOException{
+			initialize();
+			return createResource(capability, url, Channel.class);
+		}
+		
+		public static Subscription createSubscription(String capability, String url) throws ResponseException, IOException{
+			initialize();
+			return createResource(capability, url, Subscription.class);
+		}
+		
+		public static <T>T createResource(String capability, String url, Class<T> T) throws ResponseException, IOException{
+			initialize();
+			Constructor<T> constructorT = null;
+			T t = null;
+			try {
+				constructorT = T.getConstructor(APISchemaModel.class);
+				t = constructorT.newInstance(description.schema);
+				Resource r = Resource.class.cast(t);
+				r.setCapability(capability);
+				r.setUrl(url);
+			} catch (NoSuchMethodException e) {
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+			return t;
+		}
 	}
 }
 
