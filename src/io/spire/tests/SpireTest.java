@@ -275,7 +275,7 @@ public class SpireTest {
 		channel.publish("the great message3");
 		
 		MessageOptions options = new MessageOptions();
-		Events events = subscription1.retrieveMessages(options);
+		Events events = subscription1.poll(options);
 		int size = events.getMessages().size();
 		assertEquals(size, 3);
 		assertEquals(events.getMessages().get(size-1).getContent(), "the great message" + size);
@@ -290,5 +290,70 @@ public class SpireTest {
 		events = subscription1.poll(options);
 		assertEquals(events.getMessages().size(), 2);
 		assertEquals(events.getMessages().get(count-1).getContent(), "the great message" + (size+count));
+	}
+
+	private class MessagePublisher implements Runnable {
+		Channel channel;
+		
+		public MessagePublisher(Channel channel){
+			this.channel = channel;
+		}
+		
+		@Override
+		public void run() {
+			try {
+				channel.publish("the great message1");
+				channel.publish("the great message2");
+				channel.publish("the great message3");
+			} catch (ResponseException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private class MessageListener implements Runnable {
+		Subscription subscription;
+		
+		public MessageListener(Subscription subscription){
+			this.subscription = subscription;
+		}
+		
+		@Override
+		public void run() {
+			try {
+				MessageOptions options = new MessageOptions();
+				options.timeout = 4;
+				Events events = subscription.longPoll(options);
+				assertEquals(events.getMessages().size(), 1);
+				assertEquals(events.getMessages().get(0).getContent(), "the great message1");
+			} catch (ResponseException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	@Test
+	public void longPoll() throws Exception {
+		Channel channel = new Channel(description.schema);
+		channel.setName("foo_channel");
+		Subscription subscription1 = channel.subscribe("bar_subscription", spire.getSession());
+		
+		Thread threadListener = new Thread(new MessageListener(subscription1));
+		threadListener.start();
+		
+		Thread.sleep(100);
+
+		channel.publish("the great message1");
+		channel.publish("the great message2");
+		channel.publish("the great message3");
+		
+		threadListener.join();
+		
+		Events events = subscription1.poll(new MessageOptions());
+		assertEquals(events.getMessages().size(), 2);
 	}
 }
