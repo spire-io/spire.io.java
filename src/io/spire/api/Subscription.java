@@ -108,7 +108,7 @@ public class Subscription extends Resource {
 	}
 	
 	public Events longPoll(MessageOptions options) throws ResponseException, IOException{
-		if(options.timeout < this.longPollTimeout)
+		if(options.timeout == this.defaultTimeout)
 			options.timeout = this.longPollTimeout;
 		options.timestamp = this.lastTimestamp;
 		return this.retrieveMessages(options);
