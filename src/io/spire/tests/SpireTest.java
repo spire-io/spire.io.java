@@ -17,6 +17,7 @@ import io.spire.api.Channel;
 import io.spire.api.Channel.Channels;
 import io.spire.api.Events;
 import io.spire.api.Message;
+import io.spire.api.Message.MessageOptions;
 import io.spire.api.Session;
 import io.spire.api.Api.APIDescriptionModel;
 import io.spire.api.Subscription;
@@ -27,7 +28,7 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 /**
- * @author jorge
+ * @author Jorge Gonzalez
  * 
  */
 public class SpireTest {
@@ -251,15 +252,34 @@ public class SpireTest {
 		Subscription subscription1 = channel.subscribe("bar_subscription", spire.getSession());
 		channel.publish("the great message");
 		
-		Events events = subscription1.retrieveMessages();
+		MessageOptions options = new MessageOptions();
+		Events events = subscription1.retrieveMessages(options);
 		assertEquals(events.getMessages().size(), 1);
 		assertEquals(events.getMessages().get(0).getContent(), "the great message");
 		
 		Spire spire2 = createSpire(description);
 		spire2.start(key);
 		Subscription subscription2 = spire2.subscribe("bar_subscription", channel.getName());
-		Events events2 = subscription2.retrieveMessages();
+		Events events2 = subscription2.retrieveMessages(options);
 		assertEquals(events2.getMessages().size(), 1);
 		assertEquals(events2.getMessages().get(0).getContent(), "the great message");
+	}
+	
+	@Test
+	public void poll() throws Exception {
+		Channel channel = new Channel(description.schema);
+		channel.setName("foo_channel");
+		Subscription subscription1 = channel.subscribe("bar_subscription", spire.getSession());
+		channel.publish("the great message1");
+		channel.publish("the great message2");
+		channel.publish("the great message3");
+		
+		MessageOptions options = new MessageOptions();
+		Events events = subscription1.retrieveMessages(options);
+		int size = events.getMessages().size();
+		assertEquals(size, 3);
+		assertEquals(events.getMessages().get(size-1).getContent(), "the great message" + size);
+		Events events2 = subscription1.poll(options);
+		assertEquals(events2.getMessages().size(), 0);
 	}
 }

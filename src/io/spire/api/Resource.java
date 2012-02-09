@@ -18,7 +18,7 @@ import java.util.Map;
 
 
 /**
- * @author jorge
+ * @author Jorge Gonzalez
  *
  */
 public abstract class Resource {
@@ -254,10 +254,11 @@ public abstract class Resource {
 	 * @param headers
 	 * @return RequestData
 	 */
-	protected RequestData createRequestData(RequestType methodType, Map<String, Object> content, Map<String, String> headers){
+	protected RequestData createRequestData(RequestType methodType, Map<String, Object> queryParams, Map<String, Object> content, Map<String, String> headers){
 		RequestData data = RequestFactory.createRequestData();
 		data.method = methodType;
 		data.url = model.getProperty("url", String.class);
+		data.queryParams = queryParams;
 		
 		data.headers.put("Authorization", "Capability " + model.getProperty("capability", String.class));
 		data.headers.put("Accept", this.getMediaType());
@@ -308,7 +309,7 @@ public abstract class Resource {
 //	}
 	
 	protected Map<String, Object> get(Map<String, Object> queryParams, Map<String, String> headers) throws ResponseException, IOException{
-		RequestData data = this.createRequestData(RequestType.HTTP_GET, null, headers);
+		RequestData data = this.createRequestData(RequestType.HTTP_GET, queryParams, null, headers);
 		Map<String, Object> rawModel = this.sendRequest(data);
 		updateModel(rawModel);
 		return rawModel;
@@ -367,12 +368,12 @@ public abstract class Resource {
 	 * @throws IOException
 	 */
 	public Map<String, Object> post(Map<String, Object> content) throws ResponseException, IOException{
-		RequestData data = this.createRequestData(RequestType.HTTP_POST, content, null);
+		RequestData data = this.createRequestData(RequestType.HTTP_POST, null, content, null);
 		return this.post(data);
 	}
 	
 	protected Map<String, Object> post(Map<String, Object> content, Map<String, String> headers) throws ResponseException, IOException{
-		RequestData data = this.createRequestData(RequestType.HTTP_POST, content, headers);
+		RequestData data = this.createRequestData(RequestType.HTTP_POST, null, content, headers);
 		return this.post(data);
 	}
 		

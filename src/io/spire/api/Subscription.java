@@ -4,16 +4,16 @@
 package io.spire.api;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
+import io.spire.api.Message.MessageOptions;
 import io.spire.request.ResponseException;
 
 /**
- * @author Jorge Gonzalez
+ * @author Jorge Gonzalez - Spire.io
  *
  */
 public class Subscription extends Resource {
@@ -29,7 +29,7 @@ public class Subscription extends Resource {
 	private String orderBy = "desc";
 	// delay response from the server... ahh??
 	private int delay = 0;
-
+	
 	/**
 	 * 
 	 */
@@ -74,15 +74,17 @@ public class Subscription extends Resource {
 		
 	}
 	
+	@Override
+	protected void updateModel(Map<String, Object> rawModel){
+		
+	}
+	
 	public List<String> getChannels(){
 		return channels;
 	}
 		
-	public Events retrieveMessages() throws ResponseException, IOException{
-		Map<String, Object> queryParams = new HashMap<String, Object>();
-		queryParams.put("timeout", Integer.toString(this.defaultTimeout));
-		queryParams.put("delay", this.delay);
-		queryParams.put("order_by", this.orderBy);
+	public Events retrieveMessages(MessageOptions options) throws ResponseException, IOException{
+		Map<String, Object> queryParams = options.getMapOptions();
 		
 		Map<String, String> headers = new HashMap<String, String>();
 		// FIXME: quick fix... may be is better to use 'Subscription.class.getSimpleName().toLowerCase()' ?
@@ -94,6 +96,22 @@ public class Subscription extends Resource {
 		if(countMessages > 0)
 			this.lastTimestamp = events.getMessages().get(countMessages-1).getTimestamp();
 		return events;
+	}
+	
+	public Events poll(MessageOptions options) throws ResponseException, IOException{
+        /*
+         * timeout option of 0 means no long poll, so we force it here.
+         */
+		options.timeout = 0;
+		options.timestamp = this.lastTimestamp;
+		return this.retrieveMessages(options);
+	}
+	
+	public Events longPoll(MessageOptions options) throws ResponseException, IOException{
+		if(options.timeout < this.longPollTimeout)
+			options.timeout = this.longPollTimeout;
+		options.timestamp = this.lastTimestamp;
+		return this.retrieveMessages(options);
 	}
 	
 	public static class Subscriptions extends Resource{

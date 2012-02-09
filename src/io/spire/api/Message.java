@@ -6,6 +6,7 @@ package io.spire.api;
 import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
 
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -71,6 +72,37 @@ public class Message extends Resource {
 	
 	public String channelName(){
 		return this.model.getProperty("channel", String.class);
+	}
+	
+	public static class MessageOptions{
+		public String timestamp = "0";
+		// timeout option of 0 means no long poll,
+		public int timeout = 0;
+		public MessageOrderBy orderBy = MessageOrderBy.Desc;
+		// delay response from the server... ahh??
+		public int delay = 0;
+		
+		public MessageOptions(){
+		}
+		
+		public enum MessageOrderBy{
+			Asc,
+			Desc
+		}
+		
+		public String getOrderByOptionString(){
+			return this.orderBy.toString().toLowerCase(); 
+		}
+		
+		public Map<String, Object> getMapOptions(){
+			Map<String, Object> queryParams = new HashMap<String, Object>();
+			queryParams.put("last-message", timestamp);
+			queryParams.put("timeout", Integer.toString(timeout));
+			queryParams.put("delay", delay);
+			queryParams.put("order_by", this.getOrderByOptionString());
+			
+			return queryParams;
+		}
 	}
 
 }
