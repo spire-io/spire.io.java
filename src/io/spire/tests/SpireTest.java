@@ -279,7 +279,16 @@ public class SpireTest {
 		int size = events.getMessages().size();
 		assertEquals(size, 3);
 		assertEquals(events.getMessages().get(size-1).getContent(), "the great message" + size);
-		Events events2 = subscription1.poll(options);
-		assertEquals(events2.getMessages().size(), 0);
+		events = subscription1.poll(options);
+		assertEquals(events.getMessages().size(), 0);
+		
+		int count = 2;
+		for (int i = size+1; i <= size+count; i++) {
+			channel.publish("the great message" + i);
+		}
+		
+		events = subscription1.poll(options);
+		assertEquals(events.getMessages().size(), 2);
+		assertEquals(events.getMessages().get(count-1).getContent(), "the great message" + (size+count));
 	}
 }
