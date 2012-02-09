@@ -74,22 +74,11 @@ public class Subscription extends Resource {
 		
 	}
 	
-	protected List<Message> parseMessages(Map<String, Object> rawModel){
-		ResourceModel resourceModel = new ResourceModel(rawModel);
-		List<Message> messages = new ArrayList<Message>();  
-		List<Map<String, Object>> rawMessages = resourceModel.getProperty("messages", List.class);
-		for (Map<String, Object> rawMessage : rawMessages) {
-			Message message = new Message(new ResourceModel(rawMessage), schema);
-			messages.add(message);
-		}
-		return messages;
-	}
-	
 	public List<String> getChannels(){
 		return channels;
 	}
 		
-	public List<Message> retrieveMessages() throws ResponseException, IOException{
+	public Events retrieveMessages() throws ResponseException, IOException{
 		Map<String, Object> queryParams = new HashMap<String, Object>();
 		queryParams.put("timeout", Integer.toString(this.defaultTimeout));
 		queryParams.put("delay", this.delay);
@@ -100,8 +89,8 @@ public class Subscription extends Resource {
 		Subscription subscription = new Subscription();
 		headers.put("Accept", this.schema.getMediaType("events"));
 		Map<String, Object> rawModel = super.get(queryParams, headers);
-		List<Message> messages = this.parseMessages(rawModel);
-		return messages;
+		Events events = new Events(new ResourceModel(rawModel), schema);
+		return events;
 	}
 	
 	public static class Subscriptions extends Resource{

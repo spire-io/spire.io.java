@@ -15,6 +15,7 @@ import io.spire.api.Billing.Plans;
 import io.spire.api.BillingSubscription;
 import io.spire.api.Channel;
 import io.spire.api.Channel.Channels;
+import io.spire.api.Events;
 import io.spire.api.Message;
 import io.spire.api.Session;
 import io.spire.api.Api.APIDescriptionModel;
@@ -250,15 +251,15 @@ public class SpireTest {
 		Subscription subscription1 = channel.subscribe("bar_subscription", spire.getSession());
 		channel.publish("the great message");
 		
-		List<Message> messages = subscription1.retrieveMessages();
-		assertEquals(messages.size(), 1);
-		assertEquals(messages.get(0).getContent(), "the great message");
+		Events events = subscription1.retrieveMessages();
+		assertEquals(events.getMessages().size(), 1);
+		assertEquals(events.getMessages().get(0).getContent(), "the great message");
 		
 		Spire spire2 = createSpire(description);
 		spire2.start(key);
 		Subscription subscription2 = spire2.subscribe("bar_subscription", channel.getName());
-		List<Message> messages2 = subscription2.retrieveMessages();
-		assertEquals(messages2.size(), 1);
-		assertEquals(messages2.get(0).getContent(), "the great message");
+		Events events2 = subscription2.retrieveMessages();
+		assertEquals(events2.getMessages().size(), 1);
+		assertEquals(events2.getMessages().get(0).getContent(), "the great message");
 	}
 }
