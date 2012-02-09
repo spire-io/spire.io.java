@@ -82,8 +82,20 @@ public class GCRequest extends Request {
 		}
 	}
 	
+	protected GenericUrl createCGUrl(String url, Map<String, Object> queryParams){
+		GenericUrl gurl = new GenericUrl(url);
+		if(queryParams != null){
+			gurl.putAll(queryParams);
+//			for (Map.Entry<String, Object> param : queryParams.entrySet()) {
+//				
+//			}
+		}
+		return gurl;
+	}
+	
 	protected HttpRequest getHTTPClient(RequestData data) throws IOException{
-		GenericUrl url = new GenericUrl(data.url);
+//		GenericUrl url = new GenericUrl(data.url);
+		GenericUrl url = createCGUrl(data.url, data.queryParams);
 		HttpContent content = null;
 		HttpHeaders headers = getHTTPHeaders(data);
 		HttpRequest request = null;

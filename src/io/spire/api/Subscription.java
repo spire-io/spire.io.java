@@ -4,12 +4,12 @@
 package io.spire.api;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
-import io.spire.api.Resource.ResourceModel;
 import io.spire.request.ResponseException;
 
 /**
@@ -19,6 +19,16 @@ import io.spire.request.ResponseException;
 public class Subscription extends Resource {
 	
 	private List<String> channels;
+	
+	private int defaultTimestamp = 0;
+	// tracks the last message retrieve
+	private int lastTimestamp = 0;
+	// timeout option of 0 means no long poll,
+	private int defaultTimeout = 0;
+	private int longPollTimeout = 30;
+	private String orderBy = "desc";
+	// delay response from the server... ahh??
+	private int delay = 0;
 
 	/**
 	 * 
@@ -64,12 +74,34 @@ public class Subscription extends Resource {
 		
 	}
 	
+	protected List<Message> parseMessages(Map<String, Object> rawModel){
+		ResourceModel resourceModel = new ResourceModel(rawModel);
+		List<Message> messages = new ArrayList<Message>();  
+		List<Map<String, Object>> rawMessages = resourceModel.getProperty("messages", List.class);
+		for (Map<String, Object> rawMessage : rawMessages) {
+			Message message = new Message(new ResourceModel(rawMessage), schema);
+			messages.add(message);
+		}
+		return messages;
+	}
+	
 	public List<String> getChannels(){
 		return channels;
 	}
-	
-	public void retrieveMessages(){
 		
+	public List<Message> retrieveMessages() throws ResponseException, IOException{
+		Map<String, Object> queryParams = new HashMap<String, Object>();
+		queryParams.put("timeout", Integer.toString(this.defaultTimeout));
+		queryParams.put("delay", this.delay);
+		queryParams.put("order_by", this.orderBy);
+		
+		Map<String, String> headers = new HashMap<String, String>();
+		// FIXME: quick fix... may be is better to use 'Subscription.class.getSimpleName().toLowerCase()' ?
+		Subscription subscription = new Subscription();
+		headers.put("Accept", this.schema.getMediaType("events"));
+		Map<String, Object> rawModel = super.get(queryParams, headers);
+		List<Message> messages = this.parseMessages(rawModel);
+		return messages;
 	}
 	
 	public static class Subscriptions extends Resource{

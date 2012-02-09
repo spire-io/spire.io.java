@@ -130,6 +130,7 @@ public class Session extends Resource {
 				// if channel already exists, just get it.
 				if(e.getResponse().getStatusCode() == 409){
 					this.channels.get();
+					channel = this.channels.getChannel(channelName);
 				}else{	// just return if whatever other error
 					throw new ResponseException(e.getResponse());
 				}

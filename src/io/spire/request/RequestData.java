@@ -15,6 +15,7 @@ import java.util.Map;
 public class RequestData {
 	
 	public String url;
+	public Map<String, Object> queryParams;
 	public RequestType method;
 	public Map<String, String> headers;
 	public Object body;
@@ -24,6 +25,6 @@ public class RequestData {
 	 */
 	public RequestData() {
 		headers = new HashMap<String, String>();
+		queryParams = new HashMap<String, Object>();
 	}
-
 }

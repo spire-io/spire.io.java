@@ -15,6 +15,7 @@ import io.spire.api.Billing.Plans;
 import io.spire.api.BillingSubscription;
 import io.spire.api.Channel;
 import io.spire.api.Channel.Channels;
+import io.spire.api.Message;
 import io.spire.api.Session;
 import io.spire.api.Api.APIDescriptionModel;
 import io.spire.api.Subscription;
@@ -246,7 +247,18 @@ public class SpireTest {
 	public void channelPublish() throws Exception {
 		Channel channel = new Channel(description.schema);
 		channel.setName("foo_channel");
-		Subscription subscription = channel.subscribe("bar_subscription", spire.getSession());
+		Subscription subscription1 = channel.subscribe("bar_subscription", spire.getSession());
 		channel.publish("the great message");
+		
+		List<Message> messages = subscription1.retrieveMessages();
+		assertEquals(messages.size(), 1);
+		assertEquals(messages.get(0).getContent(), "the great message");
+		
+		Spire spire2 = createSpire(description);
+		spire2.start(key);
+		Subscription subscription2 = spire2.subscribe("bar_subscription", channel.getName());
+		List<Message> messages2 = subscription2.retrieveMessages();
+		assertEquals(messages2.size(), 1);
+		assertEquals(messages2.get(0).getContent(), "the great message");
 	}
 }

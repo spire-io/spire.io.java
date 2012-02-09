@@ -165,11 +165,6 @@ public class Channel extends Resource {
 			super.post(content, headers);
 		}
 		
-		@Override
-		public void get() throws ResponseException, IOException {
-			super.get();
-		}
-		
 		// Map interface implementation
 		@Override
 		public void clear() {
