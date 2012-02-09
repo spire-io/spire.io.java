@@ -99,7 +99,7 @@ public class Message extends Resource {
 			queryParams.put("last-message", timestamp);
 			queryParams.put("timeout", Integer.toString(timeout));
 			queryParams.put("delay", delay);
-			queryParams.put("order_by", this.getOrderByOptionString());
+			queryParams.put("order-by", this.getOrderByOptionString());
 			
 			return queryParams;
 		}
