@@ -25,7 +25,7 @@ import java.lang.reflect.InvocationTargetException;
  *
  */
 public class Spire {
-	public static final String SPIRE_URL = "http://localhost:1337";
+	public static final String SPIRE_URL = "https://api.spire.io";
 	public static final Api SPIRE_API = new Api(SPIRE_URL);
 		
 	private String spire_url;
