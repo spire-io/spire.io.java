@@ -4,7 +4,7 @@
 package io.spire.api;
 
 /**
- * @author jorge
+ * @author Jorge Gonzalez
  *
  */
 public interface ResourceModelInterface {

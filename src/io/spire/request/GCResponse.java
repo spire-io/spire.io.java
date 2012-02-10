@@ -4,6 +4,10 @@ import java.io.IOException;
 
 import com.google.api.client.http.HttpResponse;
 
+/**
+ * @author Jorge Gonzalez
+ *
+ */
 public class GCResponse extends Response{
 
 	private HttpResponse response;

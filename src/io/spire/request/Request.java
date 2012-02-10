@@ -6,7 +6,7 @@ package io.spire.request;
 import java.io.IOException;
 
 /**
- * @author jorge
+ * @author Jorge Gonzalez
  *
  */
 public abstract class Request implements Requestable{

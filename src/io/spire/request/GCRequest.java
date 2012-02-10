@@ -26,7 +26,7 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson.JacksonFactory;
 
 /**
- * @author jorge
+ * @author Jorge Gonzalez
  *
  */
 public class GCRequest extends Request {

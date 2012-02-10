@@ -17,7 +17,7 @@ import io.spire.api.Subscription.Subscriptions;
 import io.spire.request.ResponseException;
 
 /**
- * @author jorge
+ * @author Jorge Gonzalez
  *
  */
 public class Session extends Resource {

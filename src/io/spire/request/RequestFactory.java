@@ -10,7 +10,7 @@ import io.spire.request.RequestData;
 import io.spire.request.GCRequest.CGRequestFactory;
 
 /**
- * @author jorge
+ * @author Jorge Gonzalez
  *
  */
 public abstract class RequestFactory {

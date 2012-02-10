@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author jorge
+ * @author Jorge Gonzalez
  *
  */
 public class RequestData {

@@ -2,6 +2,11 @@ package io.spire.request;
 
 import java.io.IOException;
 
+
+/**
+ * @author Jorge Gonzalez
+ *
+ */
 public abstract class Response implements Responsable {
 
 	public Response() {

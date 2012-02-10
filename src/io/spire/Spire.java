@@ -22,7 +22,7 @@ import java.lang.reflect.InvocationTargetException;
 
 
 /**
- * @author Jorge Gonzalez - Spire.io
+ * @author Jorge Gonzalez
  *
  */
 public class Spire {

@@ -14,13 +14,12 @@ import io.spire.api.Message.MessageOptions;
 import io.spire.request.ResponseException;
 
 /**
- * @author Jorge Gonzalez - Spire.io
+ * @author Jorge Gonzalez
  *
  */
 public class Subscription extends Resource {
 	
 	private List<String> channels;
-	
 	private String lastTimestamp = "0";
 	private int longPollTimeout = 30;
 	private MessageOptions defaultMessageOptions;

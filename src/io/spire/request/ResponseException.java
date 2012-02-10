@@ -9,7 +9,7 @@ import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpResponseException;
 
 /**
- * @author jorge
+ * @author Jorge Gonzalez
  *
  */
 public class ResponseException extends IOException {

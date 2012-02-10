@@ -9,7 +9,7 @@ import io.spire.api.Api.APIDescriptionModel.APIResourceModel;
 import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
 
 /**
- * @author jorge
+ * @author Jorge Gonzalez
  *
  */
 public class Account extends Resource {

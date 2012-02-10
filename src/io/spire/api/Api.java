@@ -15,7 +15,7 @@ import java.util.Map;
 import com.google.api.client.util.Key;
 
 /**
- * @author jorge
+ * @author Jorge Gonzalez
  *
  */
 public class Api {

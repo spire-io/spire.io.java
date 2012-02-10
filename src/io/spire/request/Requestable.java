@@ -7,7 +7,7 @@ import java.io.IOException;
 
 
 /**
- * @author jorge
+ * @author Jorge Gonzalez
  *
  */
 public interface Requestable {
