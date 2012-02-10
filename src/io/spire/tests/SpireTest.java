@@ -16,6 +16,7 @@ import io.spire.api.BillingSubscription;
 import io.spire.api.Channel;
 import io.spire.api.Channel.Channels;
 import io.spire.api.Events;
+import io.spire.api.Listener;
 import io.spire.api.Message;
 import io.spire.api.Message.MessageOptions;
 import io.spire.api.Session;
@@ -313,10 +314,10 @@ public class SpireTest {
 		}
 	}
 	
-	private class MessageListener implements Runnable {
+	private class MessageListenerWorker implements Runnable {
 		Subscription subscription;
 		
-		public MessageListener(Subscription subscription){
+		public MessageListenerWorker(Subscription subscription){
 			this.subscription = subscription;
 		}
 		
@@ -342,7 +343,7 @@ public class SpireTest {
 		channel.setName("foo_channel");
 		Subscription subscription1 = channel.subscribe("bar_subscription", spire.getSession());
 		
-		Thread threadListener = new Thread(new MessageListener(subscription1));
+		Thread threadListener = new Thread(new MessageListenerWorker(subscription1));
 		threadListener.start();
 		
 		Thread.sleep(100);
@@ -355,5 +356,68 @@ public class SpireTest {
 		
 		Events events = subscription1.poll(new MessageOptions());
 		assertEquals(events.getMessages().size(), 2);
+	}
+	
+	private class MyListener1 implements Listener{
+
+		@Override
+		public void process(Message message) {
+			//System.out.println("listener1 => " + message.getContent());
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	private class MyListener2 implements Listener{
+
+		@Override
+		public void process(Message message) {
+			//System.out.println("listener2 => " + message.getContent());
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	@Test
+	public void testListeners() throws Exception {
+		Subscription subscription1 = spire.subscribe("subscription1", "channel1");
+		Channel channel = spire.getChannels().getChannel("channel1");
+		MyListener1 myListener1 = new MyListener1();
+		MyListener2 myListener2 = new MyListener2();
+		
+		int listener1Id = subscription1.addListener(myListener1);
+		//print(Integer.toString(listener1Id));
+		//print(Integer.toString(subscription1.getListener().size()));
+		
+		MessageOptions options = new MessageOptions();
+		options.timeout = 4;
+		subscription1.startListening(options);
+		
+		for (int i = 0; i < 4; i++) {
+			channel.publish("message " + i);
+			Thread.sleep(1*500);
+		}
+		
+		subscription1.stopListening();
+		
+		int listener2Id = subscription1.addListener(myListener2);
+		//print(Integer.toString(listener2Id));
+		//print(Integer.toString(subscription1.getListener().size()));
+		subscription1.startListening(options);
+		
+		for (int i = 4; i < 7; i++) {
+			channel.publish("message " + i);
+			Thread.sleep(1*500);
+		}
+		
+		subscription1.stopListening();
 	}
 }

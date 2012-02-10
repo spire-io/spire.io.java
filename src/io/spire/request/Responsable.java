@@ -18,4 +18,8 @@ public interface Responsable {
 	public abstract <T> T parseAs(Class<T> dataClass) throws IOException;
 	
 	public String parseAsString() throws IOException;
+	
+	public abstract void close() throws IOException;
+	
+	public abstract void ignore() throws IOException;
 }

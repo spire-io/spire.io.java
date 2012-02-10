@@ -45,4 +45,12 @@ public class GCResponse extends Response{
 	public void close() throws IOException{
 		response.ignore();
 	}
+	
+	/**
+	 * Alias of close
+	 */
+	@Override
+	public void ignore() throws IOException{
+		this.close();
+	}
 }

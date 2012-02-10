@@ -4,6 +4,7 @@
 package io.spire.api;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,21 +21,20 @@ public class Subscription extends Resource {
 	
 	private List<String> channels;
 	
-	private String defaultTimestamp = "0";
-	// tracks the last message retrieve
 	private String lastTimestamp = "0";
-	// timeout option of 0 means no long poll,
-	private int defaultTimeout = 0;
 	private int longPollTimeout = 30;
-	private String orderBy = "desc";
-	// delay response from the server... ahh??
-	private int delay = 0;
+	private MessageOptions defaultMessageOptions;
+	private boolean isListening;
+	private Map<Integer, Listener> listeners;
+	private ListenerManager listenerManager;
 	
 	/**
 	 * 
 	 */
 	public Subscription() {
 		super();
+		defaultMessageOptions = new MessageOptions();
+		listeners = new HashMap<Integer, Listener>();
 	}
 
 	/**
@@ -42,6 +42,8 @@ public class Subscription extends Resource {
 	 */
 	public Subscription(APISchemaModel schema) {
 		super(schema);
+		defaultMessageOptions = new MessageOptions();
+		listeners = new HashMap<Integer, Listener>();
 	}
 
 	/**
@@ -50,6 +52,8 @@ public class Subscription extends Resource {
 	 */
 	public Subscription(ResourceModel model, APISchemaModel schema) {
 		super(model, schema);
+		defaultMessageOptions = new MessageOptions();
+		listeners = new HashMap<Integer, Listener>();
 	}
 
 	/* (non-Javadoc)
@@ -82,6 +86,15 @@ public class Subscription extends Resource {
 	public List<String> getChannels(){
 		return channels;
 	}
+	
+	private void feedListeners(Events events){
+		List<Message> messages = events.getMessages();
+		for (Message message : messages) {
+			for (Listener listener : this.listeners.values()) {
+				listener.process(message);
+			}
+		}
+	}
 		
 	public Events retrieveMessages(MessageOptions options) throws ResponseException, IOException{
 		Map<String, Object> queryParams = options.getMapOptions();
@@ -93,8 +106,11 @@ public class Subscription extends Resource {
 		Map<String, Object> rawModel = super.get(queryParams, headers);
 		events.updateModel(rawModel);
 		int countMessages = events.getMessages().size();
-		if(countMessages > 0)
+		if(countMessages > 0){
 			this.lastTimestamp = events.getMessages().get(countMessages-1).getTimestamp();
+			this.feedListeners(events);
+		}
+		
 		return events;
 	}
 	
@@ -108,10 +124,51 @@ public class Subscription extends Resource {
 	}
 	
 	public Events longPoll(MessageOptions options) throws ResponseException, IOException{
-		if(options.timeout == this.defaultTimeout)
+		if(options.timeout == defaultMessageOptions.timeout)
 			options.timeout = this.longPollTimeout;
 		options.timestamp = this.lastTimestamp;
 		return this.retrieveMessages(options);
+	}
+	
+	public int addListener(Listener listener){
+		int listenerId = listener.hashCode();
+		listeners.put(listenerId, listener);
+		return listenerId;
+	}
+	
+	public Listener removeListener(Listener listener){
+		int listenerId = listener.hashCode();
+		return this.listeners.remove(listenerId);
+	}
+	
+	public boolean isListening(){
+		return this.isListening;
+	}
+	
+	public void startListening(MessageOptions options){
+		if(this.listeners.isEmpty())
+			return;
+		
+		MessageOptions ops = this.defaultMessageOptions;
+		if(options != null)
+			ops = options;
+		
+		this.listenerManager = new ListenerManager(ops);
+		this.isListening = true;
+		this.listenerManager.start();
+	}
+	
+	public void stopListening(){
+		this.isListening = false;
+		try {
+			this.listenerManager.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public Collection<Listener> getListener(){
+		return this.listeners.values();
 	}
 	
 	public static class Subscriptions extends Resource{
@@ -183,6 +240,34 @@ public class Subscription extends Resource {
 			headers.put("Accept", this.schema.getMediaType(subscription.getResourceName()));
 			headers.put("Content-Type", this.schema.getMediaType(subscription.getResourceName()));
 			super.post(content, headers);
+		}
+	}
+	
+	private class ListenerManager extends Thread {
+		private MessageOptions options;
+		
+		public ListenerManager(MessageOptions options){
+			this.options = options;
+		}
+		
+		@Override
+		public void run() {
+			while(isListening){
+				try{
+					try {
+						longPoll(this.options);
+					} catch (ResponseException e) {
+						System.out.println(e.getMessage());
+						e.getResponse().ignore();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}catch (IOException e) {
+					e.printStackTrace();
+					stopListening();
+				}
+			}
+			//System.out.println("Listener exits");
 		}
 	}
 

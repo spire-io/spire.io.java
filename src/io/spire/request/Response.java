@@ -16,4 +16,6 @@ public abstract class Response implements Responsable {
 	public abstract String parseAsString() throws IOException;
 
 	public abstract void close() throws IOException;
+	
+	public abstract void ignore() throws IOException;
 }
