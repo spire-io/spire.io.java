@@ -7,10 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import io.spire.api.Account.Origin;
-import io.spire.api.Api.APIDescriptionModel.APIResourceModel;
 import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
-import io.spire.api.Resource.ResourceModel;
 
 /**
  * @author Jorge Gonzalez
@@ -45,6 +42,7 @@ public class Billing extends Resource {
 	/* (non-Javadoc)
 	 * @see io.spire.api.Resource#initialize()
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void initialize() {
 		plans = new Plans();
@@ -227,6 +225,11 @@ public class Billing extends Resource {
 	}
 	
 	public static class Plans extends ArrayList<Plan>{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 2389002871849806024L;
 	}
 
 }

@@ -5,7 +5,6 @@ package io.spire.api;
 
 import java.util.Map;
 
-import io.spire.api.Api.APIDescriptionModel.APIResourceModel;
 import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
 
 /**

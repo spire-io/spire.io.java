@@ -11,7 +11,6 @@ import io.spire.api.Channel;
 import io.spire.api.Resource;
 import io.spire.api.Channel.Channels;
 import io.spire.api.Subscription;
-import io.spire.api.Resource.ResourceModel;
 import io.spire.api.Subscription.Subscriptions;
 import io.spire.api.Session;
 import io.spire.request.ResponseException;

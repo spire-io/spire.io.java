@@ -5,7 +5,6 @@ package io.spire.api;
 
 import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
 
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 

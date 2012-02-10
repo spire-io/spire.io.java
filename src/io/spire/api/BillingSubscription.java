@@ -6,7 +6,6 @@ package io.spire.api;
 import java.util.Map;
 
 import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
-import io.spire.api.Resource.ResourceModel;
 
 /**
  * @author Jorge Gonzalez

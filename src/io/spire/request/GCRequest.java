@@ -58,7 +58,6 @@ public class GCRequest extends Request {
 	@Override
 	protected void prepareRequest(RequestData data)
 	{
-		super.prepareRequest(data);
 		try{
 			client = getHTTPClient(data);
 		}catch (Exception e) {

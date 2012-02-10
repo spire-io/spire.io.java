@@ -27,13 +27,25 @@ public abstract class Request implements Requestable{
 	}
 	
 	public Request(RequestData data) {
-		prepareRequest(data);
+		this.setRequestData(data);
+		this.prepareRequest(data);
 	}
 	
-	protected void prepareRequest(RequestData data)
-	{
-		this.requestData = data;
-	}
+	protected abstract void prepareRequest(RequestData data);
 	
+	/**
+	 * @return the requestData
+	 */
+	public RequestData getRequestData() {
+		return requestData;
+	}
+
+	/**
+	 * @param requestData the requestData to set
+	 */
+	public void setRequestData(RequestData requestData) {
+		this.requestData = requestData;
+	}
+
 	public abstract Response send() throws IOException;
 }

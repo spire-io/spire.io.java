@@ -285,28 +285,9 @@ public abstract class Resource {
 	 * @throws ResponseException
 	 * @throws IOException
 	 */
-	@SuppressWarnings("unchecked")
 	public void get() throws ResponseException, IOException{
 		this.get(null, null);
 	}
-	
-//	protected Map<String, Object> get(Map<String, Object> queryParams) throws ResponseException, IOException{
-//		RequestData data = RequestFactory.createRequestData();
-//		data.method = RequestType.HTTP_GET;
-//		data.url = model.getProperty("url", String.class);
-//		data.queryParams = queryParams;
-//		data.headers.put("Authorization", "Capability " + model.getProperty("capability", String.class));
-//		data.headers.put("Accept", this.getMediaType());
-//		
-//		Request request = RequestFactory.createRequest(data);
-//		Response response = request.send();
-//		if(!response.isSuccessStatusCode())
-//			throw new ResponseException(response, "Error getting " + getResourceName());
-//		
-//		Map<String, Object> rawModel = response.parseAs(HashMap.class);
-//		updateModel(rawModel);
-//		return rawModel;
-//	}
 	
 	protected Map<String, Object> get(Map<String, Object> queryParams, Map<String, String> headers) throws ResponseException, IOException{
 		RequestData data = this.createRequestData(RequestType.HTTP_GET, queryParams, null, headers);
@@ -377,14 +358,7 @@ public abstract class Resource {
 		return this.post(data);
 	}
 		
-	@SuppressWarnings("unchecked")
 	protected Map<String, Object> post(RequestData data) throws ResponseException, IOException{
-//		Request request = RequestFactory.createRequest(data);
-//		Response response = request.send();
-//		if(!response.isSuccessStatusCode())
-//			throw new ResponseException(response, "Error creating " + getResourceName());
-		
-//		Map<String, Object> rawModel = response.parseAs(HashMap.class);
 		Map<String, Object> rawModel = this.sendRequest(data);
 		addModel(rawModel);
 		return rawModel;
@@ -398,7 +372,6 @@ public abstract class Resource {
 			throw new ResponseException(response, "Error " + data.method.name().toLowerCase() + "ing" + getResourceName());
 		
 		Map<String, Object> rawModel = response.parseAs(HashMap.class);
-//		addModel(rawModel);
 		return rawModel;
 	}
 }

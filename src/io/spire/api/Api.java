@@ -51,6 +51,12 @@ public class Api {
 		
 		
 		public static class APIResourceCollectionModel extends HashMap<String, APIResourceModel> implements ResourceModelInterface {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -780744225506092309L;
+
+			@SuppressWarnings("unchecked")
 			@Override
 			public <T> T getProperty(String propertyName, Class<T> type) {
 				return (T)this.get(propertyName);
@@ -71,6 +77,7 @@ public class Api {
 		public static class APIResourceModel extends HashMap<String, Object> implements ResourceModelInterface {			
 			private static final long serialVersionUID = 5222700238203763225L;
 
+			@SuppressWarnings("unchecked")
 			@Override
 			public <T> T getProperty(String propertyName, Class<T> type) {
 				return (T)this.get(propertyName);
@@ -82,6 +89,12 @@ public class Api {
 		}
 		
 		public static class APISchemaModel extends APIResourceModel {			
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 5222700238203763225L;
+
+			@SuppressWarnings("unchecked")
 			public String getMediaType(String resource){
 				Map<String, Object> schemas = this.getProperty(Api.API_VERSION, Map.class);
 				Map<String, Object> schema = (Map<String, Object>)schemas.get(resource);
@@ -107,6 +120,7 @@ public class Api {
 		description = response.parseAs(APIDescriptionModel.class);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public Session createSession(String accountKey) throws ResponseException, IOException{
 		RequestData data = RequestFactory.createRequestData();
 		data.method = RequestType.HTTP_POST;
@@ -127,6 +141,7 @@ public class Api {
 		return session;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public Session createAccount(String email, String password, String passwordConfirmation) 
 			throws ResponseException, IOException{
 		RequestData data = RequestFactory.createRequestData();
@@ -177,6 +192,7 @@ public class Api {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public Billing billing() throws ResponseException, IOException{
 		RequestData data = RequestFactory.createRequestData();
 		data.method = RequestType.HTTP_GET;

@@ -56,6 +56,7 @@ public class SpireTest {
 		return "test+jclient+" + now.getTime() + "@spire.io";
 	}
 	
+	@SuppressWarnings("unused")
 	private void print(String string){
 		System.out.println(string);
 	}
@@ -291,6 +292,7 @@ public class SpireTest {
 		assertEquals(events.getMessages().get(count-1).getContent(), "the great message" + (size+count));
 	}
 
+	@SuppressWarnings("unused")
 	private class MessagePublisher implements Runnable {
 		Channel channel;
 		
@@ -360,8 +362,8 @@ public class SpireTest {
 
 		@Override
 		public void process(Message message) {
-			//System.out.println("listener1 => " + message.getContent());
 			try {
+				// simulate some work....
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -374,8 +376,8 @@ public class SpireTest {
 
 		@Override
 		public void process(Message message) {
-			//System.out.println("listener2 => " + message.getContent());
 			try {
+				// simulate some work....
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -391,31 +393,24 @@ public class SpireTest {
 		MyListener1 myListener1 = new MyListener1();
 		MyListener2 myListener2 = new MyListener2();
 		
-		int listener1Id = subscription1.addListener(myListener1);
-		//print(Integer.toString(listener1Id));
-		//print(Integer.toString(subscription1.getListener().size()));
+		subscription1.addListener(myListener1);
 		
 		MessageOptions options = new MessageOptions();
 		options.timeout = 4;
 		subscription1.startListening(options);
-		
 		for (int i = 0; i < 4; i++) {
 			channel.publish("message " + i);
 			Thread.sleep(1*500);
 		}
-		
 		subscription1.stopListening();
 		
-		int listener2Id = subscription1.addListener(myListener2);
-		//print(Integer.toString(listener2Id));
-		//print(Integer.toString(subscription1.getListener().size()));
-		subscription1.startListening(options);
+		subscription1.addListener(myListener2);
 		
+		subscription1.startListening(options);
 		for (int i = 4; i < 7; i++) {
 			channel.publish("message " + i);
 			Thread.sleep(1*500);
 		}
-		
 		subscription1.stopListening();
 	}
 }

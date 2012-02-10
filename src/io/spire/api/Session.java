@@ -4,15 +4,12 @@
 package io.spire.api;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
 import io.spire.api.Channel.Channels;
-import io.spire.api.Resource.ResourceModel;
 import io.spire.api.Subscription.Subscriptions;
 import io.spire.request.ResponseException;
 
@@ -100,17 +97,7 @@ public class Session extends Resource {
 		return subscriptions.getSubscription(name); 
 	}
 	
-	/*
-	 * TODO: change this for GET Subscriptions when supported by the API
-	 * 
-	 * This should avoid looping inside channels to collect subscriptions
-	 */
 	public Subscriptions getSubscriptions(){
-//		for (Channel channel : this.channels.values()) {
-//			for (Subscription subscription : channel.getSubscriptions()) {
-//				this.subscriptions.addSubscription(subscription);
-//			}
-//		} 
 		return this.subscriptions;
 	}
 	

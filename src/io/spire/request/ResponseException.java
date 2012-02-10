@@ -14,6 +14,10 @@ import com.google.api.client.http.HttpResponseException;
  */
 public class ResponseException extends IOException {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1315031124790186892L;
 	private Response response;
 	private String message;
 	
