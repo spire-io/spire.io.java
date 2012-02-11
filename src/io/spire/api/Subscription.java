@@ -109,8 +109,11 @@ public class Subscription extends Resource {
 			this.lastTimestamp = events.getMessages().get(countMessages-1).getTimestamp();
 			this.feedListeners(events);
 		}
-		
 		return events;
+	}
+	
+	public Events retrieveMessages() throws ResponseException, IOException{
+		return this.retrieveMessages(new MessageOptions());
 	}
 	
 	public Events poll(MessageOptions options) throws ResponseException, IOException{
