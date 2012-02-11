@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
 import io.spire.api.Message.MessageOptions;
@@ -94,7 +95,7 @@ public class Subscription extends Resource {
 			}
 		}
 	}
-		
+	
 	public Events retrieveMessages(MessageOptions options) throws ResponseException, IOException{
 		Map<String, Object> queryParams = options.getMapOptions();
 		
@@ -125,11 +126,21 @@ public class Subscription extends Resource {
 		return this.retrieveMessages(options);
 	}
 	
+	public Events poll() throws ResponseException, IOException{
+        MessageOptions options = new MessageOptions();
+		return this.poll(options);
+	}
+	
 	public Events longPoll(MessageOptions options) throws ResponseException, IOException{
 		if(options.timeout == defaultMessageOptions.timeout)
 			options.timeout = this.longPollTimeout;
 		options.timestamp = this.lastTimestamp;
 		return this.retrieveMessages(options);
+	}
+	
+	public Events longPoll() throws ResponseException, IOException{
+		MessageOptions options = new MessageOptions();
+		return this.longPoll(options);
 	}
 	
 	public int addListener(Listener listener){
@@ -173,7 +184,7 @@ public class Subscription extends Resource {
 		return this.listeners.values();
 	}
 	
-	public static class Subscriptions extends Resource{
+	public static class Subscriptions extends Resource implements Map<String, Subscription>{
 		private Map<String, Subscription> subscriptionCollection;
 		
 		/**
@@ -228,10 +239,6 @@ public class Subscription extends Resource {
 			subscriptionCollection.put(subscription.getName(), subscription);
 		}
 		
-		public int size(){
-			return subscriptionCollection.size();
-		}
-		
 		public void createSubscription(String name, List<String> channels) throws ResponseException, IOException{
 			Map<String, Object> content = new HashMap<String, Object>();
 			content.put("name", name);
@@ -242,6 +249,66 @@ public class Subscription extends Resource {
 			headers.put("Accept", this.schema.getMediaType(subscription.getResourceName()));
 			headers.put("Content-Type", this.schema.getMediaType(subscription.getResourceName()));
 			super.post(content, headers);
+		}
+
+		@Override
+		public void clear() {
+			subscriptionCollection.clear();
+		}
+		
+		@Override
+		public int size() {
+			return subscriptionCollection.size();
+		}
+
+		@Override
+		public boolean containsKey(Object key) {
+			return subscriptionCollection.containsKey(key);
+		}
+
+		@Override
+		public boolean containsValue(Object value) {
+			return subscriptionCollection.containsValue(value);
+		}
+
+		@Override
+		public Set<java.util.Map.Entry<String, Subscription>> entrySet() {
+			return subscriptionCollection.entrySet();
+		}
+
+		@Override
+		public Subscription get(Object key) {
+			return subscriptionCollection.get(key);
+		}
+
+		@Override
+		public boolean isEmpty() {
+			return subscriptionCollection.isEmpty();
+		}
+
+		@Override
+		public Set<String> keySet() {
+			return subscriptionCollection.keySet();
+		}
+
+		@Override
+		public Subscription put(String key, Subscription value) {
+			return subscriptionCollection.put(key, value);
+		}
+
+		@Override
+		public void putAll(Map<? extends String, ? extends Subscription> m) {
+			subscriptionCollection.putAll(m);
+		}
+
+		@Override
+		public Subscription remove(Object key) {
+			return subscriptionCollection.remove(key);
+		}
+
+		@Override
+		public Collection<Subscription> values() {
+			return subscriptionCollection.values();
 		}
 	}
 	
