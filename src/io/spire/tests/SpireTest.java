@@ -33,6 +33,7 @@ import static org.junit.Assert.*;
 public class SpireTest {
 
 	public static final String SPIRE_URL_LOCAL = "http://localhost:1337";
+	public static final String SPIRE_URL = "http://build.spire.io";
 
 	private Spire spire;
 	private APIDescriptionModel description;
@@ -45,7 +46,7 @@ public class SpireTest {
 	}
 
 	private Spire createSpire(APIDescriptionModel description) {
-		Spire spire = new Spire(SPIRE_URL_LOCAL);
+		Spire spire = new Spire(SPIRE_URL);
 		if (description != null)
 			spire.getApi().setApiDescription(description);
 		return spire;
