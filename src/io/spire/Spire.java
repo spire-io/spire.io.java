@@ -80,6 +80,17 @@ public class Spire {
 	}
 	
 	/**
+	 * Helper method, checks that the API description {@link Api#discover()} has been initialized
+	 * 
+	 * @throws ResponseException
+	 * @throws IOException
+	 */
+	private void initializeApi() throws ResponseException, IOException{
+		if(api.getApiDescription() == null)
+			api.discover();
+	}
+	
+	/**
 	 * Return the current Spire Api object
 	 * 
 	 * @return {@link io.spire.api.Api}
@@ -116,6 +127,7 @@ public class Spire {
 	 * @throws IOException
 	 */
 	public void start(String accountKey) throws ResponseException, IOException{
+		this.initializeApi();
 		session  = api.createSession(accountKey);
 	}
 	
@@ -128,6 +140,7 @@ public class Spire {
 	 * @throws IOException
 	 */
 	public void login(String email, String password) throws ResponseException, IOException{
+		this.initializeApi();
 		session  = api.login(email, password);
 	}
 	
@@ -141,7 +154,21 @@ public class Spire {
 	 * @throws IOException
 	 */
 	public void register(String email, String password, String passwordConfirmation) throws ResponseException, IOException{
+		this.initializeApi();
 		session = api.createAccount(email, password, passwordConfirmation);
+	}
+	
+	/**
+	 * Creates a new Spire account.
+	 * 
+	 * @param email
+	 * @param password
+	 * @throws ResponseException
+	 * @throws IOException
+	 */
+	public void register(String email, String password) throws ResponseException, IOException{
+		this.initializeApi();	
+		session = api.createAccount(email, password, password);
 	}
 	
 //	public void passwordReset(String email) throws ResponseException, IOException{
@@ -156,6 +183,12 @@ public class Spire {
 	 */
 	public void deleteAccount() throws ResponseException, IOException{
 		session.getAccount().delete();
+	}
+	
+	public String getAccountKey(){
+		if(session == null || session.getAccount() == null)
+			return null;
+		return session.getAccount().getKey();
 	}
 	
 	/**
@@ -178,6 +211,7 @@ public class Spire {
 	 * @throws IOException
 	 */
 	public Billing billing() throws ResponseException, IOException{
+		this.initializeApi();
 		billing = api.billing();
 		return billing;
 	}
