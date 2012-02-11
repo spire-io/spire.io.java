@@ -149,9 +149,13 @@ public class Subscription extends Resource {
 		return listenerId;
 	}
 	
+	public Listener removeListener(int listenerId){
+		return this.listeners.remove(listenerId);
+	}
+	
 	public Listener removeListener(Listener listener){
 		int listenerId = listener.hashCode();
-		return this.listeners.remove(listenerId);
+		return this.removeListener(listenerId);
 	}
 	
 	public boolean isListening(){
@@ -169,6 +173,11 @@ public class Subscription extends Resource {
 		this.listenerManager = new ListenerManager(ops);
 		this.isListening = true;
 		this.listenerManager.start();
+	}
+	
+	public void startListening(){
+		MessageOptions options = new MessageOptions();
+		this.startListening(options);
 	}
 	
 	public void stopListening(){
