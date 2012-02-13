@@ -4,20 +4,20 @@ This is a Java client for using the spire.io service.
 
 Add the Spire.io jar file to your classpath:
 
-    /build/spire-io-client-1.0.0-beta.jar
+  * /build/spire-io-client-1.0.0-beta.jar
 
-The Spire.io client has the following dependencies:
+The Spire.io client has the following dependencies, which should also be added to your classpath:
 
-  /lib/google-http-client-1.6.0-beta.jar
-  /lib/dependencies/jsr305-1.3.9.jar
-  /lib/dependencies/gson-1.7.1.jar
-  /lib/dependencies/guava-r09.jar
-  /lib/dependencies/junit-4.8.2.jar
-  /lib/dependencies/httpclient-4.0.3.jar
-  /lib/dependencies/xpp3-1.1.4c.jar
-  /lib/dependencies/protobuf-java-2.2.0.jar
-  
-All Spire.io jar dependencies files can be located inside the /lib directory.
+  * /lib/google-http-client-1.6.0-beta.jar
+  * /lib/dependencies/jsr305-1.3.9.jar
+  * /lib/dependencies/gson-1.7.1.jar
+  * /lib/dependencies/guava-r09.jar
+  * /lib/dependencies/junit-4.8.2.jar
+  * /lib/dependencies/httpclient-4.0.3.jar
+  * /lib/dependencies/xpp3-1.1.4c.jar
+  * /lib/dependencies/protobuf-java-2.2.0.jar
+
+All Spire.io jar dependencies can be located inside the '/lib' directory.
 
 ## Basic usage
 
@@ -25,6 +25,7 @@ The `Spire` class provides a simplified spire.io client with a high level interf
 Here's an example using the message service.  It assumes you have an account key, which you can get by registering at [www.spire.io](http://www.spire.io/register.html)
 
     import io.spire.Spire;
+    import io.spire.api.*;
 
     Spire spire = new Spire();
     spire.start(accountKey);    //key is your account key
@@ -69,3 +70,4 @@ You can add as many listeners as you want.  They can be removed by name:
 
 **Note:** Listener blocks are executed in separate threads, so please be careful when accessing shared resources.
 
+More coding examples can be found within the '/examples' folder.
