@@ -30,14 +30,14 @@ Here's an example using the message service.  It assumes you have an account key
     spire.start(accountKey);    //key is your account key
     
     Channel channelFoo = spire.createChannel("foo_channel");    //create channel
-    Message message1 = channelFoo.publish("Hello Spire!");  //publish message
+    Message message1 = channelFoo.publish("Hello Spire!");      //publish message
     
 Let's create a second session and get our messages.
 
     Spire spire2 = new Spire();
     spire2.start(accountKey);
     
-    Subscription subscriptionFoo = spire.subscribe("subscriptionFoo", "foo_channel");
+    Subscription subscriptionFoo = spire2.subscribe("subscriptionFoo", "foo_channel");
     
     Events events = subscriptionFoo.retrieveMessages();
     Message message = events.getMessages().get(0);
@@ -48,7 +48,7 @@ You can also assign listener blocks to a subscription which will be called with 
     Spire spire3 = new Spire();
     spire3.start(accountKey);
     
-    Subscription subscriptionBar = spire.subscribe("subscriptionBar", "foo_channel");
+    Subscription subscriptionBar = spire3.subscribe("subscriptionBar", "foo_channel");
     
     // MyListener class implements io.spire.api.Listener#process
     MyListener myListener1 = new MyListener();
@@ -56,14 +56,15 @@ You can also assign listener blocks to a subscription which will be called with 
     
     subscriptionBar.startListening();
     
-The subscription object will continue to monitor the channel until you call `#stop_listening` on it.
+The subscription object will continue to monitor the channel until you call `#stopListening` on it.
 
 You can add as many listeners as you want.  They can be removed by name:
 
     MyListener myListener2 = new MyListener();
-    int listenerId = subscriptionBar.addListener(myListener2);
+    int listener2Id = subscriptionBar.addListener(myListener2);
     
-    subscriptionBar.removeListener(listenerId);
+    subscriptionBar.removeListener(listener2Id);   // will remove myListener2
+    // myListener1 is still alive...!
 
 
 **Note:** Listener blocks are executed in separate threads, so please be careful when accessing shared resources.
