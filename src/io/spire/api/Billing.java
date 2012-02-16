@@ -52,7 +52,7 @@ public class Billing extends Resource {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void initialize() {
-		plans = new Plans();
+		plans = new ArrayList<Plan>();
 		List<Map<String, Object>> rawPlans = model.getProperty("plans", List.class);
 		for (Map<String, Object> rawPlan : rawPlans) {
 			ResourceModel rawModelPlan = new ResourceModel(rawPlan);
@@ -296,19 +296,4 @@ public class Billing extends Resource {
 			}
 		}
 	}
-	
-	/**
-	 * 
-	 * @since 1.0
-	 * @author Jorge Gonzalez
-	 *
-	 */
-	public static class Plans extends ArrayList<Plan>{
-
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 2389002871849806024L;
-	}
-
 }
