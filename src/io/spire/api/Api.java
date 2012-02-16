@@ -15,6 +15,9 @@ import java.util.Map;
 import com.google.api.client.util.Key;
 
 /**
+ * Encapsulates detailed information about the Spire Api resources.  
+ * 
+ * @since 1.0
  * @author Jorge Gonzalez
  *
  */
@@ -27,29 +30,64 @@ public class Api {
 	
 	/**
 	 * 
+	 * @param url the Spire Api entry point
 	 */
 	public Api(String url) {
 		this.url = url; 
 	}
 	
+	/**
+	 * 
+	 * @param url entry point
+	 * @param version
+	 */
 	public Api(String url, String version) {
 		this(url);
 		Api.API_VERSION = version; 
 	}
 	
+	/**
+	 * Get access to the Api description resource
+	 * 
+	 * @return {@link APIDescriptionModel}
+	 */
 	public APIDescriptionModel getApiDescription(){
 		return description;
 	}
 	
+	/**
+	 * Sets the {@link APIDescriptionModel} description object
+	 * 
+	 * @param description
+	 */
 	public void setApiDescription(APIDescriptionModel description){
 		this.description = description;
 	}
 	
-	public static class APIDescriptionModel {
+	/**
+	 * Holds the Spire Api resource model from {@link Api#discover()}
+	 * This class knows how to parsed the APIDescriptionModel
+	 * 
+	 * @since 1.0
+	 * @author Jorge Gonzalez
+	 *
+	 */
+	public static class APIDescriptionModel{
+		
 		@Key
-		public String url;
+		private String url;
 		
+		public String getUrl(){
+			return this.url;
+		}
 		
+		/**
+		 * An Abstract Map representation of Api Resources
+		 * 
+		 * @since 1.0
+		 * @author Jorge Gonzalez
+		 *
+		 */
 		public static class APIResourceCollectionModel extends HashMap<String, APIResourceModel> implements ResourceModelInterface {
 			/**
 			 * 
@@ -66,14 +104,31 @@ public class Api {
 			public void setProperty(String propertyName, Object data) {
 			}
 			
+			/**
+			 * Provides access to resources
+			 * 
+			 * @param resourceName
+			 * @return {@link APIResourceModel}
+			 */
 			public APIResourceModel getResource(String resourceName){
 				return this.getProperty(resourceName, APIResourceModel.class); 
 			}
 		}
 		
 		@Key
-		public APIResourceCollectionModel resources;
+		private APIResourceCollectionModel resources;
 		
+		public APIResourceCollectionModel getResources(){
+			return this.resources;
+		}
+		
+		/**
+		 * General representation of Api resource models
+		 * 
+		 * since 1.0
+		 * @author Jorge Gonzalez
+		 *
+		 */
 		public static class APIResourceModel extends HashMap<String, Object> implements ResourceModelInterface {			
 			private static final long serialVersionUID = 5222700238203763225L;
 
@@ -88,6 +143,13 @@ public class Api {
 			}
 		}
 		
+		/**
+		 * Holds description about the Api resources schemas
+		 * 
+		 * since 1.0
+		 * @author Jorge Gonzalez
+		 *
+		 */
 		public static class APISchemaModel extends APIResourceModel {			
 			/**
 			 * 
@@ -104,9 +166,19 @@ public class Api {
 		}
 		
 		@Key
-		public APISchemaModel schema;
+		private APISchemaModel schema;
+		
+		public APISchemaModel getSchema(){
+			return this.schema;
+		}
 	}
 	
+	/**
+	 * GET Api description 
+	 * 
+	 * @throws ResponseException
+	 * @throws IOException
+	 */
 	public void discover() throws ResponseException, IOException {
 		RequestData data = RequestFactory.createRequestData();
 		data.method = RequestType.HTTP_GET;
@@ -120,6 +192,14 @@ public class Api {
 		description = response.parseAs(APIDescriptionModel.class);
 	}
 	
+	/**
+	 * Creates a new Spire session
+	 * 
+	 * @param accountKey
+	 * @return {@link Session}
+	 * @throws ResponseException
+	 * @throws IOException
+	 */
 	@SuppressWarnings("unchecked")
 	public Session createSession(String accountKey) throws ResponseException, IOException{
 		RequestData data = RequestFactory.createRequestData();
@@ -141,6 +221,17 @@ public class Api {
 		return session;
 	}
 	
+	/**
+	 * 
+	 * Creates a new Spire account 
+	 * 
+	 * @param email
+	 * @param password
+	 * @param passwordConfirmation
+	 * @return {@link Session}
+	 * @throws ResponseException
+	 * @throws IOException
+	 */
 	@SuppressWarnings("unchecked")
 	public Session createAccount(String email, String password, String passwordConfirmation) 
 			throws ResponseException, IOException{
@@ -165,6 +256,15 @@ public class Api {
 		return session;
 	}
 	
+	/**
+	 * Authenticates an existing Spire account
+	 * 
+	 * @param email
+	 * @param password
+	 * @return {@link Session}
+	 * @throws ResponseException
+	 * @throws IOException
+	 */
 	@SuppressWarnings("unchecked")
 	public Session login(String email, String password) throws ResponseException, IOException{
 		RequestData data = RequestFactory.createRequestData();
@@ -192,6 +292,13 @@ public class Api {
 		
 	}
 	
+	/**
+	 * Returns information about the existing billing plans
+	 * 
+	 * @return {@link Billing}
+	 * @throws ResponseException
+	 * @throws IOException
+	 */
 	@SuppressWarnings("unchecked")
 	public Billing billing() throws ResponseException, IOException{
 		RequestData data = RequestFactory.createRequestData();

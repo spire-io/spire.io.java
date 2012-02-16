@@ -21,19 +21,21 @@ import java.lang.reflect.InvocationTargetException;
 
 
 /**
- * Spire provides the main interface for authentication, session management,
+ * Provides a main interface for authentication, session management,
  * account management and creation different Spire resources
  *  
  *  <p>i.e.</p>
- *  <p>{@code Spire spire = new Spire();}</p>
- *  <p>{@code spire.discover();			// do Spire API discovery}</p>
- *  <p>{@code spire.start(account_key)	// starts a new session}</p>
+ *  <pre>
+ *  {@code Spire spire = new Spire();}
+ *  {@code spire.discover();			// do Spire API discovery}
+ *  {@code spire.start(account_key)		// starts a new session}
+ *  </pre>
  *  
  * <p>
  * Implementation is not thread-safe.
  * </p>
  * 
- * @version 1.0
+ * @since 1.0
  * @author Jorge Gonzalez
  *
  */
@@ -47,7 +49,7 @@ public class Spire {
 	private Billing billing;
 
 	/**
-	 * Spire Default constructor.
+	 * Spire constructor
 	 * 
 	 * Initialize spire object with default URL and API version
 	 */
@@ -57,11 +59,11 @@ public class Spire {
 	}
 	
 	/**
-	 * Construct from an url
+	 * Spire constructor
 	 * 
-	 * Initialize spire object with specified 'url' and default API version
+	 * Initialize spire object with specified 'url' and default API 'version'
 	 * 
-	 * @param Spire Api entry point Url
+	 * @param url the Spire Api entry point
 	 */
 	public Spire(String url){
 		this.spire_url = url;
@@ -69,10 +71,12 @@ public class Spire {
 	}
 	
 	/**
-	 * Construct from an Api entry point url and Api version
+	 * Spire constructor
 	 * 
-	 * @param Spire Api url entry point
-	 * @param Api version
+	 * Initialize spire object with specified 'url' and API 'version'
+	 * 
+	 * @param url the Spire Api entry point
+	 * @param version Spire Api version
 	 */
 	public Spire(String url, String version){
 		this.spire_url = url;
@@ -301,7 +305,7 @@ public class Spire {
 		 */
 		public static Channel createChannel() throws ResponseException, IOException{
 			initialize();
-			return new Channel(description.schema);
+			return new Channel(description.getSchema());
 		}
 		
 		/**
@@ -356,7 +360,7 @@ public class Spire {
 			T t = null;
 			try {
 				constructorT = T.getConstructor(APISchemaModel.class);
-				t = constructorT.newInstance(description.schema);
+				t = constructorT.newInstance(description.getSchema());
 				Resource r = Resource.class.cast(t);
 				r.setCapability(capability);
 				r.setUrl(url);

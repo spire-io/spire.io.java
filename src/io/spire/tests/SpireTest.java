@@ -46,7 +46,7 @@ public class SpireTest {
 	}
 
 	private Spire createSpire(APIDescriptionModel description) {
-		Spire spire = new Spire(SPIRE_URL);
+		Spire spire = new Spire(SPIRE_URL_LOCAL);
 		if (description != null)
 			spire.getApi().setApiDescription(description);
 		return spire;
@@ -148,7 +148,7 @@ public class SpireTest {
 		assertEquals(account.getOrigin().getHost(), "test.com");
 //		print(account.getKey());
 		
-		Account account2 = new Account(description.schema);
+		Account account2 = new Account(description.getSchema());
 		account2.setCapability(account.getCapability());
 		account2.setUrl(account.getUrl());
 		account2.get();
@@ -237,7 +237,7 @@ public class SpireTest {
 	
 	@Test
 	public void channelSubscribe() throws Exception {
-		Channel channel = new Channel(description.schema);
+		Channel channel = new Channel(description.getSchema());
 		channel.setName("foo_channel");
 		Subscription subscription = channel.subscribe("bar_subscription", spire.getSession());
 		assertNotNull(subscription);
@@ -248,7 +248,7 @@ public class SpireTest {
 	
 	@Test
 	public void channelPublish() throws Exception {
-		Channel channel = new Channel(description.schema);
+		Channel channel = new Channel(description.getSchema());
 		channel.setName("foo_channel");
 		Subscription subscription1 = channel.subscribe("bar_subscription", spire.getSession());
 		channel.publish("the great message");
@@ -268,7 +268,7 @@ public class SpireTest {
 	
 	@Test
 	public void poll() throws Exception {
-		Channel channel = new Channel(description.schema);
+		Channel channel = new Channel(description.getSchema());
 		channel.setName("foo_channel");
 		Subscription subscription1 = channel.subscribe("bar_subscription", spire.getSession());
 		channel.publish("the great message1");
