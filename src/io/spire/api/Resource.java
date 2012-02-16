@@ -18,27 +18,42 @@ import java.util.Map;
 
 
 /**
+ * General abstraction of Api resources
+ * 
+ * @since 1.0
  * @author Jorge Gonzalez
  *
  */
 public abstract class Resource {
 	
+	/** Holds the internal resource data */
 	protected ResourceModel model;
+	/** Holds descriptions of all Api resource schemas */
 	protected APISchemaModel schema;
 	
-	
 	/**
-	 * 
+	 * Default constructor
 	 */
 	public Resource() {
 		this.model = new ResourceModel(new HashMap<String, Object>());
 	}
 	
+	/**
+	 * Initialize a resource with the Api resource schemas
+	 * 
+	 * @param schema {@link APISchemaModel}
+	 */
 	public Resource(APISchemaModel schema) {
 		this();
 		this.schema = schema;
 	}
 	
+	/**
+	 * Initialize a resource model and Api resource schemas
+	 * 
+	 * @param model
+	 * @param schema
+	 */
 	public Resource(ResourceModel model, APISchemaModel schema) {
 		this.schema = schema;
 		this.model = model;
@@ -52,6 +67,12 @@ public abstract class Resource {
 	 */
 	protected abstract void initialize();
 	
+	/**
+	 * Access resources from the internal resource model
+	 * 
+	 * @param resourceName
+	 * @return {@link ResourceModel}
+	 */
 	@SuppressWarnings("unchecked")
 	protected ResourceModel getResourceModel(String resourceName){
 		Map<String, Object> rawModel = model.getProperty(resourceName, Map.class);
@@ -63,7 +84,7 @@ public abstract class Resource {
 	}
 	
 	/**
-	 * Updates the underlying resource model when GET/UPDATE (ing) a resource
+	 * Updates the underlying resource model when GET/UPDATE a resource
 	 * Subclasses would want to override this method if any special operations
 	 * need to done in regards of how the model should be updated
 	 * 
@@ -74,11 +95,28 @@ public abstract class Resource {
 		this.initialize();
 	}
 	
+	/**
+	 * Set the internal resource model
+	 * 
+	 * @param rawModel
+	 */
 	protected abstract void addModel(Map<String, Object> rawModel);
 	
+	/**
+	 * Wrapper for the resource model internal data 
+	 * 
+	 * @since 1.0
+	 * @author Jorge Gonzalez
+	 *
+	 */
 	public static class ResourceModel implements ResourceModelInterface {
 		private Map<String, Object> rawModel;
 		
+		/**
+		 * Default constructor
+		 * 
+		 * @param data Map object representing the resource
+		 */
 		public ResourceModel(Map<String, Object> data){
 			this.rawModel = data;
 			if(this.rawModel == null){
@@ -147,14 +185,16 @@ public abstract class Resource {
 	}
 	
 	/**
+	 * Gets the resource url
 	 * 
-	 * @return
+	 * @return {@link String}
 	 */
 	public String getUrl(){
 		return model.getProperty("url", String.class);
 	}
 	
 	/**
+	 * Sets the resource url
 	 * 
 	 * @param url
 	 */
@@ -163,14 +203,17 @@ public abstract class Resource {
 	}
 	
 	/**
+	 * Gets the resource name
+	 * Should be defined by each derived class
 	 * 
-	 * @return
+	 * @return {@link String}
 	 */
 	public abstract String getResourceName();
 	
 	/**
+	 * Gets the resource media type
 	 * 
-	 * @return
+	 * @return {@link String}
 	 */
 	public String getMediaType(){
 		String resourceName = this.getResourceName();
@@ -178,14 +221,16 @@ public abstract class Resource {
 	}
 	
 	/**
+	 * Gets the resource capability
 	 * 
-	 * @return
+	 * @return {@link String}
 	 */
 	public String getCapability(){
 		return model.getProperty("capability", String.class);
 	}
 	
 	/**
+	 * Sets the resource capability
 	 * 
 	 * @param capability
 	 */
@@ -194,30 +239,34 @@ public abstract class Resource {
 	}
 	
 	/**
+	 * Gets the resource key
 	 * 
-	 * @return
+	 * @return {@link String}
 	 */
 	public String getKey(){
 		return model.getProperty("key", String.class);
 	}
 	
 	/**
+	 * Gets the resource type
 	 * 
-	 * @return
+	 * @return {@link String}
 	 */
 	public String getType(){
 		return model.getProperty("type", String.class);
 	}
 	
 	/**
+	 * Gets the name assigned to this resource instance
 	 * 
-	 * @return
+	 * @return {@link String}
 	 */
 	public String getName(){
 		return model.getProperty("name", String.class);
 	}
 	
 	/**
+	 * Sets the name for this resource instance
 	 * 
 	 * @param name
 	 */
@@ -226,14 +275,16 @@ public abstract class Resource {
 	}
 	
 	/**
+	 * Gets resource model data
 	 * 
-	 * @return
+	 * @return  {@link ResourceModel}
 	 */
 	public ResourceModel getInnerModel(){
 		return model;
 	}
 	
 	/**
+	 * Sets resource model data
 	 * 
 	 * @param model
 	 */
@@ -241,6 +292,11 @@ public abstract class Resource {
 		this.model = model;
 	}
 	
+	/**
+	 * Copy the resource model
+	 * 
+	 * @param resource
+	 */
 	protected void copy(Resource resource){
 		this.model = resource.model;
 		this.initialize();
@@ -281,6 +337,7 @@ public abstract class Resource {
 	}
 	
 	/**
+	 * GET resource
 	 * 
 	 * @throws ResponseException
 	 * @throws IOException
@@ -289,7 +346,7 @@ public abstract class Resource {
 		this.get(null, null);
 	}
 	
-	protected Map<String, Object> get(Map<String, Object> queryParams, Map<String, String> headers) throws ResponseException, IOException{
+	public Map<String, Object> get(Map<String, Object> queryParams, Map<String, String> headers) throws ResponseException, IOException{
 		RequestData data = this.createRequestData(RequestType.HTTP_GET, queryParams, null, headers);
 		Map<String, Object> rawModel = this.sendRequest(data);
 		updateModel(rawModel);
@@ -297,6 +354,7 @@ public abstract class Resource {
 	}
 
 	/**
+	 * PUT resource (update)
 	 * 
 	 * @throws ResponseException
 	 * @throws IOException
@@ -323,6 +381,7 @@ public abstract class Resource {
 	}
 	
 	/**
+	 * DELETE resource
 	 * 
 	 * @throws ResponseException
 	 * @throws IOException
@@ -345,6 +404,7 @@ public abstract class Resource {
 	/**
 	 * 
 	 * @param content
+	 * @return {@link Map}
 	 * @throws ResponseException
 	 * @throws IOException
 	 */
@@ -353,19 +413,44 @@ public abstract class Resource {
 		return this.post(data);
 	}
 	
-	protected Map<String, Object> post(Map<String, Object> content, Map<String, String> headers) throws ResponseException, IOException{
+	/**
+	 * POST resource
+	 * 
+	 * @param content
+	 * @param headers
+	 * @return {@link Map}
+	 * @throws ResponseException
+	 * @throws IOException
+	 */
+	public Map<String, Object> post(Map<String, Object> content, Map<String, String> headers) throws ResponseException, IOException{
 		RequestData data = this.createRequestData(RequestType.HTTP_POST, null, content, headers);
 		return this.post(data);
 	}
-		
-	protected Map<String, Object> post(RequestData data) throws ResponseException, IOException{
+	
+	/**
+	 * POST resource
+	 * 
+	 * @param data
+	 * @return {@link Map}
+	 * @throws ResponseException
+	 * @throws IOException
+	 */
+	public Map<String, Object> post(RequestData data) throws ResponseException, IOException{
 		Map<String, Object> rawModel = this.sendRequest(data);
 		addModel(rawModel);
 		return rawModel;
 	}
 	
+	/**
+	 * POST resource
+	 * 
+	 * @param data
+	 * @return {@link Map}
+	 * @throws ResponseException
+	 * @throws IOException
+	 */
 	@SuppressWarnings("unchecked")
-	protected Map<String, Object> sendRequest(RequestData data) throws ResponseException, IOException{
+	public Map<String, Object> sendRequest(RequestData data) throws ResponseException, IOException{
 		Request request = RequestFactory.createRequest(data);
 		Response response = request.send();
 		if(!response.isSuccessStatusCode())

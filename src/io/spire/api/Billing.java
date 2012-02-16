@@ -8,8 +8,12 @@ import java.util.List;
 import java.util.Map;
 
 import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
+import io.spire.api.Resource.ResourceModel;
 
 /**
+ * Spire Billing plans
+ * 
+ * @since 1.0
  * @author Jorge Gonzalez
  *
  */
@@ -18,13 +22,15 @@ public class Billing extends Resource {
 	private List<Plan> plans;
 	
 	/**
-	 * 
+	 * @see Resource#Resource()
 	 */
 	public Billing() {
 		super();
 	}
 
 	/**
+	 * @see Resource#Resource(APISchemaModel)
+	 * 
 	 * @param schema
 	 */
 	public Billing(APISchemaModel schema) {
@@ -32,6 +38,8 @@ public class Billing extends Resource {
 	}
 
 	/**
+	 * @see Resource#Resource(ResourceModel, APISchemaModel)
+	 * 
 	 * @param model
 	 * @param schema
 	 */
@@ -67,21 +75,34 @@ public class Billing extends Resource {
 		
 	}
 	
+	/**
+	 * Gets a list of {@link Plan}
+	 * 
+	 * @return List<Plans>
+	 */
 	public List<Plan> getPlans(){
 		return plans;
 	}
 	
+	/**
+	 * 
+	 * @since 1.0
+	 * @author Jorge Gonzalez
+	 *
+	 */
 	public static class Plan extends Resource{
 		private Features features;
 		
 		/**
-		 * 
+		 * @see Resource#Resource()
 		 */
 		public Plan() {
 			super();
 		}
 
 		/**
+		 * @see Resource#Resource(APISchemaModel)
+		 * 
 		 * @param schema
 		 */
 		public Plan(APISchemaModel schema) {
@@ -89,6 +110,8 @@ public class Billing extends Resource {
 		}
 
 		/**
+		 * @see Resource#Resource(ResourceModel, APISchemaModel)
+		 * 
 		 * @param model
 		 * @param schema
 		 */
@@ -96,22 +119,39 @@ public class Billing extends Resource {
 			super(model, schema);
 		}
 		
+		/**
+		 * 
+		 * @return String
+		 */
 		public String getId(){
 			return this.model.getProperty("id", String.class);
 		}
 		
+		@Override
 		public String getName(){
 			return this.model.getProperty("name", String.class);
 		}
 		
+		/**
+		 * 
+		 * @return String
+		 */
 		public String getDescription(){
 			return this.model.getProperty("description", String.class);
 		}
 		
+		/**
+		 * 
+		 * @return Double
+		 */
 		public Double getPrice(){
 			return Double.parseDouble(this.model.getProperty("price", String.class));
 		}
 		
+		/**
+		 * 
+		 * @return Features
+		 */
 		public Features getFeatures(){
 			return features;
 		}
@@ -132,16 +172,26 @@ public class Billing extends Resource {
 			
 		}
 		
+		/**
+		 * Billing plan features
+		 * 
+		 * @since 1.0
+		 * @author Jorge Gonzalez
+		 *
+		 */
 		public static class Features extends Resource{
 			private Queue queue;
+			
 			/**
-			 * 
+			 * @see Resource#Resource()
 			 */
 			public Features() {
 				super();
 			}
 
 			/**
+			 * @see Resource#Resource(APISchemaModel)
+			 * 
 			 * @param schema
 			 */
 			public Features(APISchemaModel schema) {
@@ -149,6 +199,8 @@ public class Billing extends Resource {
 			}
 
 			/**
+			 * @see Resource#Resource(ResourceModel, APISchemaModel)
+			 * 
 			 * @param model
 			 * @param schema
 			 */
@@ -172,23 +224,39 @@ public class Billing extends Resource {
 				
 			}
 			
+			/**
+			 * 
+			 * @return Integer
+			 */
 			public Integer getRPS(){
 				return this.model.getProperty("rps", Integer.class);
 			}
 			
+			/**
+			 * 
+			 * @return Queue
+			 */
 			public Queue getQueue(){
 				return queue;
 			}
 			
+			/**
+			 * 
+			 * @since 1.0
+			 * @author Jorge Gonzalez
+			 *
+			 */
 			public static class Queue extends Resource{
 				/**
-				 * 
+				 * @see Resource#Resource()
 				 */
 				public Queue() {
 					super();
 				}
 
 				/**
+				 * @see Resource#Resource(APISchemaModel)
+				 * 
 				 * @param schema
 				 */
 				public Queue(APISchemaModel schema) {
@@ -196,6 +264,8 @@ public class Billing extends Resource {
 				}
 
 				/**
+				 * @see Resource#Resource(ResourceModel, APISchemaModel)
+				 * 
 				 * @param model
 				 * @param schema
 				 */
@@ -203,6 +273,10 @@ public class Billing extends Resource {
 					super(model, schema);
 				}
 				
+				/**
+				 * 
+				 * @return Integer
+				 */
 				public Integer getLimit(){
 					return this.model.getProperty("limit", Integer.class);
 				}
@@ -224,6 +298,12 @@ public class Billing extends Resource {
 		}
 	}
 	
+	/**
+	 * 
+	 * @since 1.0
+	 * @author Jorge Gonzalez
+	 *
+	 */
 	public static class Plans extends ArrayList<Plan>{
 
 		/**

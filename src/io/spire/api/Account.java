@@ -8,6 +8,9 @@ import java.util.Map;
 import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
 
 /**
+ * Spire Account resource
+ * 
+ * @since 1.0
  * @author Jorge Gonzalez
  *
  */
@@ -17,6 +20,14 @@ public class Account extends Resource {
 	private BillingSubscription billing;
 	
 	/**
+	 * @see Resource#Resource()
+	 */
+	public Account() {
+		super();
+	}
+	
+	/**
+	 * @see Resource#Resource(APISchemaModel)
 	 * 
 	 * @param schema
 	 */
@@ -25,6 +36,8 @@ public class Account extends Resource {
 	}
 	
 	/**
+	 * @see Resource#Resource(ResourceModel, APISchemaModel)
+	 * 
 	 * @param model
 	 * @param schema
 	 */
@@ -51,6 +64,13 @@ public class Account extends Resource {
 		
 	}
 	
+	/**
+	 * CORS data
+	 * 
+	 * @since 1.0
+	 * @author Jorge Gonzalez
+	 *
+	 */
 	public static class Origin extends Resource{
 		/**
 		 * 
@@ -83,75 +103,159 @@ public class Account extends Resource {
 			
 		}
 
+		/**
+		 * Gets the Origin host
+		 * 
+		 * @return {@link String}
+		 */
 		public String getHost(){
 			return this.model.getProperty("host", String.class);
 		}
 		
+		/**
+		 * Sets the Origin host
+		 * 
+		 * @param host
+		 */
 		public void setHost(String host){
 			this.model.setProperty("host", host);
 		}
 		
+		/**
+		 * Gets the Origin scheme
+		 * 
+		 * @return {@link String}
+		 */
 		public String getScheme(){
 			return this.model.getProperty("scheme", String.class);
 		}
 		
+		/**
+		 * Sets the Origin scheme
+		 * 
+		 * @param scheme
+		 */
 		public void setScheme(String scheme){
 			this.model.setProperty("scheme", scheme);
 		}
 		
+		/**
+		 * Gets the Origin port
+		 * 
+		 * @return Integer
+		 */
 		public Integer getPort(){
 			return this.model.getProperty("port", Integer.class);
 		}
 		
+		/**
+		 * Sets the Origin port
+		 * 
+		 * @param port
+		 */
 		public void setPort(Integer port){
 			this.model.setProperty("port", port);
 		}
 	}
-		
+	
+	/**
+	 * Account email
+	 * 
+	 * @return {@link String}
+	 */
 	public String getEmail(){
 		return this.model.getProperty("email", String.class);
 	}
 	
+	/**
+	 * 
+	 * @param email
+	 */
 	public void setEmail(String email){
 		this.model.setProperty("email", email);
 	}
 	
+	/**
+	 * Account company
+	 * 
+	 * @return String
+	 */
 	public String getCompany(){
 		return this.model.getProperty("company", String.class);
 	}
 	
+	/**
+	 * 
+	 * @param companyName
+	 */
 	public void setCompany(String companyName){
 		this.model.setProperty("company", companyName);
 	}
 	
+	/**
+	 * Account Origin
+	 * 
+	 * @return Origin
+	 */
 	public Origin getOrigin(){
 		return origin;
 	}
 	
+	/**
+	 * 
+	 * @param origin
+	 */
 	public void setOrigin(Origin origin){
 		this.origin = origin;
 	}
 	
+	/**
+	 * Recurrent payment token
+	 * 
+	 * @return String
+	 */
 	public String getPaymentToken(){
 		return this.model.getProperty("paymentToken", String.class);
 	}
 	
+	/**
+	 * 
+	 * @param token
+	 */
 	public void setpaymentToken(String token){
 		this.model.setProperty("paymentToken", token);
 	}
 	
+	/**
+	 * Last 4 digit of the credit card used for billing
+	 * 
+	 * @return String
+	 */
 	public String getCreditCard(){
 		return this.model.getProperty("cc", String.class);
 	}
 	
+	/**
+	 * 
+	 * @param cc
+	 */
 	public void setCreditCard(String cc){
 		this.model.setProperty("cc", cc);
 	}
 	
+	/**
+	 * Account billing subscription
+	 * 
+	 * @return BillingSubscription
+	 */
 	public BillingSubscription getBilling(){
 		return billing;
 	}
 	
+	/**
+	 * 
+	 * @param billing
+	 */
 	public void setBilling(BillingSubscription billing){
 		this.billing = billing;
 	}

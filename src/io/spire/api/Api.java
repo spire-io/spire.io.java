@@ -118,6 +118,11 @@ public class Api {
 		@Key
 		private APIResourceCollectionModel resources;
 		
+		/**
+		 * Gets Api resource descriptions
+		 * 
+		 * @return {@link APIResourceCollectionModel}
+		 */
 		public APIResourceCollectionModel getResources(){
 			return this.resources;
 		}
@@ -144,7 +149,7 @@ public class Api {
 		}
 		
 		/**
-		 * Holds description about the Api resources schemas
+		 * Describes Api resource schemas
 		 * 
 		 * since 1.0
 		 * @author Jorge Gonzalez
@@ -168,6 +173,11 @@ public class Api {
 		@Key
 		private APISchemaModel schema;
 		
+		/**
+		 * Gets Api schema resources
+		 * 
+		 * @return {@link APISchemaModel}
+		 */
 		public APISchemaModel getSchema(){
 			return this.schema;
 		}
