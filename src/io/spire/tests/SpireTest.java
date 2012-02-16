@@ -137,16 +137,21 @@ public class SpireTest {
 		Account account = spire.getSession().getAccount();
 		String companyName = "The Company";
 		String accountName = "Account Name";
+		/* Account CORS */
+		// ** commented out until branch #137 is merged in **
+		/*
 		account.getOrigin().setHost("test.com");
 		account.getOrigin().setScheme("http");
 		account.getOrigin().setPort(8080);
+		*/
 		account.setCompany(companyName);
 		account.setName(accountName);
 		account.update();
-		assertEquals("Update account company", account.getCompany(), companyName);
-		assertEquals("Update account company", account.getName(), accountName);
-		assertEquals(account.getOrigin().getHost(), "test.com");
-//		print(account.getKey());
+		assertEquals("Update company name", account.getCompany(), companyName);
+		assertEquals("Update account name", account.getName(), accountName);
+		/* Account CORS */
+		// ** commented out until branch #137 is merged in **
+		//assertEquals(account.getOrigin().getHost(), "test.com");
 		
 		Account account2 = new Account(description.getSchema());
 		account2.setCapability(account.getCapability());
@@ -154,10 +159,12 @@ public class SpireTest {
 		account2.get();
 		assertEquals(account.getKey(), account2.getKey());
 		assertEquals(account.getName(), account2.getName());
-		// test account origin properties
+		/* Account CORS */
+		/* ** commented out until branch #137 is merged in **
 		assertEquals(account.getOrigin().getHost(), account2.getOrigin().getHost());
 		assertEquals(account.getOrigin().getHost(), account2.getOrigin().getHost());
 		assertEquals(account.getOrigin().getHost(), account2.getOrigin().getHost());
+		*/
 	}
 	
 	@Test
