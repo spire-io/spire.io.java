@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
+import io.spire.api.Api.ApiDescriptionModel.ApiSchemaModel;
 import io.spire.request.ResponseException;
 
 /**
@@ -30,7 +30,7 @@ public class Channel extends Resource {
 	/**
 	 * @param schema
 	 */
-	public Channel(APISchemaModel schema) {
+	public Channel(ApiSchemaModel schema) {
 		super(schema);
 	}
 
@@ -38,7 +38,7 @@ public class Channel extends Resource {
 	 * @param model
 	 * @param schema
 	 */
-	public Channel(ResourceModel model, APISchemaModel schema) {
+	public Channel(ResourceModel model, ApiSchemaModel schema) {
 		super(model, schema);
 	}
 
@@ -112,7 +112,7 @@ public class Channel extends Resource {
 		/**
 		 * @param schema
 		 */
-		public Channels(APISchemaModel schema) {
+		public Channels(ApiSchemaModel schema) {
 			super(schema);
 		}
 
@@ -120,7 +120,7 @@ public class Channel extends Resource {
 		 * @param model
 		 * @param schema
 		 */
-		public Channels(ResourceModel model, APISchemaModel schema) {
+		public Channels(ResourceModel model, ApiSchemaModel schema) {
 			super(model, schema);
 		}
 		

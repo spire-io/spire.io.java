@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
+import io.spire.api.Api.ApiDescriptionModel.ApiSchemaModel;
 import io.spire.api.Channel.Channels;
 import io.spire.api.Subscription.Subscriptions;
 import io.spire.request.ResponseException;
@@ -26,7 +26,7 @@ public class Session extends Resource {
 	/**
 	 * 
 	 */
-	public Session(ResourceModel model, APISchemaModel schema) {
+	public Session(ResourceModel model, ApiSchemaModel schema) {
 		super(model, schema);
 	}
 	

@@ -3,7 +3,7 @@
  */
 package io.spire.api;
 
-import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
+import io.spire.api.Api.ApiDescriptionModel.ApiSchemaModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ public class Events extends Resource {
 	/**
 	 * @param schema
 	 */
-	public Events(APISchemaModel schema) {
+	public Events(ApiSchemaModel schema) {
 		super(schema);
 	}
 
@@ -34,7 +34,7 @@ public class Events extends Resource {
 	 * @param model
 	 * @param schema
 	 */
-	public Events(ResourceModel model, APISchemaModel schema) {
+	public Events(ResourceModel model, ApiSchemaModel schema) {
 		super(model, schema);
 	}
 

@@ -18,7 +18,7 @@ import io.spire.api.Events;
 import io.spire.api.Listener;
 import io.spire.api.Message;
 import io.spire.api.Message.MessageOptions;
-import io.spire.api.Api.APIDescriptionModel;
+import io.spire.api.Api.ApiDescriptionModel;
 import io.spire.api.Subscription;
 import io.spire.api.Subscription.Subscriptions;
 import io.spire.request.ResponseException;
@@ -32,11 +32,11 @@ import static org.junit.Assert.*;
  */
 public class SpireTest {
 
-	public static final String SPIRE_URL_LOCAL = "http://localhost:1337";
+	//public static final String SPIRE_URL_LOCAL = "http://localhost:1337";
 	public static final String SPIRE_URL = "http://build.spire.io";
 
 	private Spire spire;
-	private APIDescriptionModel description;
+	private ApiDescriptionModel description;
 	private String key;
 	private String email;
 	private String password;
@@ -45,8 +45,8 @@ public class SpireTest {
 
 	}
 
-	private Spire createSpire(APIDescriptionModel description) {
-		Spire spire = new Spire(SPIRE_URL_LOCAL);
+	private Spire createSpire(ApiDescriptionModel description) {
+		Spire spire = new Spire(SPIRE_URL);
 		if (description != null)
 			spire.getApi().setApiDescription(description);
 		return spire;

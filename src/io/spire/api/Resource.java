@@ -3,7 +3,7 @@
  */
 package io.spire.api;
 
-import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
+import io.spire.api.Api.ApiDescriptionModel.ApiSchemaModel;
 import io.spire.request.Request.RequestType;
 import io.spire.request.Request;
 import io.spire.request.RequestData;
@@ -29,7 +29,7 @@ public abstract class Resource {
 	/** Holds the internal resource data */
 	protected ResourceModel model;
 	/** Holds descriptions of all Api resource schemas */
-	protected APISchemaModel schema;
+	protected ApiSchemaModel schema;
 	
 	/**
 	 * Default constructor
@@ -41,9 +41,9 @@ public abstract class Resource {
 	/**
 	 * Initialize a resource with the Api resource schemas
 	 * 
-	 * @param schema {@link APISchemaModel}
+	 * @param schema {@link ApiSchemaModel}
 	 */
-	public Resource(APISchemaModel schema) {
+	public Resource(ApiSchemaModel schema) {
 		this();
 		this.schema = schema;
 	}
@@ -54,7 +54,7 @@ public abstract class Resource {
 	 * @param model
 	 * @param schema
 	 */
-	public Resource(ResourceModel model, APISchemaModel schema) {
+	public Resource(ResourceModel model, ApiSchemaModel schema) {
 		this.schema = schema;
 		this.model = model;
 		this.initialize();
@@ -154,11 +154,11 @@ public abstract class Resource {
 		}
 		
 		@SuppressWarnings("unchecked")
-		public <T> Map<String, T> getMapCollection(String resourceName, Class<T> T, APISchemaModel schema) throws RuntimeException{
+		public <T> Map<String, T> getMapCollection(String resourceName, Class<T> T, ApiSchemaModel schema) throws RuntimeException{
 			HashMap<String, T> mapCollection = new HashMap<String, T>();
 			Constructor<T> constructorT;
 			try {
-				constructorT = T.getConstructor(ResourceModel.class, APISchemaModel.class);
+				constructorT = T.getConstructor(ResourceModel.class, ApiSchemaModel.class);
 			} catch (NoSuchMethodException e) {
 				e.printStackTrace();
 				return null;

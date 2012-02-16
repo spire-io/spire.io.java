@@ -26,7 +26,7 @@ public class Api {
 	public static String API_VERSION = "1.0";
 	
 	private String url;
-	private APIDescriptionModel description;
+	private ApiDescriptionModel description;
 	
 	/**
 	 * 
@@ -49,30 +49,30 @@ public class Api {
 	/**
 	 * Get access to the Api description resource
 	 * 
-	 * @return {@link APIDescriptionModel}
+	 * @return {@link ApiDescriptionModel}
 	 */
-	public APIDescriptionModel getApiDescription(){
+	public ApiDescriptionModel getApiDescription(){
 		return description;
 	}
 	
 	/**
-	 * Sets the {@link APIDescriptionModel} description object
+	 * Sets the {@link ApiDescriptionModel} description object
 	 * 
 	 * @param description
 	 */
-	public void setApiDescription(APIDescriptionModel description){
+	public void setApiDescription(ApiDescriptionModel description){
 		this.description = description;
 	}
 	
 	/**
 	 * Holds the Spire Api resource model from {@link Api#discover()}
-	 * This class knows how to parsed the APIDescriptionModel
+	 * This class knows how to parsed the ApiDescriptionModel
 	 * 
 	 * @since 1.0
 	 * @author Jorge Gonzalez
 	 *
 	 */
-	public static class APIDescriptionModel{
+	public static class ApiDescriptionModel{
 		
 		@Key
 		private String url;
@@ -88,7 +88,7 @@ public class Api {
 		 * @author Jorge Gonzalez
 		 *
 		 */
-		public static class APIResourceCollectionModel extends HashMap<String, APIResourceModel> implements ResourceModelInterface {
+		public static class ApiResourceCollectionModel extends HashMap<String, ApiResourceModel> implements ResourceModelInterface {
 			/**
 			 * 
 			 */
@@ -108,22 +108,22 @@ public class Api {
 			 * Provides access to resources
 			 * 
 			 * @param resourceName
-			 * @return {@link APIResourceModel}
+			 * @return {@link ApiResourceModel}
 			 */
-			public APIResourceModel getResource(String resourceName){
-				return this.getProperty(resourceName, APIResourceModel.class); 
+			public ApiResourceModel getResource(String resourceName){
+				return this.getProperty(resourceName, ApiResourceModel.class); 
 			}
 		}
 		
 		@Key
-		private APIResourceCollectionModel resources;
+		private ApiResourceCollectionModel resources;
 		
 		/**
 		 * Gets Api resource descriptions
 		 * 
-		 * @return {@link APIResourceCollectionModel}
+		 * @return {@link ApiResourceCollectionModel}
 		 */
-		public APIResourceCollectionModel getResources(){
+		public ApiResourceCollectionModel getResources(){
 			return this.resources;
 		}
 		
@@ -134,7 +134,7 @@ public class Api {
 		 * @author Jorge Gonzalez
 		 *
 		 */
-		public static class APIResourceModel extends HashMap<String, Object> implements ResourceModelInterface {			
+		public static class ApiResourceModel extends HashMap<String, Object> implements ResourceModelInterface {			
 			private static final long serialVersionUID = 5222700238203763225L;
 
 			@SuppressWarnings("unchecked")
@@ -155,7 +155,7 @@ public class Api {
 		 * @author Jorge Gonzalez
 		 *
 		 */
-		public static class APISchemaModel extends APIResourceModel {			
+		public static class ApiSchemaModel extends ApiResourceModel {			
 			/**
 			 * 
 			 */
@@ -171,14 +171,14 @@ public class Api {
 		}
 		
 		@Key
-		private APISchemaModel schema;
+		private ApiSchemaModel schema;
 		
 		/**
 		 * Gets Api schema resources
 		 * 
-		 * @return {@link APISchemaModel}
+		 * @return {@link ApiSchemaModel}
 		 */
-		public APISchemaModel getSchema(){
+		public ApiSchemaModel getSchema(){
 			return this.schema;
 		}
 	}
@@ -199,7 +199,7 @@ public class Api {
 		Response response = request.send();
 		if(!response.isSuccessStatusCode())
 			throw new ResponseException(response, "Error during discovery: " + response.getStatusCode());
-		description = response.parseAs(APIDescriptionModel.class);
+		description = response.parseAs(ApiDescriptionModel.class);
 	}
 	
 	/**

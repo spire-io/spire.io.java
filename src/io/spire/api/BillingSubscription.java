@@ -5,7 +5,7 @@ package io.spire.api;
 
 import java.util.Map;
 
-import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
+import io.spire.api.Api.ApiDescriptionModel.ApiSchemaModel;
 
 /**
  * @author Jorge Gonzalez
@@ -24,7 +24,7 @@ public class BillingSubscription extends Resource {
 	/**
 	 * @param schema
 	 */
-	public BillingSubscription(APISchemaModel schema) {
+	public BillingSubscription(ApiSchemaModel schema) {
 		super(schema);
 	}
 
@@ -32,7 +32,7 @@ public class BillingSubscription extends Resource {
 	 * @param model
 	 * @param schema
 	 */
-	public BillingSubscription(ResourceModel model, APISchemaModel schema) {
+	public BillingSubscription(ResourceModel model, ApiSchemaModel schema) {
 		super(model, schema);
 	}
 	
@@ -78,7 +78,7 @@ public class BillingSubscription extends Resource {
 		/**
 		 * @param schema
 		 */
-		public BillingInvoices(APISchemaModel schema) {
+		public BillingInvoices(ApiSchemaModel schema) {
 			super(schema);
 		}
 
@@ -86,7 +86,7 @@ public class BillingSubscription extends Resource {
 		 * @param model
 		 * @param schema
 		 */
-		public BillingInvoices(ResourceModel model, APISchemaModel schema) {
+		public BillingInvoices(ResourceModel model, ApiSchemaModel schema) {
 			super(model, schema);
 		}
 		

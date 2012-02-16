@@ -5,7 +5,7 @@ package io.spire.api;
 
 import java.util.Map;
 
-import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
+import io.spire.api.Api.ApiDescriptionModel.ApiSchemaModel;
 
 /**
  * Spire Account resource
@@ -27,21 +27,21 @@ public class Account extends Resource {
 	}
 	
 	/**
-	 * @see Resource#Resource(APISchemaModel)
+	 * @see Resource#Resource(ApiSchemaModel)
 	 * 
 	 * @param schema
 	 */
-	public Account(APISchemaModel schema) {
+	public Account(ApiSchemaModel schema) {
 		super(schema);
 	}
 	
 	/**
-	 * @see Resource#Resource(ResourceModel, APISchemaModel)
+	 * @see Resource#Resource(ResourceModel, ApiSchemaModel)
 	 * 
 	 * @param model
 	 * @param schema
 	 */
-	public Account(ResourceModel model, APISchemaModel schema) {
+	public Account(ResourceModel model, ApiSchemaModel schema) {
 		super(model, schema);
 	}
 	
@@ -76,7 +76,7 @@ public class Account extends Resource {
 		 * 
 		 * @param schema
 		 */
-		public Origin(APISchemaModel schema) {
+		public Origin(ApiSchemaModel schema) {
 			super(schema);
 		}
 		
@@ -84,7 +84,7 @@ public class Account extends Resource {
 		 * @param model
 		 * @param schema
 		 */
-		public Origin(ResourceModel model, APISchemaModel schema) {
+		public Origin(ResourceModel model, ApiSchemaModel schema) {
 			super(model, schema);
 		}
 		

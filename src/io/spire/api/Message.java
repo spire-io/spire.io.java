@@ -3,7 +3,7 @@
  */
 package io.spire.api;
 
-import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
+import io.spire.api.Api.ApiDescriptionModel.ApiSchemaModel;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +23,7 @@ public class Message extends Resource {
 	/**
 	 * @param schema
 	 */
-	public Message(APISchemaModel schema) {
+	public Message(ApiSchemaModel schema) {
 		super(schema);
 	}
 
@@ -31,7 +31,7 @@ public class Message extends Resource {
 	 * @param model
 	 * @param schema
 	 */
-	public Message(ResourceModel model, APISchemaModel schema) {
+	public Message(ResourceModel model, ApiSchemaModel schema) {
 		super(model, schema);
 	}
 

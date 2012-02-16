@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
+import io.spire.api.Api.ApiDescriptionModel.ApiSchemaModel;
 import io.spire.api.Message.MessageOptions;
 import io.spire.request.ResponseException;
 
@@ -40,7 +40,7 @@ public class Subscription extends Resource {
 	/**
 	 * @param schema
 	 */
-	public Subscription(APISchemaModel schema) {
+	public Subscription(ApiSchemaModel schema) {
 		super(schema);
 		defaultMessageOptions = new MessageOptions();
 		listeners = new HashMap<Integer, Listener>();
@@ -50,7 +50,7 @@ public class Subscription extends Resource {
 	 * @param model
 	 * @param schema
 	 */
-	public Subscription(ResourceModel model, APISchemaModel schema) {
+	public Subscription(ResourceModel model, ApiSchemaModel schema) {
 		super(model, schema);
 		defaultMessageOptions = new MessageOptions();
 		listeners = new HashMap<Integer, Listener>();
@@ -206,7 +206,7 @@ public class Subscription extends Resource {
 		/**
 		 * @param schema
 		 */
-		public Subscriptions(APISchemaModel schema) {
+		public Subscriptions(ApiSchemaModel schema) {
 			super(schema);
 		}
 
@@ -214,7 +214,7 @@ public class Subscription extends Resource {
 		 * @param model
 		 * @param schema
 		 */
-		public Subscriptions(ResourceModel model, APISchemaModel schema) {
+		public Subscriptions(ResourceModel model, ApiSchemaModel schema) {
 			super(model, schema);
 		}
 		

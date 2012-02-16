@@ -7,8 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
-import io.spire.api.Resource.ResourceModel;
+import io.spire.api.Api.ApiDescriptionModel.ApiSchemaModel;
 
 /**
  * Spire Billing plans
@@ -29,21 +28,21 @@ public class Billing extends Resource {
 	}
 
 	/**
-	 * @see Resource#Resource(APISchemaModel)
+	 * @see Resource#Resource(ApiSchemaModel)
 	 * 
 	 * @param schema
 	 */
-	public Billing(APISchemaModel schema) {
+	public Billing(ApiSchemaModel schema) {
 		super(schema);
 	}
 
 	/**
-	 * @see Resource#Resource(ResourceModel, APISchemaModel)
+	 * @see Resource#Resource(ResourceModel, ApiSchemaModel)
 	 * 
 	 * @param model
 	 * @param schema
 	 */
-	public Billing(ResourceModel model, APISchemaModel schema) {
+	public Billing(ResourceModel model, ApiSchemaModel schema) {
 		super(model, schema);
 	}
 
@@ -101,21 +100,21 @@ public class Billing extends Resource {
 		}
 
 		/**
-		 * @see Resource#Resource(APISchemaModel)
+		 * @see Resource#Resource(ApiSchemaModel)
 		 * 
 		 * @param schema
 		 */
-		public Plan(APISchemaModel schema) {
+		public Plan(ApiSchemaModel schema) {
 			super(schema);
 		}
 
 		/**
-		 * @see Resource#Resource(ResourceModel, APISchemaModel)
+		 * @see Resource#Resource(ResourceModel, ApiSchemaModel)
 		 * 
 		 * @param model
 		 * @param schema
 		 */
-		public Plan(ResourceModel model, APISchemaModel schema) {
+		public Plan(ResourceModel model, ApiSchemaModel schema) {
 			super(model, schema);
 		}
 		
@@ -190,21 +189,21 @@ public class Billing extends Resource {
 			}
 
 			/**
-			 * @see Resource#Resource(APISchemaModel)
+			 * @see Resource#Resource(ApiSchemaModel)
 			 * 
 			 * @param schema
 			 */
-			public Features(APISchemaModel schema) {
+			public Features(ApiSchemaModel schema) {
 				super(schema);
 			}
 
 			/**
-			 * @see Resource#Resource(ResourceModel, APISchemaModel)
+			 * @see Resource#Resource(ResourceModel, ApiSchemaModel)
 			 * 
 			 * @param model
 			 * @param schema
 			 */
-			public Features(ResourceModel model, APISchemaModel schema) {
+			public Features(ResourceModel model, ApiSchemaModel schema) {
 				super(model, schema);
 			}
 			
@@ -255,21 +254,21 @@ public class Billing extends Resource {
 				}
 
 				/**
-				 * @see Resource#Resource(APISchemaModel)
+				 * @see Resource#Resource(ApiSchemaModel)
 				 * 
 				 * @param schema
 				 */
-				public Queue(APISchemaModel schema) {
+				public Queue(ApiSchemaModel schema) {
 					super(schema);
 				}
 
 				/**
-				 * @see Resource#Resource(ResourceModel, APISchemaModel)
+				 * @see Resource#Resource(ResourceModel, ApiSchemaModel)
 				 * 
 				 * @param model
 				 * @param schema
 				 */
-				public Queue(ResourceModel model, APISchemaModel schema) {
+				public Queue(ResourceModel model, ApiSchemaModel schema) {
 					super(model, schema);
 				}
 				

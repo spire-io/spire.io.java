@@ -4,8 +4,8 @@
 package io.spire;
 
 import io.spire.api.Api;
-import io.spire.api.Api.APIDescriptionModel;
-import io.spire.api.Api.APIDescriptionModel.APISchemaModel;
+import io.spire.api.Api.ApiDescriptionModel;
+import io.spire.api.Api.ApiDescriptionModel.ApiSchemaModel;
 import io.spire.api.Billing;
 import io.spire.api.Channel;
 import io.spire.api.Resource;
@@ -287,7 +287,7 @@ public class Spire {
 	 *
 	 */
 	public static class SpireFactory{
-		private static APIDescriptionModel description;
+		private static ApiDescriptionModel description;
 		
 		private static void initialize() throws ResponseException, IOException{
 			if(SPIRE_API.getApiDescription() == null){
@@ -359,7 +359,7 @@ public class Spire {
 			Constructor<T> constructorT = null;
 			T t = null;
 			try {
-				constructorT = T.getConstructor(APISchemaModel.class);
+				constructorT = T.getConstructor(ApiSchemaModel.class);
 				t = constructorT.newInstance(description.getSchema());
 				Resource r = Resource.class.cast(t);
 				r.setCapability(capability);
