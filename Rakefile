@@ -58,6 +58,6 @@ end
 
 # Update the pages/ directory clone
 file 'docs/.git' => ['docs/', '.git/refs/heads/gh-pages'] do |f|
-    sh "cd docs && git init -q && git remote add origin git@github.com:spire-io/spire.io.rb.git" if !File.exist?(f.name)
+    sh "cd docs && git init -q && git remote add origin git@github.com:spire-io/spire.io.java.git" if !File.exist?(f.name)
     sh "cd docs && git fetch -q origin && git reset -q --hard origin/gh-pages && touch ."
 end
