@@ -297,6 +297,15 @@ public class Spire {
 		}
 		
 		/**
+		 * Creates a new Api object using the default Url
+		 * 
+		 * @return {@link Api}
+		 */
+		public static Api createApi(){
+			return new Api(Spire.SPIRE_URL);
+		}
+		
+		/**
 		 * Creates a new instance of a Spire Channel
 		 * 
 		 * @return {@link Channel}

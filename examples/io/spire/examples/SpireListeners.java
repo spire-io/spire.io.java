@@ -54,8 +54,6 @@ public class SpireListeners {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		// Use Spire Factory for quick instances creation 
-		
 		/* This is just for this test. 
 		 * We don't really want to be creating accounts every time, right?
 		 */
