@@ -1,1 +1,5 @@
-bin/*
+bin/
+build/
+docs/
+.settings
+.classpath
