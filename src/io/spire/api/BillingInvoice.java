@@ -8,6 +8,9 @@ import java.util.Map;
 import io.spire.api.Api.ApiDescriptionModel.ApiSchemaModel;
 
 /**
+ * Describes the Account's billing invoice
+ * 
+ * @since 1.0
  * @author Jorge Gonzalez
  *
  */

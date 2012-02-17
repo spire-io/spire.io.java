@@ -6,11 +6,21 @@ package io.spire.request;
 import java.io.IOException;
 
 /**
+ * Spire HTTP Request Abstract class
+ * Encapsulates any underlying HTTP client library used 
+ * 
+ * @since 1.0
  * @author Jorge Gonzalez
  *
  */
 public abstract class Request implements Requestable{
 
+	/**
+	 * 
+	 * @since 1.0
+	 * @author Jorge Gonzalez
+	 *
+	 */
 	public enum RequestType {
 		HTTP_GET,
 		HTTP_POST,
@@ -26,11 +36,19 @@ public abstract class Request implements Requestable{
 	public Request() {
 	}
 	
+	/**
+	 * 
+	 * @param data
+	 */
 	public Request(RequestData data) {
 		this.setRequestData(data);
 		this.prepareRequest(data);
 	}
 	
+	/**
+	 * 
+	 * @param data
+	 */
 	protected abstract void prepareRequest(RequestData data);
 	
 	/**
@@ -47,5 +65,8 @@ public abstract class Request implements Requestable{
 		this.requestData = requestData;
 	}
 
+	/**
+	 * 
+	 */
 	public abstract Response send() throws IOException;
 }

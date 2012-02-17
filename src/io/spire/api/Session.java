@@ -14,6 +14,12 @@ import io.spire.api.Subscription.Subscriptions;
 import io.spire.request.ResponseException;
 
 /**
+ * A session object gives you access to privileged resources. 
+ * The resources attribute will provide a list of them, by name. 
+ * For example, you'll have a resource called channels, which will give you 
+ * a list of channel resources.
+ * 
+ * @since 1.0
  * @author Jorge Gonzalez
  *
  */
@@ -61,24 +67,58 @@ public class Session extends Resource {
 		
 	}
 	
+	/**
+	 * The Account this session belongs to
+	 * 
+	 * @return {@link Account}
+	 */
 	public Account getAccount(){
 		return account;
 	}
 	
+	/**
+	 * {@link Channels} that belongs to this {@link Session}
+	 * 
+	 * @return {@link Channels}
+	 */
 	public Channels getChannels(){
 		return channels;
 	}
 	
+	/**
+	 * GET {@link Channels} that belong to this Session
+	 * 
+	 * @return {@link Channels}
+	 * @throws ResponseException
+	 * @throws IOException
+	 */
 	public Channels channels() throws ResponseException, IOException{
 		this.channels.get();
 		return this.channels;
 	}
 	
+	/**
+	 * Creates a new Channel resource
+	 * 
+	 * @param name
+	 * @return {@link Channel}
+	 * @throws ResponseException
+	 * @throws IOException
+	 */
 	public Channel createChannel(String name) throws ResponseException, IOException{
 		channels.createChannel(name);
 		return channels.getChannel(name);
 	}
 	
+	/**
+	 * Creates a new {@link Subscription}
+	 * 
+	 * @param name
+	 * @param channels
+	 * @return {@link Subscription}
+	 * @throws ResponseException
+	 * @throws IOException
+	 */
 	public Subscription createSubscription(String name, String ...channels) throws ResponseException, IOException{
 		List<String> channelList = new ArrayList<String>();
 		for (String channel : channels) {
@@ -88,6 +128,15 @@ public class Session extends Resource {
 		return createSubscription(name, channelList);
 	}
 	
+	/**
+	 * Creates a new {@link Subscription} for all existing channels
+	 * 
+	 * @param name
+	 * @param channels
+	 * @return {@link Subscription}
+	 * @throws ResponseException
+	 * @throws IOException
+	 */
 	public Subscription createSubscription(String name, List<String> channels) throws ResponseException, IOException{
 		List<String> channelUrls = new ArrayList<String>();
 		for (String channelName : channels) {
@@ -97,15 +146,42 @@ public class Session extends Resource {
 		return subscriptions.getSubscription(name); 
 	}
 	
+	/**
+	 * {@link Subscriptions} that belong to this {@link Session}
+	 * 
+	 * @return {@link Subscriptions}
+	 */
 	public Subscriptions getSubscriptions(){
 		return this.subscriptions;
 	}
 	
+	/**
+	 * GET {@link Subscriptions} that belong to this Session
+	 * 
+	 * @return {@link Subscriptions}
+	 * @throws ResponseException
+	 * @throws IOException
+	 */
 	public Subscriptions subscriptions() throws ResponseException, IOException{
 		this.subscriptions.get();
 		return this.subscriptions;
 	}
 	
+	/**
+	 * Creates a new {@link Subscription} for the specified {@link Channels} names
+	 * 
+	 * If any of the {@link Channel} does not exist, it gets created before trying to
+	 * subscribe to it.
+	 * 
+	 * If a {@link Subscription} with this 'name' already exists, then returns 
+	 * the existing {@link Subscription}
+	 * 
+	 * @param name
+	 * @param channels
+	 * @return {@link Subscription}
+	 * @throws ResponseException
+	 * @throws IOException
+	 */
 	public Subscription subscribe(String name, String ...channels) throws ResponseException, IOException{
 		List<String> channelUrls = new ArrayList<String>();
 		for (String channelName : channels) {

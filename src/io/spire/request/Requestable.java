@@ -7,6 +7,9 @@ import java.io.IOException;
 
 
 /**
+ * HTTP Request interface
+ * 
+ * @since 1.0
  * @author Jorge Gonzalez
  *
  */

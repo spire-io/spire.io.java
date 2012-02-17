@@ -21,14 +21,13 @@ public class Billing extends Resource {
 	private List<Plan> plans;
 	
 	/**
-	 * @see Resource#Resource()
+	 * 
 	 */
 	public Billing() {
 		super();
 	}
 
 	/**
-	 * @see Resource#Resource(ApiSchemaModel)
 	 * 
 	 * @param schema
 	 */
@@ -37,7 +36,6 @@ public class Billing extends Resource {
 	}
 
 	/**
-	 * @see Resource#Resource(ResourceModel, ApiSchemaModel)
 	 * 
 	 * @param model
 	 * @param schema
@@ -84,6 +82,7 @@ public class Billing extends Resource {
 	}
 	
 	/**
+	 * Describes features of a {@link BillingSubscription}
 	 * 
 	 * @since 1.0
 	 * @author Jorge Gonzalez
@@ -93,14 +92,13 @@ public class Billing extends Resource {
 		private Features features;
 		
 		/**
-		 * @see Resource#Resource()
+		 * 
 		 */
 		public Plan() {
 			super();
 		}
 
 		/**
-		 * @see Resource#Resource(ApiSchemaModel)
 		 * 
 		 * @param schema
 		 */
@@ -109,7 +107,6 @@ public class Billing extends Resource {
 		}
 
 		/**
-		 * @see Resource#Resource(ResourceModel, ApiSchemaModel)
 		 * 
 		 * @param model
 		 * @param schema
@@ -148,6 +145,7 @@ public class Billing extends Resource {
 		}
 		
 		/**
+		 * Gets the Plan features
 		 * 
 		 * @return Features
 		 */
@@ -182,14 +180,13 @@ public class Billing extends Resource {
 			private Queue queue;
 			
 			/**
-			 * @see Resource#Resource()
+			 * 
 			 */
 			public Features() {
 				super();
 			}
 
 			/**
-			 * @see Resource#Resource(ApiSchemaModel)
 			 * 
 			 * @param schema
 			 */
@@ -198,7 +195,6 @@ public class Billing extends Resource {
 			}
 
 			/**
-			 * @see Resource#Resource(ResourceModel, ApiSchemaModel)
 			 * 
 			 * @param model
 			 * @param schema
@@ -224,6 +220,7 @@ public class Billing extends Resource {
 			}
 			
 			/**
+			 * Gets the requests per second (rps)
 			 * 
 			 * @return Integer
 			 */
@@ -240,6 +237,7 @@ public class Billing extends Resource {
 			}
 			
 			/**
+			 * Describes technical features of the service
 			 * 
 			 * @since 1.0
 			 * @author Jorge Gonzalez
@@ -247,14 +245,13 @@ public class Billing extends Resource {
 			 */
 			public static class Queue extends Resource{
 				/**
-				 * @see Resource#Resource()
+				 * 
 				 */
 				public Queue() {
 					super();
 				}
 
 				/**
-				 * @see Resource#Resource(ApiSchemaModel)
 				 * 
 				 * @param schema
 				 */
@@ -263,7 +260,6 @@ public class Billing extends Resource {
 				}
 
 				/**
-				 * @see Resource#Resource(ResourceModel, ApiSchemaModel)
 				 * 
 				 * @param model
 				 * @param schema

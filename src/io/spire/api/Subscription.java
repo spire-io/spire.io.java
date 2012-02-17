@@ -15,6 +15,9 @@ import io.spire.api.Message.MessageOptions;
 import io.spire.request.ResponseException;
 
 /**
+ * A subscription resources makes it easy to check messages on one or more channels
+ * 
+ * @since 1.0
  * @author Jorge Gonzalez
  *
  */
@@ -96,6 +99,14 @@ public class Subscription extends Resource {
 		}
 	}
 	
+	/**
+	 * Retrieves messages {@link Events}
+	 * 
+	 * @param options {@link MessageOptions}
+	 * @return {@link Events}
+	 * @throws ResponseException
+	 * @throws IOException
+	 */
 	public Events retrieveMessages(MessageOptions options) throws ResponseException, IOException{
 		Map<String, Object> queryParams = options.getMapOptions();
 		
@@ -113,10 +124,25 @@ public class Subscription extends Resource {
 		return events;
 	}
 	
+	/**
+	 * Retrieve messages with default {@link MessageOptions}
+	 * 
+	 * @return {@link Events}
+	 * @throws ResponseException
+	 * @throws IOException
+	 */
 	public Events retrieveMessages() throws ResponseException, IOException{
 		return this.retrieveMessages(new MessageOptions());
 	}
 	
+	/**
+	 * Retrieve all messages since last timestamp
+	 * 
+	 * @param options
+	 * @return {@link Events}
+	 * @throws ResponseException
+	 * @throws IOException
+	 */
 	public Events poll(MessageOptions options) throws ResponseException, IOException{
         /*
          * timeout option of 0 means no long poll, so we force it here.
@@ -126,11 +152,26 @@ public class Subscription extends Resource {
 		return this.retrieveMessages(options);
 	}
 	
+	/**
+	 * Retrieve all messages since last timestamp with default {@link MessageOptions}
+	 * 
+	 * @return {@link Events}
+	 * @throws ResponseException
+	 * @throws IOException
+	 */
 	public Events poll() throws ResponseException, IOException{
         MessageOptions options = new MessageOptions();
 		return this.poll(options);
 	}
 	
+	/**
+	 * Retrieve all messages since last timestamp
+	 * 
+	 * @param options
+	 * @return {@link Events}
+	 * @throws ResponseException
+	 * @throws IOException
+	 */
 	public Events longPoll(MessageOptions options) throws ResponseException, IOException{
 		if(options.timeout == defaultMessageOptions.timeout)
 			options.timeout = this.longPollTimeout;
@@ -138,30 +179,65 @@ public class Subscription extends Resource {
 		return this.retrieveMessages(options);
 	}
 	
+	/**
+	 * Retrieve all messages since last timestamp with default {@link MessageOptions}
+	 * 
+	 * @return {@link Events}
+	 * @throws ResponseException
+	 * @throws IOException
+	 */
 	public Events longPoll() throws ResponseException, IOException{
 		MessageOptions options = new MessageOptions();
 		return this.longPoll(options);
 	}
 	
+	/**
+	 * Adds a listener to the pool
+	 * 
+	 * @param listener
+	 * @return {@link Integer} listener Id
+	 */
 	public int addListener(Listener listener){
 		int listenerId = listener.hashCode();
 		listeners.put(listenerId, listener);
 		return listenerId;
 	}
 	
+	/**
+	 * Removes a {@link Listener} from the pool
+	 * 
+	 * @param listenerId
+	 * @return {@link Listener}
+	 */
 	public Listener removeListener(int listenerId){
 		return this.listeners.remove(listenerId);
 	}
 	
+	/**
+	 * Removes a {@link Listener} from the pool
+	 * 
+	 * @param listener
+	 * @return {@link Listener}
+	 */
 	public Listener removeListener(Listener listener){
 		int listenerId = listener.hashCode();
 		return this.removeListener(listenerId);
 	}
 	
+	/**
+	 * Checks if it is in listening mode
+	 * 
+	 * @return {@link Boolean}
+	 */
 	public boolean isListening(){
 		return this.isListening;
 	}
 	
+	/**
+	 * Start listening for new {@link Events}
+	 * 
+	 * @param options
+	 */
 	public void startListening(MessageOptions options){
 		if(this.listeners.isEmpty())
 			return;
@@ -175,11 +251,17 @@ public class Subscription extends Resource {
 		this.listenerManager.start();
 	}
 	
+	/**
+	 * Starts listening for new {@link Events}
+	 */
 	public void startListening(){
 		MessageOptions options = new MessageOptions();
 		this.startListening(options);
 	}
 	
+	/**
+	 * Stops listening for new {@link Events}
+	 */
 	public void stopListening(){
 		this.isListening = false;
 		try {
@@ -189,10 +271,23 @@ public class Subscription extends Resource {
 		}
 	}
 	
+	/**
+	 * A Collection of all {@link Listener} in this {@link Subscription}
+	 * 
+	 * @return Collection
+	 */
 	public Collection<Listener> getListener(){
 		return this.listeners.values();
 	}
 	
+	/**
+	 * Describes a Collection of {@link Subscription}
+	 * The subscriptions resource allows you to create new subscriptions
+	 * 
+	 * @since 1.0
+	 * @author Jorge Gonzalez
+	 *
+	 */
 	public static class Subscriptions extends Resource implements Map<String, Subscription>{
 		private Map<String, Subscription> subscriptionCollection;
 		
@@ -248,6 +343,14 @@ public class Subscription extends Resource {
 			subscriptionCollection.put(subscription.getName(), subscription);
 		}
 		
+		/**
+		 * Creates a new {@link Subscription}
+		 * 
+		 * @param name
+		 * @param channels
+		 * @throws ResponseException
+		 * @throws IOException
+		 */
 		public void createSubscription(String name, List<String> channels) throws ResponseException, IOException{
 			Map<String, Object> content = new HashMap<String, Object>();
 			content.put("name", name);
@@ -321,9 +424,20 @@ public class Subscription extends Resource {
 		}
 	}
 	
+	/**
+	 * Listener Overlord does all the background polling of messages
+	 * 
+	 * @since 1.0
+	 * @author Jorge Gonzalez
+	 *
+	 */
 	private class ListenerManager extends Thread {
 		private MessageOptions options;
 		
+		/**
+		 * 
+		 * @param options
+		 */
 		public ListenerManager(MessageOptions options){
 			this.options = options;
 		}
@@ -345,7 +459,6 @@ public class Subscription extends Resource {
 					stopListening();
 				}
 			}
-			//System.out.println("Listener exits");
 		}
 	}
 

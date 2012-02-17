@@ -63,7 +63,8 @@ public abstract class Resource {
 	/**
 	 * This is called automatically by the resource constructor
 	 * to initialize any other internal properties.
-	 * Derived classes should override this method
+	 * Derived classes should override this method adding any 
+	 * custom initialization needed by the class
 	 */
 	protected abstract void initialize();
 	

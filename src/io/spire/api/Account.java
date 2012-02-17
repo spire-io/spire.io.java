@@ -8,7 +8,8 @@ import java.util.Map;
 import io.spire.api.Api.ApiDescriptionModel.ApiSchemaModel;
 
 /**
- * Spire Account resource
+ * An account resource allows you to get information about your account, 
+ * update it, or close it entirely.
  * 
  * @since 1.0
  * @author Jorge Gonzalez
@@ -20,14 +21,13 @@ public class Account extends Resource {
 	private BillingSubscription billing;
 	
 	/**
-	 * @see Resource#Resource()
+	 * 
 	 */
 	public Account() {
 		super();
 	}
 	
 	/**
-	 * @see Resource#Resource(ApiSchemaModel)
 	 * 
 	 * @param schema
 	 */
@@ -36,7 +36,6 @@ public class Account extends Resource {
 	}
 	
 	/**
-	 * @see Resource#Resource(ResourceModel, ApiSchemaModel)
 	 * 
 	 * @param model
 	 * @param schema

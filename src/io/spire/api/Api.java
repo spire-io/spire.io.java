@@ -15,7 +15,8 @@ import java.util.Map;
 import com.google.api.client.util.Key;
 
 /**
- * Encapsulates detailed information about the Spire Api resources.  
+ * Encapsulates detailed information about the Spire Api resources. 
+ * The description resource gives you a single point of entry into the spire.io services. 
  * 
  * @since 1.0
  * @author Jorge Gonzalez
@@ -149,7 +150,7 @@ public class Api {
 		}
 		
 		/**
-		 * Describes Api resource schemas
+		 * The schema resource provides a detailed schema for the spire media types.
 		 * 
 		 * since 1.0
 		 * @author Jorge Gonzalez

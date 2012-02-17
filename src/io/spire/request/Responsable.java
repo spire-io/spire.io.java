@@ -6,6 +6,8 @@ package io.spire.request;
 import java.io.IOException;
 
 /**
+ * 
+ * @since 1.0
  * @author Jorge Gonzalez
  *
  */

@@ -13,6 +13,10 @@ import io.spire.api.Api.ApiDescriptionModel.ApiSchemaModel;
 import io.spire.request.ResponseException;
 
 /**
+ * A channel resource allows you to get information about a channel, 
+ * publish messages to a channel, or close (delete) a channel.
+ * 
+ * @since 1.0
  * @author Jorge Gonzalez
  *
  */
@@ -63,18 +67,43 @@ public class Channel extends Resource {
 		
 	}
 	
+	/**
+	 * Gets a Collection of subscriptions names for this channel
+	 * 
+	 * @return {@link Set}
+	 */
 	public Set<String> getSubscriptionNames(){
 		return subscriptionCollection.keySet();
 	}
 	
+	/**
+	 * Gets a Collection of all {@link Subscription} for this channel
+	 * 
+	 * @return Collection
+	 */
 	public Collection<Subscription> getSubscriptions(){
 		return subscriptionCollection.values();
 	}
 	
+	/**
+	 * Gets a subscription by its name
+	 * 
+	 * @param name
+	 * @return {@link Subscription}
+	 */
 	public Subscription getSubcription(String name){
 		return subscriptionCollection.get(name);
 	}
 	
+	/**
+	 * Creates a subscription to this channel
+	 * 
+	 * @param name
+	 * @param session
+	 * @return {@link Subscription}
+	 * @throws ResponseException
+	 * @throws IOException
+	 */
 	public Subscription subscribe(String name, Session session) throws ResponseException, IOException{
 		Subscription subscription = session.subscribe(name, this.getName());
 		Channel channel = session.channels.getChannel(this.getName());
@@ -82,6 +111,14 @@ public class Channel extends Resource {
 		return subscription;
 	}
 	
+	/**
+	 * Publish a message to this channel
+	 * 
+	 * @param content of the message to publish
+	 * @return {@link Message}
+	 * @throws ResponseException
+	 * @throws IOException
+	 */
 	public Message publish(Object content) throws ResponseException, IOException{
 		Map<String, Object> messageContent = new HashMap<String, Object>();
 		messageContent.put("content", content);
@@ -98,7 +135,14 @@ public class Channel extends Resource {
 		return message;
 	}
 	
-	// TODO: this should implements Collection<Channel>
+	/**
+	 * Describes a Collection of channels
+	 * The channels resources allows you to create new channels.
+	 * 
+	 * @since 1.0
+	 * @author Jorge Gonzalez
+	 *
+	 */
 	public static class Channels extends Resource implements Map<String, Channel>{
 		private Map<String, Channel> channelCollection;
 		
@@ -140,10 +184,24 @@ public class Channel extends Resource {
 			return this.getClass().getSimpleName().toLowerCase();
 		}
 		
+		/**
+		 * Gets a channel by its name
+		 * @see #get(Object)
+		 * 
+		 * @param name
+		 * @return {@link Channel}
+		 */
 		public Channel getChannel(String name){
 			return channelCollection.get(name);
 		}
 		
+		/**
+		 * Adds a channel to the Collection
+		 * @see #put(String, Channel)
+		 *  
+		 * @param channel
+		 * @return {@link Channel}
+		 */
 		public Channel addChannel(Channel channel){
 			return channelCollection.put(channel.getName(), channel);
 		}
@@ -154,6 +212,13 @@ public class Channel extends Resource {
 			this.addChannel(channel);
 		}
 		
+		/**
+		 * Creates a new Channel
+		 * 
+		 * @param name
+		 * @throws ResponseException
+		 * @throws IOException
+		 */
 		public void createChannel(String name) throws ResponseException, IOException{
 			Map<String, Object> content = new HashMap<String, Object>();
 			content.put("name", name);

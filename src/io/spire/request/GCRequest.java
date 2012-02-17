@@ -26,6 +26,9 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson.JacksonFactory;
 
 /**
+ * Google HTTP Request wrapper
+ * 
+ * @since 1.0
  * @author Jorge Gonzalez
  *
  */
@@ -43,10 +46,19 @@ public class GCRequest extends Request {
 		super();
 	}
 	
+	/**
+	 * 
+	 * @param data
+	 */
 	public GCRequest(RequestData data) {
 		super(data);
 	}
 	
+	/**
+	 * 
+	 * @param data
+	 * @return {@link HttpHeaders}
+	 */
 	protected HttpHeaders getHTTPHeaders(RequestData data){
 		HttpHeaders headers = new HttpHeaders();
 		for (Map.Entry<String, String> header : data.headers.entrySet()) {
@@ -65,6 +77,10 @@ public class GCRequest extends Request {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param contentType
+	 */
 	protected void setRequestFactory(final String contentType){
 		if(requestFactory == null){
 			requestFactory =
@@ -81,6 +97,12 @@ public class GCRequest extends Request {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param url
+	 * @param queryParams
+	 * @return {@link GenericUrl}
+	 */
 	protected GenericUrl createCGUrl(String url, Map<String, Object> queryParams){
 		GenericUrl gurl = new GenericUrl(url);
 		if(queryParams != null){
@@ -89,6 +111,12 @@ public class GCRequest extends Request {
 		return gurl;
 	}
 	
+	/**
+	 * 
+	 * @param data
+	 * @return {@link HttpRequest}
+	 * @throws IOException
+	 */
 	protected HttpRequest getHTTPClient(RequestData data) throws IOException{
 		GenericUrl url = createCGUrl(data.url, data.queryParams);
 		HttpContent content = null;
@@ -132,8 +160,17 @@ public class GCRequest extends Request {
 		return response;
 	}
 	
+	/**
+	 * 
+	 * @since 1.0
+	 * @author Jorge Gonzalez
+	 *
+	 */
 	public static class CGRequestFactory extends RequestFactory{
 
+		/**
+		 * 
+		 */
 		public CGRequestFactory(){
 			super();
 		}

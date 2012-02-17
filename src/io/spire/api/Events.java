@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Describes events generated in Spire {@link Channel}
+ * 
+ * @since 1.0
  * @author Jorge Gonzalez
  *
  */
@@ -73,6 +76,11 @@ public class Events extends Resource {
 		this.initialize();
 	}
 	
+	/**
+	 * Gets a {@link List} of {@link Message}
+	 * 
+	 * @return {@link List}
+	 */
 	public List<Message> getMessages(){
 		return messages;
 	}

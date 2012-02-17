@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Describes the all HTTP request info 
+ * 
+ * @since 1.0
  * @author Jorge Gonzalez
  *
  */

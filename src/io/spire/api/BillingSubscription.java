@@ -8,6 +8,9 @@ import java.util.Map;
 import io.spire.api.Api.ApiDescriptionModel.ApiSchemaModel;
 
 /**
+ * Describes the plan the Account is subscribe to
+ *  
+ * @since 1.0
  * @author Jorge Gonzalez
  *
  */
@@ -64,8 +67,18 @@ public class BillingSubscription extends Resource {
 		return invoices;
 	}
 	
+	/**
+	 * A Collection of previous or upcoming invoices
+	 * 
+	 * @since 1.0
+	 * @author Jorge Gonzalez
+	 *
+	 */
 	public static class BillingInvoices extends Resource{
 		
+		/**
+		 * 
+		 */
 		private BillingInvoice upcoming;
 
 		/**
@@ -106,6 +119,11 @@ public class BillingSubscription extends Resource {
 			
 		}
 		
+		/**
+		 * Gets the upcoming Invoice
+		 * 
+		 * @return {@link BillingInvoice}
+		 */
 		public BillingInvoice getUpcomingInvoice(){
 			return upcoming;
 		}

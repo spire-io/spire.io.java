@@ -5,6 +5,9 @@ import java.io.IOException;
 import com.google.api.client.http.HttpResponse;
 
 /**
+ * Google HTTP Response wrapper
+ * 
+ * @since 1.0
  * @author Jorge Gonzalez
  *
  */
@@ -12,10 +15,17 @@ public class GCResponse extends Response{
 
 	private HttpResponse response;
 	
+	/**
+	 * 
+	 */
 	public GCResponse() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 	
+	/**
+	 * 
+	 * @param response
+	 */
 	public GCResponse(HttpResponse response) {
 		this.response = response;
 	}
