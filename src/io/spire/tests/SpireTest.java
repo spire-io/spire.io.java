@@ -159,6 +159,7 @@ public class SpireTest {
 		account2.get();
 		assertEquals(account.getKey(), account2.getKey());
 		assertEquals(account.getName(), account2.getName());
+		
 		/* Account CORS */
 		/* ** commented out until branch #137 is merged in **
 		assertEquals(account.getOrigin().getHost(), account2.getOrigin().getHost());
@@ -420,5 +421,11 @@ public class SpireTest {
 			Thread.sleep(1*500);
 		}
 		subscription1.stopListening();
+	}
+	
+	public static void main(String[] args) {
+		System.out.println("Running tests...");
+		org.junit.runner.JUnitCore.runClasses(SpireTest.class);
+		System.out.println("Spire test complete!");
 	}
 }
