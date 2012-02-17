@@ -1,0 +1,16 @@
+-d docs 
+-use 
+-splitindex
+-windowtitle 'Spire.io Java client API Specification'
+-doctitle 'Spire.io Java client API Specification'
+-header '<b>Spire.io </b><br><font size="-1"></font>'
+-bottom 'Copyright (c) 2011 Spire.io'
+-overview ./src/overview-core.html
+-sourcepath ./src
+-classpath ./lib
+-link http://docs.oracle.com/javase/6/docs/api/
+-link http://javadoc.google-http-java-client.googlecode.com/hg/1.6.0-beta/
+-quiet
+io.spire
+io.spire.api
+io.spire.request
