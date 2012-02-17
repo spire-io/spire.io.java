@@ -20,12 +20,22 @@ task :test do
   # sh "java -cp #{classpath} org.junit.runner.JUnitCore io.spire.tests.SpireTest"
 end
 
-task :jar do
-	sh "jar -cvf build/spire-io-client-#{$version}.jar bin/"
+desc "creates the client jar file"
+task :jar => ['build/'] do
+  sh "jar -cvf build/spire-io-client-#{$version}.jar bin/"
+end
+
+desc "creates a compressed tar file with all dependencies"
+task :tar do
+  Dir.chdir 'build' do
+    sh "rm lib/spire*.jar.gz" if File.exist?("spire*.jar.gz")
+    sh "cp spire-io-client-#{$version}.jar lib/"
+    sh "tar -czvf spire.io.tar.gz lib/*"
+  end
 end
 
 desc "generate docs and build a jar"
-task :package => [:doc, :jar]
+task :package => [:doc, :jar, :tar]
 
 # Updates GITHUB PAGES
 desc 'Update gh-pages branch'
@@ -53,6 +63,10 @@ task 'docs:pages' => ['docs/', 'docs/.git', :docs] do
 end
 
 file 'docs/' do |f|
+  Dir.mkdir(f.name) if !File.exists?(f.name)
+end
+
+file 'build/' do |f|
   Dir.mkdir(f.name) if !File.exists?(f.name)
 end
 
