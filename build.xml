@@ -1,0 +1,37 @@
+<?xml version="1.0" ?> 
+<project name="spire.io.java" default="compress">
+
+  <path id="compile.classpath">
+    <fileset dir="build/lib">
+        <include name="*.jar"/>
+    </fileset>
+    <fileset dir="build/lib/dependencies">
+        <include name="*.jar"/>
+    </fileset>
+  </path>
+
+	<target name="init">
+		<mkdir dir="build/classes" />
+		<mkdir dir="build/dist" />
+	</target>
+
+	<target name="compile" depends="init">
+		<javac srcdir="src" destdir="build/classes" >
+		  <classpath refid="compile.classpath"/>
+		</javac>
+	</target>
+	
+	<target name="compress" depends="compile">
+	        <jar destfile="build/dist/spire.io.jar" basedir="build/classes" />
+	</target>
+	
+	<target name="execute" depends="compile">
+		<java classname="io.spire.tests.SpireTest" classpath="build/classes" />
+	</target>
+
+	<target name="clean">
+		<delete dir="build/classes" />
+		<delete dir="build/dist" />
+	</target>
+	
+</project>
