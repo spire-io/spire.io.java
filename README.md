@@ -113,16 +113,7 @@ Add the Spire.io jar file to your classpath:
 
   * /build/spire-io-client-1.0.0-beta.1.jar
 
-All Spire.io client dependencies can be found inside the `/lib` directory. The following dependencies, should also be added to your classpath:
-
-  * /lib/google-http-client-1.6.0-beta.jar
-  * /lib/dependencies/jsr305-1.3.9.jar
-  * /lib/dependencies/gson-1.7.1.jar
-  * /lib/dependencies/guava-r09.jar
-  * /lib/dependencies/junit-4.8.2.jar
-  * /lib/dependencies/httpclient-4.0.3.jar
-  * /lib/dependencies/xpp3-1.1.4c.jar
-  * /lib/dependencies/protobuf-java-2.2.0.jar
+The Spire.io client has a few dependencies can be found inside the `/lib` directory. All of these library dependencies should also be added to you classpath.
 
 # Development
 
