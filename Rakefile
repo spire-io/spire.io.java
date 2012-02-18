@@ -16,8 +16,8 @@ task :doc => :docs
 
 desc "run tests"
 task :test do
-  classpath = ".:bin/:lib/google-http-client-1.6.0-beta.jar:lib/dependencies/jsr305-1.3.9.jar:lib/dependencies/gson-1.7.1.jar:lib/dependencies/guava-r09.jar:lib/dependencies/httpclient-4.0.3.jar:lib/dependencies/xpp3-1.1.4c.jar:lib/dependencies/protobuf-java-2.2.0.jar:lib/dependencies/junit-4.8.2.jar"
-  # sh "java -cp #{classpath} org.junit.runner.JUnitCore io.spire.tests.SpireTest"
+  classpath = ".:build/classes/:lib/google-http-client-1.6.0-beta.jar:lib/dependencies/jackson-core-asl-1.9.1.jar:lib/dependencies/jsr305-1.3.9.jar:lib/dependencies/gson-1.7.1.jar:lib/dependencies/guava-r09.jar:lib/dependencies/httpclient-4.0.3.jar:lib/dependencies/xpp3-1.1.4c.jar:lib/dependencies/protobuf-java-2.2.0.jar:lib/dependencies/junit-4.8.2.jar"
+  sh "java -cp #{classpath} org.junit.runner.JUnitCore io.spire.tests.SpireTest"
 end
 
 desc "creates the client jar file"
