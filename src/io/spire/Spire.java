@@ -27,12 +27,12 @@ import java.lang.reflect.InvocationTargetException;
  *  <p>i.e.</p>
  *  <pre>
  *  {@code Spire spire = new Spire();}
- *  {@code spire.discover();			// do Spire API discovery}
  *  {@code spire.start(account_key)		// starts a new session}
  *  </pre>
  *  
  * <p>
- * Implementation is not thread-safe.
+ * Instances of Spire are not safe for use by multiple threads.
+ * Instead, we recommend having multiple independent Spire instances per thread
  * </p>
  * 
  * @since 1.0
