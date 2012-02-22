@@ -22,7 +22,9 @@
   </target>
 
   <target name="compress" depends="compile">
-    <jar  destfile="build/dist/spire.io.jar"
+    <loadfile srcfile="VERSION" property="version.num" />
+    
+    <jar  destfile="build/dist/spire-io-client-${version.num}.jar"
           basedir="build/classes"
           manifest="src/META-INF/MANIFEST.MF">
       <metainf dir="src/META-INF" includes="*" />
