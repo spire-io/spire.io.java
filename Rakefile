@@ -16,26 +16,37 @@ task :doc => :docs
 
 desc "run tests"
 task :test do
-  classpath = ".:build/classes/:lib/google-http-client-1.6.0-beta.jar:lib/dependencies/jackson-core-asl-1.9.1.jar:lib/dependencies/jsr305-1.3.9.jar:lib/dependencies/gson-1.7.1.jar:lib/dependencies/guava-r09.jar:lib/dependencies/httpclient-4.0.3.jar:lib/dependencies/xpp3-1.1.4c.jar:lib/dependencies/protobuf-java-2.2.0.jar:lib/dependencies/junit-4.8.2.jar"
+  classpath = TaskHelpers.classpath
   sh "java -cp #{classpath} org.junit.runner.JUnitCore io.spire.tests.SpireTest"
+end
+
+desc "compile and run the tests using Ant"
+task 'ant:test' do
+  sh "ant test"
 end
 
 desc "creates the client jar file"
 task :jar => ['build/'] do
-  sh "jar -cvf build/spire-io-client-#{$version}.jar bin/"
+  sh "jar -cvf build/spire-io-client-#{$version}.jar build/classes"
 end
 
 desc "creates a compressed tar file with all dependencies"
-task :tar do
+task :tarball do
   Dir.chdir 'build' do
-    sh "rm lib/spire*.jar.gz" if File.exist?("spire*.jar.gz")
-    sh "cp spire-io-client-#{$version}.jar lib/"
-    sh "tar -czvf spire.io.tar.gz lib/*"
+    Dir.chdir 'dist' do
+      sh "rm spire*.tar.gz"
+      sh "tar -czvf spire-io-client.tar.gz ./*"
+    end
   end
 end
 
-desc "generate docs and build a jar"
-task :package => [:doc, :jar, :tar]
+desc "compiles the source code using Ant"
+task 'ant:build' do
+  sh 'ant'
+end
+
+desc "generate docs, compiles source code and creates a jar"
+task :package => [:doc, 'ant:build']
 
 # Updates GITHUB PAGES
 desc 'Update gh-pages branch'
@@ -74,4 +85,22 @@ end
 file 'docs/.git' => ['docs/', '.git/refs/heads/gh-pages'] do |f|
     sh "cd docs && git init -q && git remote add origin git@github.com:spire-io/spire.io.java.git" if !File.exist?(f.name)
     sh "cd docs && git fetch -q origin && git reset -q --hard origin/gh-pages && touch ."
+end
+
+module TaskHelpers
+  module_function
+  
+  def classpath
+    cp = ".:build/classes"
+
+    Dir.chdir 'lib' do |d0|
+      Dir["*.jar"].each{ |file| cp += ":#{d0}/#{file}"  }
+
+      Dir.chdir 'dependencies' do |d1|
+        Dir["*.jar"].each{ |file| cp += ":#{d0}/#{d1}/#{file}"  }
+      end
+    end
+
+    return cp
+  end
 end
