@@ -3,35 +3,48 @@
 
   <path id="compile.classpath">
     <fileset dir="build/lib">
-        <include name="*.jar"/>
+      <include name="*.jar"/>
     </fileset>
     <fileset dir="build/lib/dependencies">
-        <include name="*.jar"/>
+      <include name="*.jar"/>
     </fileset>
   </path>
 
-	<target name="init">
-		<mkdir dir="build/classes" />
-		<mkdir dir="build/dist" />
-	</target>
+  <target name="init">
+    <mkdir dir="build/classes" />
+    <mkdir dir="build/dist" />
+  </target>
 
-	<target name="compile" depends="init">
-		<javac srcdir="src" destdir="build/classes" >
-		  <classpath refid="compile.classpath"/>
-		</javac>
-	</target>
-	
-	<target name="compress" depends="compile">
-	        <jar destfile="build/dist/spire.io.jar" basedir="build/classes" />
-	</target>
-	
-	<target name="execute" depends="compile">
-		<java classname="io.spire.tests.SpireTest" classpath="build/classes" />
-	</target>
+  <target name="compile" depends="clean, init">
+    <javac srcdir="src" destdir="build/classes" includeantruntime="false" >
+      <classpath refid="compile.classpath"/>
+    </javac>
+  </target>
 
-	<target name="clean">
-		<delete dir="build/classes" />
-		<delete dir="build/dist" />
-	</target>
-	
+  <target name="compress" depends="compile">
+    <jar  destfile="build/dist/spire.io.jar"
+          basedir="build/classes"
+          manifest="src/META-INF/MANIFEST.MF">
+      <metainf dir="src/META-INF" includes="*" />
+    </jar>
+  </target>
+
+  <target name="execute" depends="compile">
+    <java classname="io.spire.tests.SpireTest" classpath="build/classes" >
+      <classpath refid="compile.classpath"/>
+    </java>
+  </target>
+
+  <target name="test" depends="compile">
+    <java classname="org.junit.runner.JUnitCore" classpath="build/classes">
+      <classpath refid="compile.classpath"/>
+      <arg line="io.spire.tests.SpireTest" />
+    </java>
+  </target>
+
+  <target name="clean">
+    <delete dir="build/classes" />
+    <delete dir="build/dist" />
+  </target>
+
 </project>
