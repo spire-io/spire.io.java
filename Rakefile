@@ -1,8 +1,8 @@
 require "rake/clean"
 
-CLEAN << FileList["*.gem"]
 CLEAN << FileList["docs/*"]
-CLEAN << ".yardoc"
+CLEAN << FileList["build/dist/*.tar.gz"]
+CLEAN << FileList["build/dist/package"]
 
 $version = File.read("VERSION").chomp
 
@@ -31,11 +31,13 @@ task :jar => ['build/'] do
 end
 
 desc "creates a compressed tar file with all dependencies"
-task :tarball do
+task :tarball => ['build/dist/package/lib'] do
   Dir.chdir 'build' do
     Dir.chdir 'dist' do
-      sh "rm spire*.tar.gz"
-      sh "tar -czvf spire-io-client.tar.gz ./*"
+      Dir["spire*.tar.gz"].each{ |file| sh "rm -rf #{file}" }
+      sh "cp spire*.jar package/"
+      sh "tar -czvf spire-io-client.tar.gz package/*"
+      sh "rm -rf package"
     end
   end
 end
@@ -73,12 +75,30 @@ task 'docs:pages' => ['docs/', 'docs/.git', :docs] do
   end
 end
 
+# clean up the directory use for creating the tarball
+task 'package-clean' do
+  dir = 'build/dist/package'
+  dir_lib = "#{dir}/lib"
+
+  sh "rm -rf #{dir}" if File.exists?(dir)
+  
+  Dir.mkdir(dir)
+  Dir.mkdir(dir_lib)
+end
+
 file 'docs/' do |f|
   Dir.mkdir(f.name) if !File.exists?(f.name)
 end
 
 file 'build/' do |f|
   Dir.mkdir(f.name) if !File.exists?(f.name)
+end
+
+file 'build/dist/package/lib' => ['package-clean'] do |f|
+  if File.exists?(f.name)
+    Dir["lib/*.jar"].each{ |file| sh "cp #{file} #{f.name}"  }
+    Dir["lib/dependencies/*.jar"].each{ |file| sh "cp #{file} #{f.name}"  }
+  end
 end
 
 # Update the pages/ directory clone
