@@ -8,7 +8,8 @@ $version = File.read("VERSION").chomp
 
 desc "run javadoc"
 task :docs do
-	sh "javadoc @argfile"
+  sh "rm -rf docs/*"
+  sh "javadoc @argfile"
 end
 
 # Alias for doc task
