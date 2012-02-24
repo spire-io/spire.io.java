@@ -11,7 +11,7 @@ import java.io.IOException;
  * @author Jorge Gonzalez
  *
  */
-public interface Responsable {
+public interface Responder {
 	
 	public abstract int getStatusCode();
 	

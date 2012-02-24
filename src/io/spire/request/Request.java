@@ -13,9 +13,11 @@ import java.io.IOException;
  * @author Jorge Gonzalez
  *
  */
-public abstract class Request implements Requestable{
+public abstract class Request implements Requester{
 
 	/**
+	 * Describes the HTTP Request Method
+	 * GET/POST/PUT/DELETE
 	 * 
 	 * @since 1.0
 	 * @author Jorge Gonzalez
@@ -28,12 +30,16 @@ public abstract class Request implements Requestable{
 		HTTP_DELETE
 	}
 	
-	private RequestData requestData;
+	protected int connectionTimeout;
+	protected int readTimeout;
+	protected RequestData requestData;
 	
 	/**
 	 * 
 	 */
 	public Request() {
+		connectionTimeout = 20 * 1000;	// 20 seconds
+		readTimeout = 90 * 1000;		// 90 seconds
 	}
 	
 	/**
@@ -41,17 +47,20 @@ public abstract class Request implements Requestable{
 	 * @param data
 	 */
 	public Request(RequestData data) {
-		this.setRequestData(data);
+		this();
 		this.prepareRequest(data);
 	}
 	
 	/**
+	 * Initialize underlying HTTP request client
 	 * 
 	 * @param data
 	 */
-	protected abstract void prepareRequest(RequestData data);
+	public abstract void prepareRequest(RequestData data);
 	
 	/**
+	 * Gets {@link RequestData} object
+	 * 
 	 * @return the requestData
 	 */
 	public RequestData getRequestData() {
@@ -59,14 +68,13 @@ public abstract class Request implements Requestable{
 	}
 
 	/**
+	 * Sets {@link RequestData} object
+	 * 
 	 * @param requestData the requestData to set
 	 */
 	public void setRequestData(RequestData requestData) {
 		this.requestData = requestData;
 	}
-
-	/**
-	 * 
-	 */
+	
 	public abstract Response send() throws IOException;
 }

@@ -34,8 +34,8 @@ import com.google.api.client.json.jackson.JacksonFactory;
  */
 public class GCRequest extends Request {
 
-	static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
-	static final JsonFactory JSON_FACTORY = new JacksonFactory();
+	private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
+	private static final JsonFactory JSON_FACTORY = new JacksonFactory();
 	private HttpRequestFactory requestFactory;
 	private HttpRequest client;
 	
@@ -55,29 +55,35 @@ public class GCRequest extends Request {
 	}
 	
 	/**
+	 * Get HTTP Headers from {@link RequestData} object
 	 * 
 	 * @param data
 	 * @return {@link HttpHeaders}
 	 */
-	protected HttpHeaders getHTTPHeaders(RequestData data){
-		HttpHeaders headers = new HttpHeaders();
-		for (Map.Entry<String, String> header : data.headers.entrySet()) {
-			headers.set(header.getKey(), header.getValue());
+	protected HttpHeaders getCGHTTPHeaders(Headers headers){
+		HttpHeaders gcHeaders = new HttpHeaders();
+		for (Map.Entry<String, Object> header : headers.entrySet()) {
+			gcHeaders.set(header.getKey(), header.getValue());
 		}
-		return headers;
+		return gcHeaders;
 	}
 	
 	@Override
-	protected void prepareRequest(RequestData data)
+	public void prepareRequest(RequestData data)
 	{
+		this.setRequestData(data);
+		
 		try{
 			client = getHTTPClient(data);
+			this.setConnectionTimeout(this.connectionTimeout);
+			this.setReadTimeout(this.readTimeout);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
 	/**
+	 * Initialize the HTTP client request factory
 	 * 
 	 * @param contentType
 	 */
@@ -98,6 +104,7 @@ public class GCRequest extends Request {
 	}
 	
 	/**
+	 * Generates the {@link GenericUrl} object for this HTTP request
 	 * 
 	 * @param url
 	 * @param queryParams
@@ -120,7 +127,7 @@ public class GCRequest extends Request {
 	protected HttpRequest getHTTPClient(RequestData data) throws IOException{
 		GenericUrl url = createCGUrl(data.url, data.queryParams);
 		HttpContent content = null;
-		HttpHeaders headers = getHTTPHeaders(data);
+		HttpHeaders headers = getCGHTTPHeaders(data.headers);
 		HttpRequest request = null;
 		setRequestFactory(headers.getAccept());
 		
@@ -145,6 +152,37 @@ public class GCRequest extends Request {
 		
 		request.setHeaders(headers);
 		return request;
+	}
+	
+	@Override
+	public void setConnectionTimeout(int timeout) {
+		this.client.setConnectTimeout(timeout);
+	}
+
+	@Override
+	public int getConnectionTimeout() {
+		return this.client.getConnectTimeout();
+	}
+
+	@Override
+	public void setReadTimeout(int timeout) {
+		this.client.setReadTimeout(timeout);
+	}
+
+	@Override
+	public int getReadTimeout() {
+		return this.client.getReadTimeout();
+	}
+
+	@Override
+	public void setHeaders(Headers headers) {
+		HttpHeaders gcHeaders = this.getCGHTTPHeaders(headers);
+		this.client.setHeaders(gcHeaders);
+	}
+
+	@Override
+	public Headers getHeaders() {
+		return this.requestData.headers;
 	}
 
 	@Override

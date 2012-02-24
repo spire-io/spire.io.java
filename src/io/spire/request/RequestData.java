@@ -20,14 +20,14 @@ public class RequestData {
 	public String url;
 	public Map<String, Object> queryParams;
 	public RequestType method;
-	public Map<String, String> headers;
+	public Headers headers;
 	public Object body;
 	
 	/**
 	 * 
 	 */
 	public RequestData() {
-		headers = new HashMap<String, String>();
+		headers = new Headers();
 		queryParams = new HashMap<String, Object>();
 	}
 }

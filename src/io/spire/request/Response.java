@@ -10,7 +10,7 @@ import java.io.IOException;
  * @author Jorge Gonzalez
  *
  */
-public abstract class Response implements Responsable {
+public abstract class Response implements Responder {
 
 	public Response() {
 	}

@@ -59,7 +59,7 @@ public abstract class RequestFactory {
 	 * @param headers
 	 * @return  {@link RequestData}
 	 */
-	public static RequestData createRequestData(RequestType methodType, String url, Map<String, Object> content, Map<String, String> headers){
+	public static RequestData createRequestData(RequestType methodType, String url, Map<String, Object> content, Headers headers){
 		RequestData data = new RequestData();
 		data.method = methodType;
 		data.url = url;

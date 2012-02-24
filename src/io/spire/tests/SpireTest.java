@@ -334,7 +334,8 @@ public class SpireTest {
 		public void run() {
 			try {
 				MessageOptions options = new MessageOptions();
-				options.timeout = 4;
+				// default timeout is 30 seconds
+				options.timeout = 10;
 				Events events = subscription.longPoll(options);
 				assertEquals(events.getMessages().size(), 1);
 				assertEquals(events.getMessages().get(0).getContent(), "the great message1");
@@ -355,7 +356,8 @@ public class SpireTest {
 		Thread threadListener = new Thread(new MessageListenerWorker(subscription1));
 		threadListener.start();
 		
-		Thread.sleep(100);
+		// quick test that long poll waits for arriving messages 
+		Thread.sleep(3 * 1000);
 
 		channel.publish("the great message1");
 		channel.publish("the great message2");
@@ -409,7 +411,6 @@ public class SpireTest {
 		subscription1.startListening(options);
 		for (int i = 0; i < 4; i++) {
 			channel.publish("message " + i);
-			Thread.sleep(1*500);
 		}
 		subscription1.stopListening();
 		
@@ -418,7 +419,6 @@ public class SpireTest {
 		subscription1.startListening(options);
 		for (int i = 4; i < 7; i++) {
 			channel.publish("message " + i);
-			Thread.sleep(1*500);
 		}
 		subscription1.stopListening();
 	}
