@@ -12,6 +12,7 @@ import java.util.Set;
 
 import io.spire.api.Api.ApiDescriptionModel.ApiSchemaModel;
 import io.spire.api.Message.MessageOptions;
+import io.spire.api.Message.MessageOptions.MessageOrderBy;
 import io.spire.request.ResponseException;
 
 /**
@@ -86,6 +87,11 @@ public class Subscription extends Resource {
 		
 	}
 	
+	/**
+	 * Gets a list of channel names from this subscription 
+	 * 
+	 * @return {@link List} of channel names
+	 */
 	public List<String> getChannels(){
 		return channels;
 	}
@@ -116,11 +122,11 @@ public class Subscription extends Resource {
 		headers.put("Accept", events.getMediaType());
 		Map<String, Object> rawModel = super.get(queryParams, headers);
 		events.updateModel(rawModel);
-		int countMessages = events.getMessages().size();
-		if(countMessages > 0){
-			this.lastTimestamp = events.getMessages().get(countMessages-1).getTimestamp();
-			this.feedListeners(events);
-		}
+//		int countMessages = events.getMessages().size();
+//		if(countMessages > 0 && this.isListening){
+//			this.lastTimestamp = events.getMessages().get(countMessages-1).getTimestamp();
+//			this.feedListeners(events);
+//		}
 		return events;
 	}
 	
@@ -149,7 +155,9 @@ public class Subscription extends Resource {
          */
 		options.timeout = 0;
 		options.timestamp = this.lastTimestamp;
-		return this.retrieveMessages(options);
+		Events events = this.retrieveMessages(options);
+		this.updateTimestamp(events, options);
+		return events;
 	}
 	
 	/**
@@ -176,7 +184,37 @@ public class Subscription extends Resource {
 		if(options.timeout == defaultMessageOptions.timeout)
 			options.timeout = this.longPollTimeout;
 		options.timestamp = this.lastTimestamp;
-		return this.retrieveMessages(options);
+		return this.longPoll(options, false);
+	}
+	
+	private boolean updateTimestamp(Events events, MessageOptions options){
+		int countMessages = events.getMessages().size();
+		if(countMessages > 0){
+			if(options.orderBy == MessageOrderBy.Asc){
+				this.lastTimestamp = events.getMessages().get(0).getTimestamp();
+			}else{
+				this.lastTimestamp = events.getMessages().get(countMessages-1).getTimestamp();
+			}
+			return true;
+		}
+		return false;
+	}
+	
+	private Events longPoll(MessageOptions options, boolean listernerMode) throws ResponseException, IOException{
+		if(options.timeout == defaultMessageOptions.timeout)
+			options.timeout = this.longPollTimeout;
+		options.timestamp = this.lastTimestamp;
+		Events events = this.retrieveMessages(options);
+		
+		if(!listernerMode){
+			this.updateTimestamp(events, options);
+		}
+		else if(listernerMode && isListening){
+			this.updateTimestamp(events, options);
+			this.feedListeners(events);
+		}
+		
+		return events;
 	}
 	
 	/**
@@ -188,7 +226,7 @@ public class Subscription extends Resource {
 	 */
 	public Events longPoll() throws ResponseException, IOException{
 		MessageOptions options = new MessageOptions();
-		return this.longPoll(options);
+		return this.longPoll(options, false);
 	}
 	
 	/**
@@ -425,7 +463,7 @@ public class Subscription extends Resource {
 	}
 	
 	/**
-	 * Listener Overlord does all the background polling of messages
+	 * Listener overlord does all the background polling of messages
 	 * 
 	 * @since 1.0
 	 * @author Jorge Gonzalez
@@ -447,7 +485,7 @@ public class Subscription extends Resource {
 			while(isListening){
 				try{
 					try {
-						longPoll(this.options);
+						longPoll(this.options, isListening);
 					} catch (ResponseException e) {
 						System.out.println(e.getMessage());
 						e.getResponse().ignore();

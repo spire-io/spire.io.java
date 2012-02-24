@@ -279,26 +279,29 @@ public class SpireTest {
 		Channel channel = new Channel(description.getSchema());
 		channel.setName("foo_channel");
 		Subscription subscription1 = channel.subscribe("bar_subscription", spire.getSession());
-		channel.publish("the great message1");
-		channel.publish("the great message2");
-		channel.publish("the great message3");
+		
+		int nSent = 3;
+		for (int i = 1; i <= nSent; i++) {
+			channel.publish("the great message" + i);
+		}
 		
 		MessageOptions options = new MessageOptions();
+		
 		Events events = subscription1.poll(options);
-		int size = events.getMessages().size();
-		assertEquals(size, 3);
-		assertEquals(events.getMessages().get(size-1).getContent(), "the great message" + size);
+		int nReceived = events.getMessages().size();
+		assertEquals(nSent, nReceived);
+		assertEquals(events.getMessages().get(nReceived-1).getContent(), "the great message" + nReceived);
+		
 		events = subscription1.poll(options);
 		assertEquals(events.getMessages().size(), 0);
-		
 		int count = 2;
-		for (int i = size+1; i <= size+count; i++) {
+		for (int i = nReceived+1; i <= nReceived+count; i++) {
 			channel.publish("the great message" + i);
 		}
 		
 		events = subscription1.poll(options);
 		assertEquals(events.getMessages().size(), 2);
-		assertEquals(events.getMessages().get(count-1).getContent(), "the great message" + (size+count));
+		assertEquals(events.getMessages().get(count-1).getContent(), "the great message" + (nReceived+count));
 	}
 
 	@SuppressWarnings("unused")
@@ -415,7 +418,6 @@ public class SpireTest {
 		subscription1.stopListening();
 		
 		subscription1.addListener(myListener2);
-		
 		subscription1.startListening(options);
 		for (int i = 4; i < 7; i++) {
 			channel.publish("message " + i);
