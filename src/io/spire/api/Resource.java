@@ -304,7 +304,8 @@ public abstract class Resource {
 	}
 	
 	/**
-	 * Knows how to build a request data object for any resource operation GET/PUT/DELETE/POST
+	 * Knows how to build a request {@link RequestData} object, describing
+	 * the HTTP request operation to be executed (GET/PUT/DELETE/POST)
 	 * 
 	 * @param methodType
 	 * @param content
@@ -338,7 +339,7 @@ public abstract class Resource {
 	}
 	
 	/**
-	 * GET resource
+	 * Sends HTTP GET request to the underlying resource
 	 * 
 	 * @throws ResponseException
 	 * @throws IOException
@@ -355,7 +356,7 @@ public abstract class Resource {
 	}
 
 	/**
-	 * PUT resource (update)
+	 * Sends HTTP PUT request to the underlying resource
 	 * 
 	 * @throws ResponseException
 	 * @throws IOException
@@ -382,7 +383,7 @@ public abstract class Resource {
 	}
 	
 	/**
-	 * DELETE resource
+	 * Sends HTTP DELETE request to the underlying resource
 	 * 
 	 * @throws ResponseException
 	 * @throws IOException
@@ -403,6 +404,7 @@ public abstract class Resource {
 	}
 	
 	/**
+	 * Sends HTTP POST request to the underlying resource
 	 * 
 	 * @param content
 	 * @return {@link Map}
@@ -415,7 +417,7 @@ public abstract class Resource {
 	}
 	
 	/**
-	 * POST resource
+	 * Sends HTTP POST request to the underlying resource
 	 * 
 	 * @param content
 	 * @param headers
@@ -429,7 +431,7 @@ public abstract class Resource {
 	}
 	
 	/**
-	 * POST resource
+	 * Sends HTTP POST request to the underlying resource
 	 * 
 	 * @param data
 	 * @return {@link Map}
@@ -443,9 +445,9 @@ public abstract class Resource {
 	}
 	
 	/**
-	 * POST resource
+	 * Sends HTTP request based on the data described by {@link RequestData} data 
 	 * 
-	 * @param data
+	 * @param data describes the HTTP request to send out
 	 * @return {@link Map}
 	 * @throws ResponseException
 	 * @throws IOException
