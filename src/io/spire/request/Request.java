@@ -16,8 +16,8 @@ import java.io.IOException;
 public abstract class Request implements Requester{
 
 	/**
-	 * Describes the HTTP Request Method
-	 * GET/POST/PUT/DELETE
+	 * Abstract HTTP Request class that describes the basics of 
+	 * an HTTP Request Method GET/POST/PUT/DELETE
 	 * 
 	 * @since 1.0
 	 * @author Jorge Gonzalez
@@ -35,14 +35,16 @@ public abstract class Request implements Requester{
 	protected RequestData requestData;
 	
 	/**
-	 * 
+	 * Default constructor
 	 */
 	public Request() {
-		connectionTimeout = 20 * 1000;	// 20 seconds
-		readTimeout = 90 * 1000;		// 90 seconds
+		this.connectionTimeout = 20 * 1000;	// 20 seconds
+		this.readTimeout = 90 * 1000;		// 90 seconds
 	}
 	
 	/**
+	 * Construct a HTTP Request object and initialize it base on the information
+	 * describe by {@link RequestData} data
 	 * 
 	 * @param data
 	 */
@@ -52,7 +54,7 @@ public abstract class Request implements Requester{
 	}
 	
 	/**
-	 * Initialize underlying HTTP request client
+	 * Initialize underlying HTTP Request client
 	 * 
 	 * @param data
 	 */
@@ -75,6 +77,18 @@ public abstract class Request implements Requester{
 	public void setRequestData(RequestData requestData) {
 		this.requestData = requestData;
 	}
+	
+	public abstract void setConnectionTimeout(int timeout);
+	
+	public abstract int getConnectionTimeout();
+	
+	public abstract void setReadTimeout(int timeout);
+	
+	public abstract int getReadTimeout();
+	
+	public abstract void setHeaders(Headers headers);
+	
+	public abstract Headers getHeaders();
 	
 	public abstract Response send() throws IOException;
 }

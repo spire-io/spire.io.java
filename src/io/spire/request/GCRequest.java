@@ -40,7 +40,7 @@ public class GCRequest extends Request {
 	private HttpRequest client;
 	
 	/**
-	 * 
+	 * Default constructor
 	 */
 	public GCRequest() {
 		super();
@@ -55,7 +55,7 @@ public class GCRequest extends Request {
 	}
 	
 	/**
-	 * Get HTTP Headers from {@link RequestData} object
+	 * Gets HTTP Headers from {@link RequestData} object
 	 * 
 	 * @param data
 	 * @return {@link HttpHeaders}
@@ -119,6 +119,7 @@ public class GCRequest extends Request {
 	}
 	
 	/**
+	 * Initialize the underlying HTTP client
 	 * 
 	 * @param data
 	 * @return {@link HttpRequest}
@@ -199,6 +200,7 @@ public class GCRequest extends Request {
 	}
 	
 	/**
+	 * HTTP Request factory class
 	 * 
 	 * @since 1.0
 	 * @author Jorge Gonzalez
@@ -207,7 +209,7 @@ public class GCRequest extends Request {
 	public static class CGRequestFactory extends RequestFactory{
 
 		/**
-		 * 
+		 * Default constructor
 		 */
 		public CGRequestFactory(){
 			super();
