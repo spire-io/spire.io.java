@@ -6,13 +6,13 @@
 ## Basic usage
 
 The `Spire` class provides a simplified spire.io client with a high level interface.  Users of this class do not have to pay attention to details of the REST API.
-Here's an example using the message service.  It assumes you have an account key, which you can get by registering at [www.spire.io](http://www.spire.io/register.html)
+Here's an example using the message service.  It assumes you have an account secret, which you can get by registering at [www.spire.io](http://www.spire.io/register.html)
 
     import io.spire.Spire;
     import io.spire.api.*;
 
     Spire spire = new Spire();
-    spire.start(accountKey);    //key is your account key
+    spire.start(accountSecret);    //use your account secret
     
     Channel channelFoo = spire.createChannel("foo_channel");    //create channel
     Message message1 = channelFoo.publish("Hello Spire!");      //publish message
@@ -20,7 +20,7 @@ Here's an example using the message service.  It assumes you have an account key
 Let's create a second session and get our messages.
 
     Spire spire2 = new Spire();
-    spire2.start(accountKey);
+    spire2.start(accountSecret);
     
     Subscription subscriptionFoo = spire2.subscribe("subscriptionFoo", "foo_channel");
     
@@ -31,7 +31,7 @@ Let's create a second session and get our messages.
 You can also assign listener blocks to a subscription which will be called with each message received:
 
     Spire spire3 = new Spire();
-    spire3.start(accountKey);
+    spire3.start(accountSecret);
     
     Subscription subscriptionBar = spire3.subscribe("subscriptionBar", "foo_channel");
     
@@ -67,7 +67,7 @@ Usage:
     Api api = Spire.SpireFactory.createApi();
     api.discover();
     // create a session
-    Session session = api.createSession(accounKey);
+    Session session = api.createSession(accountSecret);
     // retrieve channels
     session.channels();
     // channels are now cached. Now, try looking for channel by name
