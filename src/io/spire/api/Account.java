@@ -64,6 +64,24 @@ public class Account extends Resource {
 	}
 	
 	/**
+	 * Gets Account secret key
+	 * 
+	 * @return {@link String}
+	 */
+	public String getSecret(){
+		return this.model.getProperty("secret", String.class);
+	}
+	
+	/**
+	 * Sets Account secret key
+	 * 
+	 * @param secret
+	 */
+	public void setSecret(String secret){
+		this.model.setProperty("secret", secret);
+	}
+	
+	/**
 	 * CORS data
 	 * 
 	 * @since 1.0

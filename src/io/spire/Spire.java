@@ -130,9 +130,9 @@ public class Spire {
 	 * @throws ResponseException
 	 * @throws IOException
 	 */
-	public void start(String accountKey) throws ResponseException, IOException{
+	public void start(String secretKey) throws ResponseException, IOException{
 		this.initializeApi();
-		session  = api.createSession(accountKey);
+		session  = api.createSession(secretKey);
 	}
 	
 	/**
@@ -189,10 +189,10 @@ public class Spire {
 		session.getAccount().delete();
 	}
 	
-	public String getAccountKey(){
+	public String getAccountSecret(){
 		if(session == null || session.getAccount() == null)
 			return null;
-		return session.getAccount().getKey();
+		return session.getAccount().getSecret();
 	}
 	
 	/**

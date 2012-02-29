@@ -212,12 +212,12 @@ public class Api {
 	 * @throws IOException
 	 */
 	@SuppressWarnings("unchecked")
-	public Session createSession(String accountKey) throws ResponseException, IOException{
+	public Session createSession(String secretKey) throws ResponseException, IOException{
 		RequestData data = RequestFactory.createRequestData();
 		data.method = RequestType.HTTP_POST;
 		data.url = description.resources.getResource("sessions").getProperty("url", String.class);
 		HashMap<String, Object> content = new HashMap<String, Object>();
-		content.put("key", accountKey);
+		content.put("secret", secretKey);
 		data.body = content;
 		data.headers.put("Accept", description.schema.getMediaType("session"));
 		data.headers.put("Content-Type", description.schema.getMediaType("account"));
@@ -225,7 +225,7 @@ public class Api {
 		Request request = RequestFactory.createRequest(data);
 		Response response = request.send();
 		if(!response.isSuccessStatusCode())
-			throw new ResponseException(response, "Error starting a key-based session");
+			throw new ResponseException(response, "Error starting a secret-based session");
 		Map<String, Object> rawModel = response.parseAs(HashMap.class);
 		Session session = new Session(new ResourceModel(rawModel), description.schema);
 		
