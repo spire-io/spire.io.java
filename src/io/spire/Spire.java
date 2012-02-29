@@ -189,6 +189,11 @@ public class Spire {
 		session.getAccount().delete();
 	}
 	
+	/**
+	 * Gets the Account secret key
+	 * 
+	 * @return {@link String}
+	 */
 	public String getAccountSecret(){
 		if(session == null || session.getAccount() == null)
 			return null;
