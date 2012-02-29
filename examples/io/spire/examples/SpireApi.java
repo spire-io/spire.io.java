@@ -42,7 +42,7 @@ public class SpireApi {
 		
 		// Register - creates account
 		spire.register(email, password);
-		String accounKey = spire.getAccountKey();
+		String accounKey = spire.getAccountSecret();
 		
 		/* 
 		 * Here is how you can use the Api class

@@ -52,7 +52,7 @@ public class HelloSpire {
 			spire.login(email, password);
 			
 			// get session by using account key
-			String accountKey = spire.getAccountKey();
+			String accountKey = spire.getAccountSecret();
 			spire = new Spire(spireUrl);
 			spire.start(accountKey);
 						
