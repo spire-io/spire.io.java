@@ -32,7 +32,7 @@ import static org.junit.Assert.*;
  */
 public class SpireTest {
 
-	//public static final String SPIRE_URL_LOCAL = "http://localhost:1337";
+//	public static final String SPIRE_URL_LOCAL = "http://localhost:1337";
 	public static final String SPIRE_URL = "http://build.spire.io";
 
 	private Spire spire;
@@ -73,7 +73,7 @@ public class SpireTest {
 		description = spire.getApi().getApiDescription();
 		spire.register(email, password, null);
 //		spire.login(email, password);
-		key = spire.getSession().getAccount().getKey();
+		key = spire.getSession().getAccount().getSecret();
 	}
 
 	@Test
@@ -157,7 +157,7 @@ public class SpireTest {
 		account2.setCapability(account.getCapability());
 		account2.setUrl(account.getUrl());
 		account2.get();
-		assertEquals(account.getKey(), account2.getKey());
+		assertEquals(account.getSecret(), account2.getSecret());
 		assertEquals(account.getName(), account2.getName());
 		
 		/* Account CORS */
