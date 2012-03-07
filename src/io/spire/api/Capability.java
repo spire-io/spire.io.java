@@ -9,7 +9,7 @@ import io.spire.api.Resource.ResourceModel;
 import io.spire.request.Request.RequestType;
 
 /**
- * Represents the capability or set of capabilities for a resource
+ * Describes a capability or a set of capabilities for a resource
  * 
  * @since v1.0
  * @author Jorge Gonzalez

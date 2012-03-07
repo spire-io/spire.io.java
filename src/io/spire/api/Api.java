@@ -66,8 +66,8 @@ public class Api {
 	}
 	
 	/**
-	 * Holds the Spire Api resource model from {@link Api#discover()}
-	 * This class knows how to parsed the ApiDescriptionModel
+	 * Describes the Spire Api description resource model obtained from {@link Api#discover()}
+	 * This class knows how to parse the Api description resource
 	 * 
 	 * @since 1.0
 	 * @author Jorge Gonzalez
