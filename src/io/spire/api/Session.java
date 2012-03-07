@@ -38,6 +38,7 @@ public class Session extends Resource {
 	
 	@Override
 	protected void initialize(){
+		super.initialize();
 		ResourceModel resourceModel = getResourceModel("account");
 		account = new Account(resourceModel, this.schema);
 		

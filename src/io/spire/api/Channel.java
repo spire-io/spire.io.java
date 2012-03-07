@@ -51,6 +51,7 @@ public class Channel extends Resource {
 	 */
 	@Override
 	protected void initialize() {
+		super.initialize();
 		subscriptionCollection = model.getMapCollection("subscriptions", Subscription.class, schema);
 	}
 
@@ -125,6 +126,7 @@ public class Channel extends Resource {
 		
 		Map<String, String> headers = new HashMap<String, String>();
 		Message message = new Message(this.schema);
+		headers.put("Authorization", "Capability " + capability.getCapabilityFor("publish"));
 		headers.put("Accept", message.getMediaType());
 		headers.put("Content-Type", message.getMediaType());
 		
@@ -170,6 +172,7 @@ public class Channel extends Resource {
 		
 		@Override
 		protected void initialize() {
+			super.initialize();
 			channelCollection = model.getMapCollection("resources", Channel.class, schema);
 		}
 		
@@ -228,6 +231,13 @@ public class Channel extends Resource {
 			headers.put("Accept", this.schema.getMediaType(channel.getResourceName()));
 			headers.put("Content-Type", this.schema.getMediaType(channel.getResourceName()));
 			super.post(content, headers);
+		}
+		
+		@Override
+		public void get() throws ResponseException, IOException{
+			Map<String, String> headers = new HashMap<String, String>();
+			headers.put("Authorization", "Capability " + capability.getCapabilityFor("all"));
+			super.get(null, headers);
 		}
 		
 		// Map interface implementation

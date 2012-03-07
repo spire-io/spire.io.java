@@ -39,14 +39,6 @@ public class BillingInvoice extends Resource {
 	}
 
 	/* (non-Javadoc)
-	 * @see io.spire.api.Resource#initialize()
-	 */
-	@Override
-	protected void initialize() {
-
-	}
-
-	/* (non-Javadoc)
 	 * @see io.spire.api.Resource#getResourceName()
 	 */
 	@Override

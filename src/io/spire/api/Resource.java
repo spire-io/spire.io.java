@@ -31,6 +31,8 @@ public abstract class Resource {
 	/** Holds descriptions of all Api resource schemas */
 	protected ApiSchemaModel schema;
 	
+	protected Capability capability;
+	
 	/**
 	 * Default constructor
 	 */
@@ -66,7 +68,12 @@ public abstract class Resource {
 	 * Derived classes should override this method adding any 
 	 * custom initialization needed by the class
 	 */
-	protected abstract void initialize();
+	@SuppressWarnings("unchecked")
+	protected void initialize(){
+		Map<String, Object> rawCapabilities = model.getProperty("capabilities", Map.class);
+		String rawCapability = model.getProperty("capability", String.class);
+		this.capability = Capability.CreateCapability(rawCapability, rawCapabilities);
+	}
 	
 	/**
 	 * Access resources from the internal resource model
@@ -226,8 +233,8 @@ public abstract class Resource {
 	 * 
 	 * @return {@link String}
 	 */
-	public String getCapability(){
-		return model.getProperty("capability", String.class);
+	public Capability getCapability(){
+		return this.capability;
 	}
 	
 	/**
@@ -235,8 +242,8 @@ public abstract class Resource {
 	 * 
 	 * @param capability
 	 */
-	public void setCapability(String capability){
-		model.setProperty("capability", capability);
+	public void setCapability(Capability capability){
+		this.capability = capability;
 	}
 	
 	/**
@@ -318,7 +325,11 @@ public abstract class Resource {
 		data.url = model.getProperty("url", String.class);
 		data.queryParams = queryParams;
 		
-		data.headers.put("Authorization", "Capability " + model.getProperty("capability", String.class));
+		if(!data.headers.containsAuthorization()){
+			data.headers.put("Authorization", "Capability " + capability.getCapabilityFor(data.method));
+		}
+		
+		// TODO: have checks for Accept headers to avoid overriding if already set
 		data.headers.put("Accept", this.getMediaType());
 		
 		if(methodType != RequestType.HTTP_GET){
@@ -367,7 +378,7 @@ public abstract class Resource {
 		data.method = RequestType.HTTP_PUT;
 		data.url = model.getProperty("url", String.class);
 		
-		data.headers.put("Authorization", "Capability " + model.getProperty("capability", String.class));
+		data.headers.put("Authorization", "Capability " + capability.getCapabilityFor(data.method));
 		data.headers.put("Accept", this.getMediaType());
 		data.headers.put("Content-Type", this.getMediaType());
 		
@@ -393,7 +404,7 @@ public abstract class Resource {
 		data.method = RequestType.HTTP_DELETE;
 		data.url = model.getProperty("url", String.class);
 		
-		data.headers.put("Authorization", "Capability " + model.getProperty("capability", String.class));
+		data.headers.put("Authorization", "Capability " + capability.getCapabilityFor(data.method));
 		data.headers.put("Accept", this.getMediaType());
 		data.headers.put("Content-Type", this.getMediaType());
 		

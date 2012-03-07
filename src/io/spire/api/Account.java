@@ -46,6 +46,8 @@ public class Account extends Resource {
 	
 	@Override
 	protected void initialize(){
+		super.initialize();
+		
 		ResourceModel originModel = getResourceModel("origin");
 		origin = new Origin(originModel, schema);
 		
@@ -103,11 +105,6 @@ public class Account extends Resource {
 		 */
 		public Origin(ResourceModel model, ApiSchemaModel schema) {
 			super(model, schema);
-		}
-		
-		@Override
-		protected void initialize() {
-			
 		}
 
 		@Override

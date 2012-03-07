@@ -7,6 +7,7 @@ import io.spire.api.Api;
 import io.spire.api.Api.ApiDescriptionModel;
 import io.spire.api.Api.ApiDescriptionModel.ApiSchemaModel;
 import io.spire.api.Billing;
+import io.spire.api.Capability;
 import io.spire.api.Channel;
 import io.spire.api.Resource;
 import io.spire.api.Channel.Channels;
@@ -335,7 +336,7 @@ public class Spire {
 		 * @throws ResponseException
 		 * @throws IOException
 		 */
-		public static Channel createChannel(String capability, String url) throws ResponseException, IOException{
+		public static Channel createChannel(Capability capability, String url) throws ResponseException, IOException{
 			initialize();
 			return createResource(capability, url, Channel.class);
 		}
@@ -353,7 +354,7 @@ public class Spire {
 		 * @throws ResponseException
 		 * @throws IOException
 		 */
-		public static Subscription createSubscription(String capability, String url) throws ResponseException, IOException{
+		public static Subscription createSubscription(Capability capability, String url) throws ResponseException, IOException{
 			initialize();
 			return createResource(capability, url, Subscription.class);
 		}
@@ -368,7 +369,7 @@ public class Spire {
 		 * @throws ResponseException
 		 * @throws IOException
 		 */
-		public static <T>T createResource(String capability, String url, Class<T> T) throws ResponseException, IOException{
+		public static <T>T createResource(Capability capability, String url, Class<T> T) throws ResponseException, IOException{
 			initialize();
 			Constructor<T> constructorT = null;
 			T t = null;

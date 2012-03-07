@@ -66,6 +66,7 @@ public class Subscription extends Resource {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void initialize() {
+		super.initialize();
 		channels = this.model.getProperty("channels", List.class);
 	}
 
@@ -119,6 +120,7 @@ public class Subscription extends Resource {
 		Map<String, String> headers = new HashMap<String, String>();
 		// FIXME: quick fix... may be is better to use 'Subscription.class.getSimpleName().toLowerCase()' ?
 		Events events = new Events(schema);
+		headers.put("Authorization", "Capability " + capability.getCapabilityFor("messages"));
 		headers.put("Accept", events.getMediaType());
 		Map<String, Object> rawModel = super.get(queryParams, headers);
 		events.updateModel(rawModel);
@@ -353,6 +355,7 @@ public class Subscription extends Resource {
 		
 		@Override
 		protected void initialize() {
+			super.initialize();
 			subscriptionCollection = model.getMapCollection("resources", Subscription.class, schema);
 		}
 
@@ -399,6 +402,13 @@ public class Subscription extends Resource {
 			headers.put("Accept", this.schema.getMediaType(subscription.getResourceName()));
 			headers.put("Content-Type", this.schema.getMediaType(subscription.getResourceName()));
 			super.post(content, headers);
+		}
+		
+		@Override
+		public void get() throws ResponseException, IOException{
+			Map<String, String> headers = new HashMap<String, String>();
+			headers.put("Authorization", "Capability " + capability.getCapabilityFor("all"));
+			super.get(null, headers);
 		}
 
 		@Override

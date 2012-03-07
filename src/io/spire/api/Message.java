@@ -39,13 +39,6 @@ public class Message extends Resource {
 	}
 
 	/* (non-Javadoc)
-	 * @see io.spire.api.Resource#initialize()
-	 */
-	@Override
-	protected void initialize() {
-	}
-
-	/* (non-Javadoc)
 	 * @see io.spire.api.Resource#addModel(java.util.Map)
 	 */
 	@Override

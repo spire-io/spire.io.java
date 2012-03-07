@@ -47,6 +47,7 @@ public class Events extends Resource {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void initialize() {
+		super.initialize();
 		messages = new ArrayList<Message>();
 		List<Map<String, Object>> rawMessages = this.model.getProperty("messages", List.class);
 		for (Map<String, Object> rawMessage : rawMessages) {

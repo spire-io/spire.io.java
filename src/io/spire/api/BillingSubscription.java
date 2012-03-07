@@ -41,6 +41,7 @@ public class BillingSubscription extends Resource {
 	
 	@Override
 	protected void initialize(){
+		super.initialize();
 		ResourceModel invoicesModel = getResourceModel("invoices");
 		invoices = new BillingInvoices(invoicesModel, schema);
 	}
@@ -105,6 +106,7 @@ public class BillingSubscription extends Resource {
 		
 		@Override
 		protected void initialize() {
+			super.initialize();
 			ResourceModel upcomingInvoiceModel = getResourceModel("upcoming");
 			upcoming = new BillingInvoice(upcomingInvoiceModel, schema);
 		}

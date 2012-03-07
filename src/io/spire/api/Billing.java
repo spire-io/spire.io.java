@@ -50,6 +50,7 @@ public class Billing extends Resource {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void initialize() {
+		super.initialize();
 		plans = new ArrayList<Plan>();
 		List<Map<String, Object>> rawPlans = model.getProperty("plans", List.class);
 		for (Map<String, Object> rawPlan : rawPlans) {
@@ -155,6 +156,7 @@ public class Billing extends Resource {
 		
 		@Override
 		protected void initialize() {
+			super.initialize();
 			ResourceModel featuresModel = getResourceModel("features");
 			features = new Features(featuresModel, schema);
 		}
@@ -205,6 +207,7 @@ public class Billing extends Resource {
 			
 			@Override
 			protected void initialize() {
+				super.initialize();
 				ResourceModel queueModel = getResourceModel("queue");
 				queue = new Queue(queueModel, schema);
 			}
@@ -274,10 +277,6 @@ public class Billing extends Resource {
 				 */
 				public Integer getLimit(){
 					return this.model.getProperty("limit", Integer.class);
-				}
-
-				@Override
-				protected void initialize() {
 				}
 
 				@Override

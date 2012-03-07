@@ -37,7 +37,7 @@ public class SpireTest {
 
 	private Spire spire;
 	private ApiDescriptionModel description;
-	private String key;
+	private String secret;
 	private String email;
 	private String password;
 
@@ -73,7 +73,7 @@ public class SpireTest {
 		description = spire.getApi().getApiDescription();
 		spire.register(email, password, null);
 //		spire.login(email, password);
-		key = spire.getSession().getAccount().getSecret();
+		secret = spire.getSession().getAccount().getSecret();
 	}
 
 	@Test
@@ -85,7 +85,7 @@ public class SpireTest {
 	@Test
 	public void start() throws Exception {
 		Spire spire = createSpire(description);
-		spire.start(key);
+		spire.start(secret);
 		assertNotNull(spire.getSession());
 	}
 
@@ -197,7 +197,7 @@ public class SpireTest {
 		assertNotNull(spire.getChannels().getChannel(channelName));
 		
 		Spire spire2 = createSpire(description);
-		spire2.start(key);
+		spire2.start(secret);
 		Channels channels = spire.channels();
 		assertNotNull(channels.getChannel(channelName));
 	}
@@ -267,7 +267,7 @@ public class SpireTest {
 		assertEquals(events.getMessages().get(0).getContent(), "the great message");
 		
 		Spire spire2 = createSpire(description);
-		spire2.start(key);
+		spire2.start(secret);
 		Subscription subscription2 = spire2.subscribe("bar_subscription", channel.getName());
 		Events events2 = subscription2.retrieveMessages(options);
 		assertEquals(events2.getMessages().size(), 1);
