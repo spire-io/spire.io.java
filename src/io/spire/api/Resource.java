@@ -245,16 +245,7 @@ public abstract class Resource {
 	public void setCapability(Capability capability){
 		this.capability = capability;
 	}
-	
-	/**
-	 * Gets the resource key
-	 * 
-	 * @return {@link String}
-	 */
-	public String getKey(){
-		return model.getProperty("key", String.class);
-	}
-	
+		
 	/**
 	 * Gets the resource type
 	 * 

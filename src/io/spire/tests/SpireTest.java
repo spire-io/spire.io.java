@@ -249,7 +249,6 @@ public class SpireTest {
 		channel.setName("foo_channel");
 		Subscription subscription = channel.subscribe("bar_subscription", spire.getSession());
 		assertNotNull(subscription);
-		assertNotNull(channel.getKey());
 		assertNotNull(channel.getCapability());
 		assertNotNull(channel.getUrl());
 	}
