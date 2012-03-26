@@ -40,7 +40,7 @@ public class HelloSpire {
 		
 		Date now = new Date();
 		long timestamp = now.getTime();
-		String email = String.format("spireNoob%d@noobspiretest.com", timestamp);
+		String email = String.format("spireNoob%d@spire.io", timestamp);
 		String password = "spire.io.password";
 		
 		try {
