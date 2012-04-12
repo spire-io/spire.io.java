@@ -18,6 +18,7 @@ import io.spire.api.Api.ApiDescriptionModel.ApiSchemaModel;
 public class Account extends Resource {
 
 	private Origin origin;
+	@SuppressWarnings("deprecation")
 	private BillingSubscription billing;
 	
 	/**
@@ -50,9 +51,6 @@ public class Account extends Resource {
 		
 		ResourceModel originModel = getResourceModel("origin");
 		origin = new Origin(originModel, schema);
-		
-		ResourceModel billingModel = getResourceModel("billing");
-		billing = new BillingSubscription(billingModel, schema);
 	}
 	
 	@Override
@@ -258,17 +256,20 @@ public class Account extends Resource {
 	}
 	
 	/**
-	 * Account billing subscription
+	 * Gets Account billing subscription
 	 * 
 	 * @return BillingSubscription
+	 * @deprecated v1.1.4
 	 */
 	public BillingSubscription getBilling(){
 		return billing;
 	}
 	
 	/**
+	 * Sets Account billing subscription
 	 * 
 	 * @param billing
+	 * @deprecated v1.1.4
 	 */
 	public void setBilling(BillingSubscription billing){
 		this.billing = billing;

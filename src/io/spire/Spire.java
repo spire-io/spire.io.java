@@ -40,6 +40,7 @@ import java.lang.reflect.InvocationTargetException;
  * @author Jorge Gonzalez
  *
  */
+@SuppressWarnings("deprecation")
 public class Spire {
 	public static final String SPIRE_URL = "https://api.spire.io";
 	public static final Api SPIRE_API = new Api(SPIRE_URL);
@@ -219,6 +220,7 @@ public class Spire {
 	 * @return {@link Billing}
 	 * @throws ResponseException
 	 * @throws IOException
+	 * @deprecated v1.1.4
 	 */
 	public Billing billing() throws ResponseException, IOException{
 		this.initializeApi();

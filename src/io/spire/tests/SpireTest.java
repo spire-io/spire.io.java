@@ -9,9 +9,6 @@ import java.util.List;
 
 import io.spire.Spire;
 import io.spire.api.Account;
-import io.spire.api.Billing;
-import io.spire.api.Billing.Plan;
-import io.spire.api.BillingSubscription;
 import io.spire.api.Channel;
 import io.spire.api.Channel.Channels;
 import io.spire.api.Events;
@@ -115,13 +112,6 @@ public class SpireTest {
 		assertNotNull(account);
 		assertNotNull(account.getCapability());
 		assertNotNull(account.getEmail());
-		// account billing subscription data
-		BillingSubscription billing = account.getBilling();
-		assertNotNull(billing);
-		assertNotNull(billing.getCapability());
-		assertNotNull(billing.getId());
-		assertNotNull(billing.getInvoices());
-		assertNotNull(billing.getInvoices().getUpcomingInvoice());
 	}
 	
 	@Test
@@ -166,18 +156,6 @@ public class SpireTest {
 		assertEquals(account.getOrigin().getHost(), account2.getOrigin().getHost());
 		assertEquals(account.getOrigin().getHost(), account2.getOrigin().getHost());
 		*/
-	}
-	
-	@Test
-	public void billing() throws Exception {
-		Billing billing = spire.billing();
-		assertNotNull(billing);
-		assertNotNull(billing.getUrl());
-		assertNotNull(billing.getPlans());
-		List<Plan> plans = billing.getPlans();
-		Plan p = plans.get(0);
-		assertNotNull(p.getFeatures());
-		assertNotNull(p.getFeatures().getQueue());
 	}
 	
 	@Test

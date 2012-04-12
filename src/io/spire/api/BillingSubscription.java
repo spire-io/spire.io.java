@@ -12,6 +12,7 @@ import io.spire.api.Api.ApiDescriptionModel.ApiSchemaModel;
  *  
  * @since 1.0
  * @author Jorge Gonzalez
+ * @deprecated v1.1.4
  *
  */
 public class BillingSubscription extends Resource {

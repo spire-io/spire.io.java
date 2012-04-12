@@ -309,6 +309,7 @@ public class Api {
 	 * @return {@link Billing}
 	 * @throws ResponseException
 	 * @throws IOException
+	 * @deprecated v1.1.4
 	 */
 	@SuppressWarnings("unchecked")
 	public Billing billing() throws ResponseException, IOException{
