@@ -126,7 +126,7 @@ public class Session extends Resource {
 			channelList.add(channel);
 		}
 		
-		return createSubscription(name, channelList);
+		return createSubscription(name, channelList, null);
 	}
 	
 	/**
@@ -139,11 +139,25 @@ public class Session extends Resource {
 	 * @throws IOException
 	 */
 	public Subscription createSubscription(String name, List<String> channels) throws ResponseException, IOException{
+		return this.createSubscription(name, channels, null);
+	}
+	
+	/**
+	 * Creates a new {@link Subscription} for all existing channels
+	 * 
+	 * @param name
+	 * @param channels
+	 * @param expiration
+	 * @return {@link Subscription}
+	 * @throws ResponseException
+	 * @throws IOException
+	 */
+	public Subscription createSubscription(String name, List<String> channels, Integer expiration) throws ResponseException, IOException{
 		List<String> channelUrls = new ArrayList<String>();
 		for (String channelName : channels) {
 			channelUrls.add(this.channels.getChannel(channelName).getUrl());
 		}
-		subscriptions.createSubscription(name, channelUrls);
+		subscriptions.createSubscription(name, channelUrls, expiration);
 		return subscriptions.getSubscription(name); 
 	}
 	

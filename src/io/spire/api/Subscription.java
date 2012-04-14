@@ -414,6 +414,7 @@ public class Subscription extends Resource {
 		
 		/**
 		 * Creates a new {@link Subscription}
+		 * Containing optional name
 		 * 
 		 * @param name
 		 * @param channels
@@ -421,9 +422,26 @@ public class Subscription extends Resource {
 		 * @throws IOException
 		 */
 		public void createSubscription(String name, List<String> channels) throws ResponseException, IOException{
+			this.createSubscription(name, channels, null);
+		}
+		
+		/**
+		 * Creates a new {@link Subscription}
+		 * 
+		 * Containing optional name and expiration(ms).
+		 * The subscription will be deleted if it is not accessed during the expiration time
+		 * 
+		 * @param name
+		 * @param channels
+		 * @param expiration
+		 * @throws ResponseException
+		 * @throws IOException
+		 */
+		public void createSubscription(String name, List<String> channels, Integer expiration) throws ResponseException, IOException{
 			Map<String, Object> content = new HashMap<String, Object>();
 			content.put("name", name);
 			content.put("channels", channels);
+			content.put("expiration", expiration);
 			Map<String, String> headers = new HashMap<String, String>();
 			// FIXME: quick fix... may be is better to use 'Subscription.class.getSimpleName().toLowerCase()' ?
 			Subscription subscription = new Subscription();
