@@ -8,8 +8,8 @@ import java.util.Date;
 
 import io.spire.Spire;
 import io.spire.api.Channel;
+import io.spire.api.Event;
 import io.spire.api.Listener;
-import io.spire.api.Message;
 import io.spire.api.Message.MessageOptions;
 import io.spire.api.Subscription;
 import io.spire.request.ResponseException;
@@ -37,7 +37,7 @@ public class SpireListeners {
 		}
 
 		@Override
-		public void process(Message message) {
+		public void process(Event message) {
 			try {
 				// simulate some work....
 				System.out.println("-- * incoming message * --");

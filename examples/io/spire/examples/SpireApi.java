@@ -81,7 +81,7 @@ public class SpireApi {
     	
     	channel.publish("another message");
     	MessageOptions options =  new MessageOptions();
-    	options.timestamp = lastTimestamp;
+    	options.last = lastTimestamp;
     	events = subscription.retrieveMessages(options);
 	}
 

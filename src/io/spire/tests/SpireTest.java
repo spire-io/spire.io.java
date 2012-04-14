@@ -11,9 +11,9 @@ import io.spire.Spire;
 import io.spire.api.Account;
 import io.spire.api.Channel;
 import io.spire.api.Channel.Channels;
+import io.spire.api.Event;
 import io.spire.api.Events;
 import io.spire.api.Listener;
-import io.spire.api.Message;
 import io.spire.api.Message.MessageOptions;
 import io.spire.api.Api.ApiDescriptionModel;
 import io.spire.api.Subscription;
@@ -29,7 +29,7 @@ import static org.junit.Assert.*;
  */
 public class SpireTest {
 
-//	public static final String SPIRE_URL_LOCAL = "http://localhost:1337";
+//	public static final String SPIRE_URL = "http://localhost:1337";
 	public static final String SPIRE_URL = "http://build.spire.io";
 
 	private Spire spire;
@@ -333,6 +333,10 @@ public class SpireTest {
 		channel.setName("foo_channel");
 		Subscription subscription1 = channel.subscribe("bar_subscription", spire.getSession());
 		
+		// get subscription 'join' events
+		Events events = subscription1.poll(new MessageOptions());
+		assertEquals(events.getJoins().size(), 1);
+		
 		Thread threadListener = new Thread(new MessageListenerWorker(subscription1));
 		threadListener.start();
 		
@@ -345,14 +349,14 @@ public class SpireTest {
 		
 		threadListener.join();
 		
-		Events events = subscription1.poll(new MessageOptions());
+		events = subscription1.poll(new MessageOptions());
 		assertEquals(events.getMessages().size(), 2);
 	}
 	
 	private class MyListener1 implements Listener{
 
 		@Override
-		public void process(Message message) {
+		public void process(Event message) {
 			try {
 				// simulate some work....
 				Thread.sleep(100);
@@ -366,7 +370,7 @@ public class SpireTest {
 	private class MyListener2 implements Listener{
 
 		@Override
-		public void process(Message message) {
+		public void process(Event message) {
 			try {
 				// simulate some work....
 				Thread.sleep(100);

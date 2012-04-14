@@ -11,8 +11,8 @@ import java.util.Map;
 import java.util.Set;
 
 import io.spire.api.Api.ApiDescriptionModel.ApiSchemaModel;
+import io.spire.api.Events.EventType;
 import io.spire.api.Message.MessageOptions;
-import io.spire.api.Message.MessageOptions.MessageOrderBy;
 import io.spire.request.ResponseException;
 
 /**
@@ -29,7 +29,7 @@ public class Subscription extends Resource {
 	private int longPollTimeout = 30;
 	private MessageOptions defaultMessageOptions;
 	private boolean isListening;
-	private Map<Integer, Listener> listeners;
+	private Map<EventType, Map<Integer, Listener> > listeners;
 	private ListenerManager listenerManager;
 	
 	/**
@@ -38,7 +38,7 @@ public class Subscription extends Resource {
 	public Subscription() {
 		super();
 		defaultMessageOptions = new MessageOptions();
-		listeners = new HashMap<Integer, Listener>();
+		initializeListeners();
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class Subscription extends Resource {
 	public Subscription(ApiSchemaModel schema) {
 		super(schema);
 		defaultMessageOptions = new MessageOptions();
-		listeners = new HashMap<Integer, Listener>();
+		initializeListeners();
 	}
 
 	/**
@@ -57,7 +57,15 @@ public class Subscription extends Resource {
 	public Subscription(ResourceModel model, ApiSchemaModel schema) {
 		super(model, schema);
 		defaultMessageOptions = new MessageOptions();
-		listeners = new HashMap<Integer, Listener>();
+		initializeListeners();
+	}
+	
+	private void initializeListeners(){
+		listeners = new HashMap<EventType, Map<Integer, Listener> >();
+		for (EventType eventType : EventType.values()) {
+			Map<Integer, Listener> listener = new HashMap<Integer, Listener>();
+			listeners.put(eventType, listener);
+		}
 	}
 
 	/* (non-Javadoc)
@@ -98,12 +106,24 @@ public class Subscription extends Resource {
 	}
 	
 	private void feedListeners(Events events){
-		List<Message> messages = events.getMessages();
-		for (Message message : messages) {
-			for (Listener listener : this.listeners.values()) {
-				listener.process(message);
+		
+		for (Map.Entry<EventType, Map<Integer, Listener> > listenerEntry : this.listeners.entrySet()) {
+			if(!listenerEntry.getValue().isEmpty()){
+				List<Event> eventList = events.getEventList(listenerEntry.getKey());
+				for (Event event : eventList) {
+					for (Listener listener : listenerEntry.getValue().values()) {
+						listener.process(event);
+					}
+				}
 			}
 		}
+		
+//		List<Message> messages = events.getMessages();
+//		for (Message message : messages) {
+//			for (Listener listener : this.listeners.values()) {
+//				listener.process(message);
+//			}
+//		}
 	}
 	
 	/**
@@ -120,7 +140,7 @@ public class Subscription extends Resource {
 		Map<String, String> headers = new HashMap<String, String>();
 		// FIXME: quick fix... may be is better to use 'Subscription.class.getSimpleName().toLowerCase()' ?
 		Events events = new Events(schema);
-		headers.put("Authorization", "Capability " + capability.getCapabilityFor("messages"));
+		headers.put("Authorization", "Capability " + capability.getCapabilityFor("events"));
 		headers.put("Accept", events.getMediaType());
 		Map<String, Object> rawModel = super.get(queryParams, headers);
 		events.updateModel(rawModel);
@@ -156,7 +176,7 @@ public class Subscription extends Resource {
          * timeout option of 0 means no long poll, so we force it here.
          */
 		options.timeout = 0;
-		options.timestamp = this.lastTimestamp;
+		options.last = this.lastTimestamp;
 		Events events = this.retrieveMessages(options);
 		this.updateTimestamp(events, options);
 		return events;
@@ -185,27 +205,19 @@ public class Subscription extends Resource {
 	public Events longPoll(MessageOptions options) throws ResponseException, IOException{
 		if(options.timeout == defaultMessageOptions.timeout)
 			options.timeout = this.longPollTimeout;
-		options.timestamp = this.lastTimestamp;
+		options.last = this.lastTimestamp;
 		return this.longPoll(options, false);
 	}
 	
-	private boolean updateTimestamp(Events events, MessageOptions options){
-		int countMessages = events.getMessages().size();
-		if(countMessages > 0){
-			if(options.orderBy == MessageOrderBy.Asc){
-				this.lastTimestamp = events.getMessages().get(0).getTimestamp();
-			}else{
-				this.lastTimestamp = events.getMessages().get(countMessages-1).getTimestamp();
-			}
-			return true;
-		}
-		return false;
+	private void updateTimestamp(Events events, MessageOptions options){
+		if(events.getLastTimestamp() != null)
+			this.lastTimestamp = events.getLastTimestamp();
 	}
 	
 	private Events longPoll(MessageOptions options, boolean listernerMode) throws ResponseException, IOException{
 		if(options.timeout == defaultMessageOptions.timeout)
 			options.timeout = this.longPollTimeout;
-		options.timestamp = this.lastTimestamp;
+		options.last = this.lastTimestamp;
 		Events events = this.retrieveMessages(options);
 		
 		if(!listernerMode){
@@ -232,14 +244,25 @@ public class Subscription extends Resource {
 	}
 	
 	/**
-	 * Adds a listener to the pool
+	 * Adds a listener to default event type pool ( "Message" )
 	 * 
 	 * @param listener
 	 * @return {@link Integer} listener Id
 	 */
 	public int addListener(Listener listener){
+		return this.addListener(listener, EventType.Message);
+	}
+	
+	/**
+	 * Adds a listener to event type pool {@link EventType}
+	 * 
+	 * @param listener
+	 * @return {@link Integer} listener Id
+	 */
+	public int addListener(Listener listener, EventType type){
+		Map<Integer, Listener> listenerMap = listeners.get(type);
 		int listenerId = listener.hashCode();
-		listeners.put(listenerId, listener);
+		listenerMap.put(listenerId, listener);
 		return listenerId;
 	}
 	
@@ -250,7 +273,12 @@ public class Subscription extends Resource {
 	 * @return {@link Listener}
 	 */
 	public Listener removeListener(int listenerId){
-		return this.listeners.remove(listenerId);
+		Listener removedListener = null;
+		for (Map.Entry<EventType, Map<Integer, Listener> > listenerEntry : this.listeners.entrySet()) {
+			if((removedListener = listenerEntry.getValue().remove(listenerId)) != null)
+				break;
+		}
+		return removedListener;
 	}
 	
 	/**
@@ -316,8 +344,8 @@ public class Subscription extends Resource {
 	 * 
 	 * @return Collection
 	 */
-	public Collection<Listener> getListener(){
-		return this.listeners.values();
+	public Collection<Listener> getListener(EventType type){
+		return this.listeners.get(type).values();
 	}
 	
 	/**

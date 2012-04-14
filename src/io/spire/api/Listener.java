@@ -45,5 +45,5 @@ public interface Listener {
 	 * 
 	 * @param message
 	 */
-	public void process(Message message);
+	public void process(Event event);
 }
