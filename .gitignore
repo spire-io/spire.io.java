@@ -6,3 +6,12 @@ docs/
 .project
 lib/sources/*
 lib/dependencies/sources/*
+
+# extensions currently not used
+lib/*-extensions-*
+lib/dependencies/*-extensions-*
+lib/dependencies/commons-*
+lib/dependencies/xmlParserAPIs-*
+lib/dependencies/opengl-api-*
+lib/dependencies/httpcore-*
+lib/dependencies/android-*
