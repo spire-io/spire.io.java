@@ -4,3 +4,5 @@ docs/
 .settings
 .classpath
 .project
+lib/sources/*
+lib/dependencies/sources/*
